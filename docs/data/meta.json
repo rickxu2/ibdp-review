@@ -1,0 +1,24 @@
+{
+  "student": "Rick",
+  "exam_session": "May 2027",
+  "exams_start": "2027-04-30",
+  "exams_start_estimate": true,
+  "milestones": [
+    { "name": "校内模考（定预估分）", "date": "2026-10-15", "estimate": true }
+  ],
+  "subjects": {
+    "chem_sl":   { "name": "Chemistry",       "level": "SL", "target": null, "active": true },
+    "math_aa_hl":{ "name": "Mathematics AA",  "level": "HL", "target": null, "active": false },
+    "phys_hl":   { "name": "Physics",         "level": "HL", "target": null, "active": false },
+    "econ_sl":   { "name": "Economics",       "level": "SL", "target": null, "active": false },
+    "eng_b_hl":  { "name": "English B",       "level": "HL", "target": null, "active": false },
+    "chin_a_sl": { "name": "Chinese A",       "level": "SL", "target": null, "active": false }
+  },
+  "attempt_files": ["data/attempts/2026-07.json"],
+  "mastery": {
+    "halflife_days": 42,
+    "master_min": 0.85,
+    "ok_min": 0.6,
+    "min_attempts": 2
+  }
+}

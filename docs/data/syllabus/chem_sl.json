@@ -1,0 +1,229 @@
+{
+  "subject": "chem_sl",
+  "syllabus": "Chemistry (first assessment 2025), SL scope",
+  "note": "知识点分组由 Claude 依大纲起草（v1 draft），与官方 guide 措辞非逐字对应；发现偏差随时修。covered=false 表示课内还没学到。",
+  "topics": [
+    {
+      "id": "S1",
+      "name": "Structure 1: Models of the particulate nature of matter",
+      "subtopics": [
+        {
+          "id": "S1.1",
+          "name": "Introduction to the particulate nature of matter",
+          "kps": [
+            { "id": "S1.1.a", "name": "Elements, compounds and mixtures; separation techniques", "covered": true },
+            { "id": "S1.1.b", "name": "Kinetic molecular theory; states of matter and changes of state", "covered": true },
+            { "id": "S1.1.c", "name": "Temperature in kelvin; average kinetic energy of particles", "covered": true }
+          ]
+        },
+        {
+          "id": "S1.2",
+          "name": "The nuclear atom",
+          "kps": [
+            { "id": "S1.2.a", "name": "Subatomic particles, nuclear symbols and isotopes", "covered": true },
+            { "id": "S1.2.b", "name": "Mass spectra; relative atomic mass from isotopic abundance", "covered": true }
+          ]
+        },
+        {
+          "id": "S1.3",
+          "name": "Electron configurations",
+          "kps": [
+            { "id": "S1.3.a", "name": "Emission spectra; discrete energy levels of hydrogen", "covered": true },
+            { "id": "S1.3.b", "name": "Sublevels and orbitals; s/p/d/f shapes and capacity", "covered": true },
+            { "id": "S1.3.c", "name": "Full and condensed electron configurations; orbital diagrams (Aufbau, Hund, Pauli)", "covered": true }
+          ]
+        },
+        {
+          "id": "S1.4",
+          "name": "Counting particles by mass: the mole",
+          "kps": [
+            { "id": "S1.4.a", "name": "The mole and Avogadro constant; particle–amount conversions", "covered": true },
+            { "id": "S1.4.b", "name": "Molar mass; empirical and molecular formulas; percentage composition", "covered": true },
+            { "id": "S1.4.c", "name": "Solution concentration (mol dm⁻³, g dm⁻³); dilution and standard solutions", "covered": true }
+          ]
+        },
+        {
+          "id": "S1.5",
+          "name": "Ideal gases",
+          "kps": [
+            { "id": "S1.5.a", "name": "Ideal gas model and its assumptions; limitations (real gases)", "covered": true },
+            { "id": "S1.5.b", "name": "Molar volume; gas law calculations (PV=nRT and combined law)", "covered": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S2",
+      "name": "Structure 2: Models of bonding and structure",
+      "subtopics": [
+        {
+          "id": "S2.1",
+          "name": "The ionic model",
+          "kps": [
+            { "id": "S2.1.a", "name": "Ion formation; formulas of ionic compounds incl. polyatomic ions", "covered": true },
+            { "id": "S2.1.b", "name": "Ionic lattice and properties (melting point, conductivity, solubility)", "covered": true }
+          ]
+        },
+        {
+          "id": "S2.2",
+          "name": "The covalent model",
+          "kps": [
+            { "id": "S2.2.a", "name": "Covalent bonds and Lewis formulas; octet rule; coordination bonds", "covered": true },
+            { "id": "S2.2.b", "name": "VSEPR: electron domains, molecular shapes and bond angles", "covered": true },
+            { "id": "S2.2.c", "name": "Electronegativity, bond polarity and molecular polarity", "covered": true },
+            { "id": "S2.2.d", "name": "Intermolecular forces (LDF, dipole–dipole, hydrogen bonding) and physical properties", "covered": true },
+            { "id": "S2.2.e", "name": "Covalent network structures (diamond, graphite, silicon dioxide)", "covered": true }
+          ]
+        },
+        {
+          "id": "S2.3",
+          "name": "The metallic model",
+          "kps": [
+            { "id": "S2.3.a", "name": "Metallic bonding; delocalized electrons and metallic properties", "covered": true }
+          ]
+        },
+        {
+          "id": "S2.4",
+          "name": "From models to materials",
+          "kps": [
+            { "id": "S2.4.a", "name": "Bonding triangle; classifying materials by bonding type", "covered": true },
+            { "id": "S2.4.b", "name": "Alloys; addition polymers from monomers", "covered": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S3",
+      "name": "Structure 3: Classification of matter",
+      "subtopics": [
+        {
+          "id": "S3.1",
+          "name": "The periodic table: classification of elements",
+          "kps": [
+            { "id": "S3.1.a", "name": "Periodic table structure: groups, periods, blocks; electron configuration link", "covered": true },
+            { "id": "S3.1.b", "name": "Periodicity: atomic radius, ionization energy, electron affinity, electronegativity", "covered": true },
+            { "id": "S3.1.c", "name": "Group 1 and group 17 trends and reactions", "covered": true },
+            { "id": "S3.1.d", "name": "Metal/non-metal oxides and acid–base character trend", "covered": true }
+          ]
+        },
+        {
+          "id": "S3.2",
+          "name": "Functional groups: classification of organic compounds",
+          "kps": [
+            { "id": "S3.2.a", "name": "Homologous series and general formulas", "covered": false },
+            { "id": "S3.2.b", "name": "Functional group identification; IUPAC nomenclature", "covered": false },
+            { "id": "S3.2.c", "name": "Structural formulas (full, condensed, skeletal); structural isomers", "covered": false },
+            { "id": "S3.2.d", "name": "Primary, secondary, tertiary classification (carbon/amines)", "covered": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "name": "Reactivity 1: What drives chemical reactions?",
+      "subtopics": [
+        {
+          "id": "R1.1",
+          "name": "Measuring enthalpy changes",
+          "kps": [
+            { "id": "R1.1.a", "name": "Endothermic/exothermic reactions; ΔH sign and energy level diagrams", "covered": true },
+            { "id": "R1.1.b", "name": "Calorimetry: q = mcΔT and experimental ΔH determination", "covered": true }
+          ]
+        },
+        {
+          "id": "R1.2",
+          "name": "Energy cycles in reactions",
+          "kps": [
+            { "id": "R1.2.a", "name": "Bond enthalpies; ΔH from average bond enthalpy data", "covered": true },
+            { "id": "R1.2.b", "name": "Hess's law and energy cycles; using ΔHf / ΔHc data", "covered": true }
+          ]
+        },
+        {
+          "id": "R1.3",
+          "name": "Energy from fuels",
+          "kps": [
+            { "id": "R1.3.a", "name": "Complete vs incomplete combustion; combustion equations", "covered": true },
+            { "id": "R1.3.b", "name": "Fossil fuels vs biofuels; specific energy and CO₂ considerations", "covered": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "name": "Reactivity 2: How much, how fast and how far?",
+      "subtopics": [
+        {
+          "id": "R2.1",
+          "name": "How much? The amount of chemical change",
+          "kps": [
+            { "id": "R2.1.a", "name": "Balancing equations with state symbols; mole ratio calculations", "covered": true },
+            { "id": "R2.1.b", "name": "Stoichiometry across mass/volume/concentration incl. titration calculations", "covered": true },
+            { "id": "R2.1.c", "name": "Limiting reactant; theoretical, experimental and percentage yield", "covered": true },
+            { "id": "R2.1.d", "name": "Atom economy", "covered": true }
+          ]
+        },
+        {
+          "id": "R2.2",
+          "name": "How fast? The rate of chemical change",
+          "kps": [
+            { "id": "R2.2.a", "name": "Rate definition; determining rate from concentration–time data/graphs", "covered": true },
+            { "id": "R2.2.b", "name": "Collision theory; factors affecting rate (concentration, T, surface area, catalyst)", "covered": true },
+            { "id": "R2.2.c", "name": "Maxwell–Boltzmann distribution and activation energy (qualitative)", "covered": true }
+          ]
+        },
+        {
+          "id": "R2.3",
+          "name": "How far? The extent of chemical change",
+          "kps": [
+            { "id": "R2.3.a", "name": "Dynamic equilibrium and its characteristics", "covered": true },
+            { "id": "R2.3.b", "name": "Equilibrium constant K expression; magnitude interpretation; Q vs K", "covered": true },
+            { "id": "R2.3.c", "name": "Le Châtelier's principle: effects of concentration, pressure, temperature, catalyst", "covered": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R3",
+      "name": "Reactivity 3: What are the mechanisms of chemical change?",
+      "subtopics": [
+        {
+          "id": "R3.1",
+          "name": "Proton transfer reactions: acid–base behaviour",
+          "kps": [
+            { "id": "R3.1.a", "name": "Brønsted–Lowry acids/bases; conjugate acid–base pairs; amphiprotic species", "covered": true },
+            { "id": "R3.1.b", "name": "pH scale, [H⁺] calculations; ion product of water Kw", "covered": true },
+            { "id": "R3.1.c", "name": "Strong vs weak acids/bases; experimental distinction", "covered": true },
+            { "id": "R3.1.d", "name": "Acid reactions (metals, carbonates, hydroxides); neutralization and pH curves (strong–strong)", "covered": true }
+          ]
+        },
+        {
+          "id": "R3.2",
+          "name": "Electron transfer reactions: oxidation–reduction behaviour",
+          "kps": [
+            { "id": "R3.2.a", "name": "Oxidation states; identifying redox reactions and oxidizing/reducing agents", "covered": true },
+            { "id": "R3.2.b", "name": "Half-equations; balancing simple redox equations", "covered": true },
+            { "id": "R3.2.c", "name": "Relative reactivity of metals; displacement reactions", "covered": true },
+            { "id": "R3.2.d", "name": "Primary (voltaic) cells and electrolytic cells (molten electrolytes)", "covered": true }
+          ]
+        },
+        {
+          "id": "R3.3",
+          "name": "Electron sharing reactions: radicals",
+          "kps": [
+            { "id": "R3.3.a", "name": "Radicals and homolytic fission", "covered": false },
+            { "id": "R3.3.b", "name": "Radical substitution of alkanes with halogens (initiation/propagation/termination)", "covered": false }
+          ]
+        },
+        {
+          "id": "R3.4",
+          "name": "Electron-pair sharing reactions: nucleophiles and electrophiles",
+          "kps": [
+            { "id": "R3.4.a", "name": "Nucleophiles and electrophiles; heterolytic fission", "covered": false },
+            { "id": "R3.4.b", "name": "Nucleophilic substitution of halogenoalkanes (SL treatment)", "covered": false },
+            { "id": "R3.4.c", "name": "Electrophilic addition to alkenes (SL treatment)", "covered": false }
+          ]
+        }
+      ]
+    }
+  ]
+}

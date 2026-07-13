@@ -1,0 +1,14 @@
+# ── 版权材料，绝不入库 ──────────────────
+Textbook/
+inbox/
+papers/*
+!papers/index.md
+
+# ── 个人练习现场（照片/手稿/批改报告），保持本地 ──
+practice/
+notes/
+
+# ── 杂项 ──
+*.zip
+__pycache__/
+Thumbs.db
