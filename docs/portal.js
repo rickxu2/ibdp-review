@@ -3,7 +3,7 @@
 window.Portal = (() => {
   const C = window.IBDP_SUPABASE || {};
   const configured = !!(C.url && C.anonKey && window.supabase);
-  let client = null, user = null, profile = null, studentId = null, db = null;
+  let client = null, user = null, profile = null, studentId = null, db = null, localSeed = null;
   const resources = [];
   const tx = (lang, en, zh) => lang === "zh" ? zh : en;
   const html = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -11,6 +11,9 @@ window.Portal = (() => {
 
   async function init(targetDb) {
     db = targetDb;
+    if (["localhost", "127.0.0.1"].includes(location.hostname)) {
+      localSeed = { attempts: targetDb.attempts.map(a => ({ ...a })), content: { ...targetDb.content } };
+    }
     if (!configured) return true;
     client = window.supabase.createClient(C.url, C.anonKey, { auth: { persistSession: true, detectSessionInUrl: true } });
     const { data: { session } } = await client.auth.getSession();
@@ -95,6 +98,7 @@ window.Portal = (() => {
       <label>${tx(lang, "Confirm password", "确认密码")}<input id="confirmPassword" type="password" minlength="10" required autocomplete="new-password"></label>
       <button type="submit" class="portal-primary">${tx(lang, "Save password", "保存密码")}</button></form>
       <div id="passwordStatus" class="note"></div>
+      ${profile.role === "supervisor" && localSeed ? `<p><a href="#/migrate">${tx(lang, "Migrate local records to the linked student", "把本地旧记录迁移给已关联学生")}</a></p>` : ""}
       <button id="signOutBtn" class="mini-btn">${tx(lang, "Sign out on this device", "在这台设备退出")}</button>
     </div>`;
     document.getElementById("passwordForm").onsubmit = async e => {
@@ -108,6 +112,52 @@ window.Portal = (() => {
       if (!error) e.target.reset();
     };
     document.getElementById("signOutBtn").onclick = async () => { await client.auth.signOut({ scope: "local" }); location.reload(); };
+  }
+
+  async function pageMigrate(lang) {
+    if (!configured || !user) return renderLogin(lang);
+    if (profile.role !== "supervisor" || !localSeed) {
+      document.getElementById("app").innerHTML = `<div class="card">${tx(lang, "Migration is available only to a supervisor on localhost.", "迁移功能只允许 supervisor 在 localhost 使用。")}</div>`;
+      return;
+    }
+    if (!studentId) {
+      document.getElementById("app").innerHTML = `<div class="card">${tx(lang, "Link the student account before migrating records.", "请先关联学生账号，再迁移记录。")}</div>`;
+      return;
+    }
+    const privateCount = Object.keys(localSeed.content).length;
+    document.getElementById("app").innerHTML = `<h2>${tx(lang, "Migrate existing records", "迁移现有记录")}</h2><div class="card portal-form">
+      <p>${tx(lang, `This will upsert ${localSeed.attempts.length} attempts and ${privateCount} private content records to the linked student. Existing IDs are updated, never duplicated.`, `将把 ${localSeed.attempts.length} 条 attempt 和 ${privateCount} 条私有内容写入已关联学生。相同 ID 只更新，不会重复。`)}</p>
+      <button id="runMigration" class="portal-primary">${tx(lang, "Migrate now", "开始迁移")}</button><div id="migrationStatus" class="note"></div></div>`;
+    document.getElementById("runMigration").onclick = async e => {
+      const status = document.getElementById("migrationStatus");
+      e.target.disabled = true;
+      status.textContent = tx(lang, "Migrating…", "正在迁移…");
+      try {
+        const attemptRows = localSeed.attempts.map(a => {
+          const { review, ...record } = a;
+          return { ...record, student_id: studentId };
+        });
+        const contentRows = Object.entries(localSeed.content).map(([id, c]) => {
+          const attempt = localSeed.attempts.find(a => a.id === id);
+          return { attempt_id: id, student_id: studentId, question_text: c.q || null, answer_text: c.ans || null, markscheme_text: c.ms || null, paper_key: c.paper || (attempt && attempt.source && attempt.source.paper) || null, qp_page: c.qp_page || null, ms_page: c.ms_page || null };
+        });
+        const reviewRows = localSeed.attempts.filter(a => a.review).map(a => ({ attempt_id: a.id, student_id: studentId, stage: a.review.stage || 0, next_review: a.review.next || null, done: !!a.review.done, history: a.review.history || [] }));
+        const aResult = await client.from("attempts").upsert(attemptRows, { onConflict: "id" });
+        if (aResult.error) throw aResult.error;
+        if (contentRows.length) {
+          const cResult = await client.from("attempt_content").upsert(contentRows, { onConflict: "attempt_id" });
+          if (cResult.error) throw cResult.error;
+        }
+        if (reviewRows.length) {
+          const rResult = await client.from("review_progress").upsert(reviewRows, { onConflict: "attempt_id" });
+          if (rResult.error) throw rResult.error;
+        }
+        await syncData();
+        status.textContent = tx(lang, `Migration complete: ${attemptRows.length} attempts and ${contentRows.length} private records.`, `迁移完成：${attemptRows.length} 条 attempt，${contentRows.length} 条私有内容。`);
+      } catch (error) {
+        status.textContent = error.message;
+      } finally { e.target.disabled = false; }
+    };
   }
 
   function reviewState(attemptId) { return db && db.reviewProgress && db.reviewProgress[attemptId]; }
@@ -228,6 +278,6 @@ window.Portal = (() => {
     });
   }
 
-  return { configured, init, renderLogin, pageAccount, reviewState, saveReview, pageSubmit, pageFiles, pageConnection,
+  return { configured, init, renderLogin, pageAccount, pageMigrate, reviewState, saveReview, pageSubmit, pageFiles, pageConnection,
     get active() { return configured && !!user; }, get role() { return profile && profile.role; }, get targetStudentId() { return studentId; } };
 })();

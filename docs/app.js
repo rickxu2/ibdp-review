@@ -682,6 +682,7 @@ function route() {
   else if (p === "files") { nav("files"); Portal.pageFiles(LANG); }
   else if (p === "submit") { nav("submit"); Portal.pageSubmit(LANG); }
   else if (p === "account") { Portal.pageAccount(LANG); }
+  else if (p === "migrate") { Portal.pageMigrate(LANG); }
   else if (p === "connection") { Portal.pageConnection(LANG); }
   else if (p === "days") { nav("days"); pageDays(); }
   else if (p === "day" && arg) { nav("days"); pageDay(arg); }

@@ -37,6 +37,10 @@ For the single-student MVP, create the student in Authentication > Users with a 
 
 ## 4. Import existing records
 
+Preferred one-student workflow: sign in as the supervisor on the localhost portal, open Account, choose **Migrate local records to the linked student**, and run the idempotent migration. This uses the supervisor's RLS permissions and never exposes a service-role key.
+
+Command-line fallback:
+
 Keep the service-role key only in the supervisor's terminal session, then run:
 
 ```powershell
