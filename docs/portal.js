@@ -10,6 +10,11 @@ window.Portal = (() => {
   const safeName = name => name.replace(/[^a-zA-Z0-9._-]+/g, "_").slice(-100);
   const librarySpec = fileName => {
     const n = fileName.toLowerCase();
+    const split = n.match(/^(chem_sl|econ_sl|phys_hl)_.+_p(\d+)-(\d+)\.pdf$/);
+    if (split) {
+      const names = { chem_sl: "Chemistry", econ_sl: "Economics", phys_hl: "Physics" };
+      return { kind: "textbook", subject: split[1], title: `${names[split[1]]} textbook pp. ${split[2]}–${split[3]}`, object: `textbooks/${split[1]}/${safeName(fileName)}` };
+    }
     if (n.includes("economics") && n.includes("course companion")) return { kind: "textbook", subject: "econ_sl", title: "Economics Course Companion", object: "textbooks/econ_sl.pdf" };
     if (n.includes("english b") && n.includes("course companion")) return { kind: "textbook", subject: "eng_b_hl", title: "English B Course Companion", object: "textbooks/eng_b_hl.pdf" };
     if (n.includes("mathematics") && n.includes("analysis")) return { kind: "textbook", subject: "math_aa_hl", title: "Mathematics Analysis and Approaches HL 2", object: "textbooks/math_aa_hl.pdf" };
@@ -401,11 +406,20 @@ window.Portal = (() => {
     });
   }
 
-  function resourcePath(subject, kind) {
-    const item = resources.find(r => r.subject === subject && r.kind === kind);
-    return item && item.bucket_path;
+  function resourceTarget(subject, kind, page) {
+    const matches = resources.filter(r => r.subject === subject && r.kind === kind);
+    if (kind === "textbook" && page) {
+      for (const item of matches) {
+        const range = String(item.file_name || "").match(/_p(\d+)-(\d+)\.pdf$/i);
+        if (range && page >= Number(range[1]) && page <= Number(range[2])) {
+          return { path: item.bucket_path, page: page - Number(range[1]) + 1 };
+        }
+      }
+    }
+    const item = matches.find(r => !/_p\d+-\d+\.pdf$/i.test(String(r.file_name || ""))) || matches[0];
+    return item ? { path: item.bucket_path, page } : null;
   }
 
-  return { configured, init, renderLogin, pageAccount, pageMigrate, reviewState, saveReview, pageSubmit, pageFiles, pageConnection, wirePrivateOpen, resourcePath,
+  return { configured, init, renderLogin, pageAccount, pageMigrate, reviewState, saveReview, pageSubmit, pageFiles, pageConnection, wirePrivateOpen, resourceTarget,
     get active() { return configured && !!user; }, get role() { return profile && profile.role; }, get targetStudentId() { return studentId; } };
 })();

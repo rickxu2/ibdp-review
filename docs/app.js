@@ -458,9 +458,9 @@ function tbRef(ref, subject) {
   const map = DB.tbmap[subject];
   const file = ref.file || (map && map.file);
   const label = `📖 ${esc(ref.section || "")} · PDF p.${ref.pdf_page}${ref.para ? " · ¶" + ref.para : ""}`;
-  const privatePath = window.Portal && Portal.active && Portal.resourcePath(subject, "textbook");
-  if (privatePath) {
-    return `<button class="tbref js-open-private" data-path="${esc(privatePath)}" data-page="${ref.pdf_page}">${label} ↗</button>`;
+  const privateTarget = window.Portal && Portal.active && Portal.resourceTarget(subject, "textbook", ref.pdf_page);
+  if (privateTarget) {
+    return `<button class="tbref js-open-private" data-path="${esc(privateTarget.path)}" data-page="${privateTarget.page}">${label} ↗</button>`;
   }
   if (IS_LOCAL && file) {
     return `<a class="tbref" target="_blank" href="/${encodeURI(file)}#page=${ref.pdf_page}">${label} ↗</a>`;
@@ -560,6 +560,8 @@ function pageReview() {
         <div class="rv-field"><span class="rv-lbl">${t("lbl_your_answer")}</span><div class="rv-val yours">${esc(c.ans)}</div></div>
         <div class="rv-field"><span class="rv-lbl">${t("lbl_markscheme")}</span><div class="rv-val ms">${esc(c.ms)}</div></div>
         <div class="rv-field"><span class="rv-lbl">${t("lbl_analysis")}</span><div class="rv-val">${esc(a.analysis || "")}</div></div>
+        ${attemptSourceLinks(c)}
+        ${tbRef(a.textbook_ref, a.subject)}
         <div class="review-rate"><b>${t("review_rate")}</b><div class="review-actions">
           <button data-rating="again" class="rate-again">${t("review_again")}</button>
           <button data-rating="hard" class="rate-hard">${t("review_hard")}</button>
@@ -569,6 +571,7 @@ function pageReview() {
   }
   html += `</div><div class="note">${t("review_device_note")}</div>`;
   $("#app").innerHTML = html;
+  if (window.Portal) Portal.wirePrivateOpen(LANG);
   const reveal = document.querySelector(".review-reveal");
   if (reveal) reveal.onclick = () => { reveal.style.display = "none"; document.querySelector(".review-answer").style.display = "block"; };
   document.querySelectorAll("[data-rating]").forEach(btn => btn.onclick = async () => {
@@ -657,16 +660,22 @@ function pageDays() {
 const VERDICTS = ["correct", "partial", "wrong"];
 const ERRTYPES = ["concept", "calculation", "misread", "expression", "time"];
 
+function attemptSourceLinks(c) {
+  if (!c) return "";
+  const privateLink = (path, label, page) => path ? `<button class="tbref js-open-private" data-path="${esc(path)}"${page ? ` data-page="${page}"` : ""}>${label}</button>` : "";
+  const localLink = (path, label, page) => path ? `<a class="tbref" target="_blank" href="/${encodeURI(path)}${page ? `#page=${page}` : ""}">${label}</a>` : "";
+  const links = Portal.active
+    ? `${privateLink(c.qp_file, t("open_qp"), c.qp_page)}${privateLink(c.ms_file, t("open_ms"), c.ms_page)}${privateLink(c.answer_file, t("open_answer"), c.qp_page)}`
+    : `${localLink(c.qp_file, t("open_qp"), c.qp_page)}${localLink(c.ms_file, t("open_ms"), c.ms_page)}`;
+  return links ? `<div class="src-links">${links}</div>` : "";
+}
+
 function attemptPanel(a, idx) {
   const c = DB.content[a.id];
   const errored = a.verdict !== "correct";
   const reviewedOn = getReviewed(a.id);
   const kpn = (a.kps || []).map(k => idx[k] ? `${k} ${idx[k].name}` : k);
-  const privateLink = (path, label, page) => path ? `<button class="tbref js-open-private" data-path="${esc(path)}"${page ? ` data-page="${page}"` : ""}>${label}</button>` : "";
-  const localLink = (path, label, page) => path ? `<a class="tbref" target="_blank" href="/${encodeURI(path)}${page ? `#page=${page}` : ""}">${label}</a>` : "";
-  const links = c ? `<div class="src-links">${Portal.active
-      ? `${privateLink(c.qp_file, t("open_qp"), c.qp_page)}${privateLink(c.ms_file, t("open_ms"), c.ms_page)}${privateLink(c.answer_file, t("open_answer"), c.qp_page)}`
-      : `${localLink(c.qp_file, t("open_qp"), c.qp_page)}${localLink(c.ms_file, t("open_ms"), c.ms_page)}`}</div>` : "";
+  const links = attemptSourceLinks(c);
   const contentBlock = c
     ? `<div class="rv-field"><span class="rv-lbl">${t("lbl_question")}</span><div class="rv-val">${esc(c.q)}</div></div>
        <div class="rv-field"><span class="rv-lbl">${t("lbl_your_answer")}</span><div class="rv-val yours">${esc(c.ans)}</div></div>
@@ -676,7 +685,6 @@ function attemptPanel(a, idx) {
   const analysisBlock = (errored || a.analysis)
     ? `<div class="rv-field"><span class="rv-lbl">${t("lbl_analysis")}</span>
          <div class="rv-val">${a.error_type ? `<span class="chip err">${esc(errTxt(a.error_type))}</span> ` : ""}${esc(a.analysis || "")}</div>
-         ${tbRef(a.textbook_ref, a.subject)}
          ${a.review && !a.review.done ? `<div class="review-note">${t("review_prog")(a.review.stage, esc(a.review.next))}</div>`
            : a.review && a.review.done ? `<div class="review-note">${t("review_done")}</div>` : ""}
        </div>` : "";
@@ -712,6 +720,7 @@ function attemptPanel(a, idx) {
     <div class="rv-panel" id="rv-${a.id}" style="display:none">
       ${contentBlock}
       ${analysisBlock}
+      ${tbRef(a.textbook_ref, a.subject)}
       ${reviewChk}
       ${editBlock}
     </div>

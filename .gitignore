@@ -10,6 +10,7 @@ docs/data/private/
 # ── 个人练习现场（照片/手稿/批改报告），保持本地 ──
 practice/
 notes/
+tmp/
 
 # ── 杂项 ──
 *.zip
