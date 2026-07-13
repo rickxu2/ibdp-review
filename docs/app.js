@@ -5,22 +5,22 @@
 /* ───────── i18n ───────── */
 const L = {
   en: {
-    nav_home: "Overview", nav_matrix: "Topics", nav_days: "Daily log",
+    nav_home: "Overview", nav_matrix: "Topics", nav_review: "Review", nav_files: "Files", nav_submit: "Submit", nav_days: "Daily log",
     today: "Today",
     mock_label: "Mock exams (predicted grades)", final_label: "Final exams · May 2027",
     days: "days", approx: "approx.",
     review_label: "Reviews due", due_n: "due", overdue_n: n => `${n} overdue`, no_overdue: "none overdue",
     records_label: "Total records", q_unit: "questions", weighted: "Weighted score",
     chart_title: "Knowledge points mastered over time",
-    chart_note: (p, h, n) => `Mastered = marks-weighted accuracy ≥ ${p}% (with ${h}-day half-life decay) over ≥ ${n} attempts. Same definition as the Topics page.`,
+    chart_note: (p, h, n) => `Mastered = marks-weighted accuracy ≥ ${p}% (with ${h}-day half-life decay) plus ≥ ${n} full-mark attempts. One correct answer is never enough.`,
     mastered_unit: "mastered",
     subjects_title: "Subjects", score_rate: "score", view_matrix: "View topic matrix →",
     pending: list => `Not yet onboarded: ${list} (ask Claude to build the topic tree when needed)`,
-    due_title: "Due for review (clear with /drill)", overdue_chip: "overdue ",
+    due_title: "Due for review", overdue_chip: "overdue ", start_review: "Start review →",
     no_data: "No attempts yet. Hand today's completed questions to Claude for marking (/mark) — this page comes alive with the first records.",
     matrix_title: "Topic mastery",
     st_mastered: "Mastered", st_ok: "OK", st_weak: "Weak", st_unpracticed: "Unpracticed", st_not_covered: "Not covered", st_regressed: "Regressed",
-    times: "×", never_practiced: "No attempts on this point yet",
+    times: "×", full_marks_n: (x, n) => `${x}/${n} full-mark evidence`, never_practiced: "No attempts on this point yet",
     days_title: "Daily log", all_correct: "all correct ✓", lost_on: n => `${n} with lost marks`,
     back_all: "← All days", q_count: "questions",
     v_correct: "✓ Full marks", v_partial: "Partial", v_wrong: "✗ Wrong", uncertain: "Marks in dispute",
@@ -40,27 +40,33 @@ const L = {
     content_local_only: "Question & markscheme are in the local version (run scripts/serve.ps1).",
     open_qp: "Question paper ↗", open_ms: "Markscheme ↗",
     mark_reviewed: "Mark reviewed", reviewed_on: d => `Reviewed ${d}`, review_gate: "Reveal the answer & markscheme first",
-    quick_review_note: "Quick self-review only — real spaced repetition still runs through /drill.",
+    quick_review_note: "Quick check only — use the Review page for scheduled spaced repetition.",
     edit_mark: "Edit grade", save_edit: "Copy correction", copied: "Copied — paste it to Claude to apply",
-    fld_earned: "Marks earned", fld_verdict: "Verdict", fld_errtype: "Error type", cancel: "Cancel"
+    fld_earned: "Marks earned", fld_verdict: "Verdict", fld_errtype: "Error type", cancel: "Cancel",
+    review_title: "Spaced review", review_intro: "Answer from memory first. Reveal the answer only when you have committed to a response.",
+    review_remaining: n => `${n} due`, review_none: "Nothing is due today.", review_next: d => `Next review: ${d}`,
+    review_show_answer: "Reveal answer & markscheme", review_rate: "How did recall feel?",
+    review_again: "Again", review_hard: "Hard", review_good: "Good", review_saved: "Progress saved on this device.",
+    review_private_missing: "This review item contains protected question material. It is not available on the public site; the private student portal is required.",
+    review_device_note: "Current prototype saves review progress in this browser only. It does not sync to the supervisor yet."
   },
   zh: {
-    nav_home: "总览", nav_matrix: "知识点", nav_days: "每日记录",
+    nav_home: "总览", nav_matrix: "知识点", nav_review: "复习", nav_files: "资料", nav_submit: "提交", nav_days: "每日记录",
     today: "今日",
     mock_label: "距模考（定预估分）", final_label: "距 May 2027 大考",
     days: "天", approx: "约",
     review_label: "错题复习", due_n: "道到期", overdue_n: n => `其中逾期 ${n} 道`, no_overdue: "无逾期",
     records_label: "累计记录", q_unit: "题", weighted: "加权得分率",
     chart_title: "掌握知识点数走势",
-    chart_note: (p, h, n) => `掌握 = 按分值加权正确率 ≥ ${p}%（含 ${h} 天半衰期时间衰减）且练习 ≥ ${n} 次。口径与"知识点"页一致。`,
+    chart_note: (p, h, n) => `掌握 = 按分值加权正确率 ≥ ${p}%（含 ${h} 天半衰期时间衰减）且至少 ${n} 次拿满分。只对 1 次绝不会算掌握。`,
     mastered_unit: "个已掌握",
     subjects_title: "各科概况", score_rate: "得分率", view_matrix: "查看知识点矩阵 →",
     pending: list => `待接入：${list}（有需要时让 Claude 建对应知识点树）`,
-    due_title: "到期复习（/drill 清账）", overdue_chip: "逾期 ",
+    due_title: "到期复习", overdue_chip: "逾期 ", start_review: "开始复习 →",
     no_data: "还没有做题数据。把今天完成的题目交给 Claude 批改（/mark），第一批数据入库后这里就会活起来。",
     matrix_title: "知识点掌握度",
     st_mastered: "掌握", st_ok: "一般", st_weak: "薄弱", st_unpracticed: "未练", st_not_covered: "未学", st_regressed: "回潮",
-    times: "次", never_practiced: "还没做过这个考点的题",
+    times: "次", full_marks_n: (x, n) => `${x}/${n} 次满分证据`, never_practiced: "还没做过这个考点的题",
     days_title: "每日记录", all_correct: "全对 ✓", lost_on: n => `失分 ${n} 题`,
     back_all: "← 全部日期", q_count: "题",
     v_correct: "✓ 全对", v_partial: "部分", v_wrong: "✗ 错", uncertain: "给分待议",
@@ -80,9 +86,15 @@ const L = {
     content_local_only: "题目与 markscheme 仅本地版可见（运行 scripts/serve.ps1）。",
     open_qp: "打开试卷 ↗", open_ms: "打开评分标准 ↗",
     mark_reviewed: "标记已复习", reviewed_on: d => `已复习 ${d}`, review_gate: "先展开看到答案与评分标准",
-    quick_review_note: "仅快速自查——真正的间隔重复仍走 /drill。",
+    quick_review_note: "这里只做快速自查；定时的间隔复习请进入“复习”页。",
     edit_mark: "编辑批改", save_edit: "复制订正", copied: "已复制——粘贴给 Claude 即可应用",
-    fld_earned: "得分", fld_verdict: "判定", fld_errtype: "错误类型", cancel: "取消"
+    fld_earned: "得分", fld_verdict: "判定", fld_errtype: "错误类型", cancel: "取消",
+    review_title: "间隔复习", review_intro: "先凭记忆作答，确定答案后再展开评分标准。",
+    review_remaining: n => `今天到期 ${n} 道`, review_none: "今天没有到期复习。", review_next: d => `下次复习：${d}`,
+    review_show_answer: "展开答案与评分标准", review_rate: "这次回忆得怎么样？",
+    review_again: "不会", review_hard: "吃力", review_good: "掌握", review_saved: "进度已保存在这台设备。",
+    review_private_missing: "这道复习题含受版权保护的题目内容，公网版不提供；需要迁移到学生私密门户后才能在线复习。",
+    review_device_note: "当前原型只把复习进度保存在这个浏览器里，还不会同步给 supervisor。"
   }
 };
 let LANG = localStorage.getItem("ibdp-lang") || "en";
@@ -112,6 +124,9 @@ $("#themeBtn").onclick = () => {
 function applyChrome() {
   document.querySelector('[data-nav="home"]').textContent = t("nav_home");
   document.querySelector('[data-nav="matrix"]').textContent = t("nav_matrix");
+  document.querySelector('[data-nav="review"]').textContent = t("nav_review");
+  document.querySelector('[data-nav="files"]').textContent = t("nav_files");
+  document.querySelector('[data-nav="submit"]').textContent = Portal.active && Portal.role === "supervisor" ? (LANG === "zh" ? "收件箱" : "Inbox") : t("nav_submit");
   document.querySelector('[data-nav="days"]').textContent = t("nav_days");
   $("#langBtn").textContent = LANG === "en" ? "中" : "EN";
 }
@@ -122,13 +137,56 @@ $("#langBtn").onclick = () => {
 };
 
 /* ───────── data ───────── */
-const DB = { meta: null, syllabus: {}, tbmap: {}, attempts: [], content: {} };
+const DB = { meta: null, syllabus: {}, tbmap: {}, attempts: [], content: {}, reviewProgress: {} };
 
 /* review-checkbox state lives per-device in localStorage (distinct from DB spaced-repetition) */
 const reviewedKey = id => "ibdp-reviewed-" + id;
 const getReviewed = id => localStorage.getItem(reviewedKey(id));
 const setReviewed = id => localStorage.setItem(reviewedKey(id), todayStr());
 const clearReviewed = id => localStorage.removeItem(reviewedKey(id));
+
+/* Student-facing spaced repetition. This is a browser-local bridge until the
+   authenticated portal can persist progress server-side. */
+const SRS_KEY = "ibdp-srs-v1";
+const SRS_INTERVALS = [1, 3, 7, 14, 30];
+const getSrsStore = () => {
+  try { return JSON.parse(localStorage.getItem(SRS_KEY) || "{}"); }
+  catch { return {}; }
+};
+const saveSrsStore = store => localStorage.setItem(SRS_KEY, JSON.stringify(store));
+const addDays = (date, n) => {
+  const d = new Date(date + "T00:00");
+  d.setDate(d.getDate() + n);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+function reviewState(a) {
+  const cloud = window.Portal && Portal.reviewState(a.id);
+  if (cloud) return cloud;
+  const saved = getSrsStore()[a.id];
+  if (saved) return saved;
+  if (a.review) return { stage: a.review.stage || 0, next: a.review.next || todayStr(), done: !!a.review.done, history: a.review.history || [] };
+  return { stage: 0, next: todayStr(), done: false, history: [] };
+}
+async function recordReview(id, rating) {
+  const a = DB.attempts.find(x => x.id === id);
+  if (!a) return;
+  const store = getSrsStore();
+  const cur = reviewState(a);
+  let stage = cur.stage || 0;
+  let wait = 1;
+  if (rating === "again") { stage = 0; wait = 1; }
+  else if (rating === "hard") { wait = Math.max(1, SRS_INTERVALS[Math.max(0, stage - 1)] || 1); }
+  else { stage += 1; wait = SRS_INTERVALS[Math.min(stage - 1, SRS_INTERVALS.length - 1)]; }
+  const nextState = {
+    stage,
+    next: addDays(todayStr(), wait),
+    done: stage >= SRS_INTERVALS.length,
+    history: [...(cur.history || []), { date: todayStr(), rating }]
+  };
+  if (window.Portal && await Portal.saveReview(id, nextState)) return;
+  store[id] = nextState;
+  saveSrsStore(store);
+}
 
 async function j(url) {
   const r = await fetch(url, { cache: "no-store" });
@@ -176,7 +234,8 @@ function kpIndex() {
 
 /* ───────── mastery (single definition of the metric) ─────────
    weighted accuracy = Σ(w·earned/max)/Σw, w = marks × 0.5^(age_days/half-life)
-   states: not_covered / unpracticed / weak(<ok_min) / ok / mastered(≥master_min & ≥min_attempts)
+   states: not_covered / unpracticed / weak(<ok_min) / ok /
+           mastered(≥master_min & ≥min_correct_attempts full-mark attempts)
    regressed: was mastered before the latest attempt, latest attempt not full marks */
 function masteryOf(kpId, covered, atDate, pool) {
   const P = DB.meta.mastery;
@@ -192,13 +251,14 @@ function masteryOf(kpId, covered, atDate, pool) {
     return ws ? we / ws : 0;
   };
   const s = score(rel);
-  let state = (s >= P.master_min && rel.length >= P.min_attempts) ? "mastered" : (s >= P.ok_min ? "ok" : "weak");
-  if (rel.length >= P.min_attempts + 1) {
-    const prev = score(rel.slice(0, -1));
-    const last = rel[rel.length - 1];
-    if (prev >= P.master_min && last.verdict !== "correct") state = "regressed";
-  }
-  return { state, score: s, n: rel.length, last: rel[rel.length - 1].date };
+  const minCorrect = P.min_correct_attempts || P.min_attempts || 3;
+  const correctN = rel.filter(a => a.verdict === "correct").length;
+  let state = (s >= P.master_min && correctN >= minCorrect) ? "mastered" : (s >= P.ok_min ? "ok" : "weak");
+  const before = rel.slice(0, -1);
+  const last = rel[rel.length - 1];
+  const prevWasMastered = before.length && score(before) >= P.master_min && before.filter(a => a.verdict === "correct").length >= minCorrect;
+  if (prevWasMastered && last.verdict !== "correct") state = "regressed";
+  return { state, score: s, n: rel.length, correctN, last: last.date };
 }
 
 const stateChip = st => `<span class="chip state s-${st}">${t("st_" + st)}</span>`;
@@ -213,9 +273,12 @@ function reviewQueue() {
   const today = todayStr();
   const due = [], overdue = [];
   for (const a of DB.attempts) {
-    if (a.review && !a.review.done && a.review.next) {
-      if (a.review.next < today) overdue.push(a);
-      else if (a.review.next === today) due.push(a);
+    if (a.verdict !== "correct") {
+      const s = reviewState(a);
+      if (!s.done && s.next) {
+        if (s.next < today) overdue.push(a);
+        else if (s.next === today) due.push(a);
+      }
     }
   }
   return { due, overdue };
@@ -329,7 +392,7 @@ function pageHome() {
   }
 
   html += `<h2>${t("chart_title")}</h2><div class="card"><div id="chart1"></div>
-    <div class="note">${t("chart_note")(Math.round(m.mastery.master_min * 100), m.mastery.halflife_days, m.mastery.min_attempts)}</div></div>`;
+    <div class="note">${t("chart_note")(Math.round(m.mastery.master_min * 100), m.mastery.halflife_days, m.mastery.min_correct_attempts || m.mastery.min_attempts)}</div></div>`;
 
   html += `<h2>${t("subjects_title")}</h2>`;
   for (const [id, s] of Object.entries(m.subjects)) {
@@ -352,11 +415,12 @@ function pageHome() {
 
   if (q.due.length + q.overdue.length) {
     const idx = kpIndex();
-    html += `<h2>${t("due_title")}</h2><div class="card">` +
+    html += `<h2>${t("due_title")}</h2><div class="card"><div style="margin-bottom:10px"><a class="review-start" href="#/review">${t("start_review")}</a></div>` +
       [...q.overdue, ...q.due].slice(0, 8).map(a => {
         const kpn = (a.kps || []).map(k => idx[k] ? idx[k].name : k).join("; ");
+        const next = reviewState(a).next;
         return `<div class="att-head" style="padding:4px 0">
-          <span class="chip ${a.review.next < today ? "err" : ""}">${a.review.next < today ? t("overdue_chip") : ""}${a.review.next}</span>
+          <span class="chip ${next < today ? "err" : ""}">${next < today ? t("overdue_chip") : ""}${next}</span>
           <span>${esc(a.source && a.source.paper || a.source && a.source.type || "")} ${esc(a.source && a.source.q || "")}</span>
           <span class="kp-meta">${esc(kpn)}</span></div>`;
       }).join("") + `</div>`;
@@ -365,6 +429,54 @@ function pageHome() {
   $("#app").innerHTML = html;
   const c1 = $("#chart1");
   if (c1) lineChart(c1, masteredSeries(), { yLabel: t("mastered_unit") });
+}
+
+function pageReview() {
+  const q = reviewQueue();
+  const items = [...q.overdue, ...q.due];
+  const upcoming = DB.attempts
+    .filter(a => a.verdict !== "correct")
+    .map(a => reviewState(a))
+    .filter(s => !s.done && s.next > todayStr())
+    .sort((a, b) => a.next.localeCompare(b.next));
+  let html = `<h2>${t("review_title")}</h2><div class="note review-intro">${t("review_intro")}</div>`;
+  if (!items.length) {
+    html += `<div class="card review-empty"><b>${t("review_none")}</b>${upcoming.length ? `<div class="note">${t("review_next")(upcoming[0].next)}</div>` : ""}</div>`;
+    html += `<div class="note">${t("review_device_note")}</div>`;
+    $("#app").innerHTML = html;
+    return;
+  }
+  const a = items[0];
+  const c = DB.content[a.id];
+  const idx = kpIndex();
+  const kpn = (a.kps || []).map(k => idx[k] ? idx[k].name : k).join(" · ");
+  html += `<div class="review-count">${t("review_remaining")(items.length)}</div>
+    <div class="card review-card" data-id="${esc(a.id)}">
+      <div class="att-head"><span class="att-src">${esc(a.source && (a.source.paper || a.source.type) || "")} ${esc(a.source && a.source.q ? "Q" + a.source.q : "")}</span><span class="kp-meta">${esc(kpn)}</span></div>`;
+  if (!c) {
+    html += `<div class="review-locked">${t("review_private_missing")}</div>`;
+  } else {
+    html += `<div class="rv-field review-question"><span class="rv-lbl">${t("lbl_question")}</span><div class="rv-val">${esc(c.q)}</div></div>
+      <button class="reveal-btn review-reveal">${t("review_show_answer")}</button>
+      <div class="review-answer" style="display:none">
+        <div class="rv-field"><span class="rv-lbl">${t("lbl_your_answer")}</span><div class="rv-val yours">${esc(c.ans)}</div></div>
+        <div class="rv-field"><span class="rv-lbl">${t("lbl_markscheme")}</span><div class="rv-val ms">${esc(c.ms)}</div></div>
+        <div class="rv-field"><span class="rv-lbl">${t("lbl_analysis")}</span><div class="rv-val">${esc(a.analysis || "")}</div></div>
+        <div class="review-rate"><b>${t("review_rate")}</b><div class="review-actions">
+          <button data-rating="again" class="rate-again">${t("review_again")}</button>
+          <button data-rating="hard" class="rate-hard">${t("review_hard")}</button>
+          <button data-rating="good" class="rate-good">${t("review_good")}</button>
+        </div></div>
+      </div>`;
+  }
+  html += `</div><div class="note">${t("review_device_note")}</div>`;
+  $("#app").innerHTML = html;
+  const reveal = document.querySelector(".review-reveal");
+  if (reveal) reveal.onclick = () => { reveal.style.display = "none"; document.querySelector(".review-answer").style.display = "block"; };
+  document.querySelectorAll("[data-rating]").forEach(btn => btn.onclick = async () => {
+    await recordReview(a.id, btn.dataset.rating);
+    pageReview();
+  });
 }
 
 function pageMatrix(subj) {
@@ -394,7 +506,8 @@ function pageMatrix(subj) {
       html += `<div class="subtopic"><h4>${esc(st.id)} · ${esc(st.name)} ${pref}</h4>`;
       for (const kp of st.kps) {
         const m = masteryOf(kp.id, kp.covered, today);
-        const meta = m.n ? `${m.n}${t("times")}${m.score != null ? " · " + fmtPct(m.score) : ""}` : "";
+        const minCorrect = DB.meta.mastery.min_correct_attempts || DB.meta.mastery.min_attempts;
+        const meta = m.n ? `${m.n}${t("times")}${m.score != null ? " · " + fmtPct(m.score) : ""} · ${t("full_marks_n")(m.correctN || 0, minCorrect)}` : "";
         html += `<div class="kp-row" data-kp="${esc(kp.id)}">${stateChip(m.state)}
           <span class="kp-name">${esc(kp.id)} — ${esc(kp.name)}</span>
           <span class="kp-meta">${meta}</span></div>
@@ -563,6 +676,10 @@ function route() {
   document.querySelectorAll("[data-nav]").forEach(a => a.classList.remove("on"));
   const nav = n => { const el = document.querySelector(`[data-nav="${n}"]`); if (el) el.classList.add("on"); };
   if (p === "matrix") { nav("matrix"); pageMatrix(arg); }
+  else if (p === "review") { nav("review"); pageReview(); }
+  else if (p === "files") { nav("files"); Portal.pageFiles(LANG); }
+  else if (p === "submit") { nav("submit"); Portal.pageSubmit(LANG); }
+  else if (p === "connection") { Portal.pageConnection(LANG); }
   else if (p === "days") { nav("days"); pageDays(); }
   else if (p === "day" && arg) { nav("days"); pageDay(arg); }
   else { nav("home"); pageHome(); }
@@ -579,6 +696,9 @@ function renderFoot() {
   $("#app").innerHTML = `<div class="loading">${t("loading")}</div>`;
   try {
     await loadAll();
+    const signedIn = await Portal.init(DB);
+    if (!signedIn && Portal.configured) { Portal.renderLogin(LANG); return; }
+    applyChrome();
     renderFoot();
     window.addEventListener("hashchange", route);
     route();

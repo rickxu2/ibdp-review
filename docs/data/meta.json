@@ -19,6 +19,7 @@
     "halflife_days": 42,
     "master_min": 0.85,
     "ok_min": 0.6,
-    "min_attempts": 2
+    "min_attempts": 3,
+    "min_correct_attempts": 3
   }
 }

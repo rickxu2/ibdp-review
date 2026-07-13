@@ -13,8 +13,12 @@
   <nav>
     <a href="#/" data-nav="home">Overview</a>
     <a href="#/matrix" data-nav="matrix">Topics</a>
+    <a href="#/review" data-nav="review">Review</a>
+    <a href="#/files" data-nav="files">Files</a>
+    <a href="#/submit" data-nav="submit">Submit</a>
     <a href="#/days" data-nav="days">Daily log</a>
   </nav>
+  <button id="accountBtn" title="Sign out" style="display:none">Sign out</button>
   <button id="langBtn" title="Language">中</button>
   <button id="themeBtn" title="Theme">🌗</button>
 </header>
@@ -27,6 +31,9 @@
   <span id="footInfo"></span>
 </footer>
 
+<script src="supabase.js"></script>
+<script src="supabase-config.js"></script>
+<script src="portal.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
