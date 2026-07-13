@@ -11,8 +11,8 @@ const L = {
     days: "days", approx: "approx.",
     review_label: "Reviews due", due_n: "due", overdue_n: n => `${n} overdue`, no_overdue: "none overdue",
     records_label: "Total records", q_unit: "questions", weighted: "Weighted score",
-    chart_title: "Knowledge points mastered over time",
-    chart_note: (p, h, n) => `Mastered = marks-weighted accuracy ≥ ${p}% (with ${h}-day half-life decay) plus ≥ ${n} full-mark attempts. One correct answer is never enough.`,
+    chart_title: "Mastery mix over time",
+    chart_note: (p, h, n) => `Mastered = marks-weighted accuracy ≥ ${p}% (with ${h}-day half-life decay) plus ≥ ${n} full-mark attempts. One correct answer is never enough. Review ratings never affect mastery; only marked exam and assignment attempts do.`,
     chart_status: (mastered, practiced) => `Current: ${mastered} mastered · ${practiced} practiced`,
     mastered_unit: "mastered",
     subjects_title: "Subjects", score_rate: "score", view_matrix: "View topic matrix →",
@@ -58,8 +58,8 @@ const L = {
     days: "天", approx: "约",
     review_label: "错题复习", due_n: "道到期", overdue_n: n => `其中逾期 ${n} 道`, no_overdue: "无逾期",
     records_label: "累计记录", q_unit: "题", weighted: "加权得分率",
-    chart_title: "掌握知识点数走势",
-    chart_note: (p, h, n) => `掌握 = 按分值加权正确率 ≥ ${p}%（含 ${h} 天半衰期时间衰减）且至少 ${n} 次拿满分。只对 1 次绝不会算掌握。`,
+    chart_title: "掌握度构成走势",
+    chart_note: (p, h, n) => `掌握 = 按分值加权正确率 ≥ ${p}%（含 ${h} 天半衰期时间衰减）且至少 ${n} 次拿满分。只对 1 次绝不会算掌握。复习评分不影响掌握度；只有正式批改入库的考卷和作业答题记录才计入。`,
     chart_status: (mastered, practiced) => `当前：${mastered} 个已掌握 · ${practiced} 个已练习`,
     mastered_unit: "个已掌握",
     subjects_title: "各科概况", score_rate: "得分率", view_matrix: "查看知识点矩阵 →",
@@ -369,6 +369,77 @@ function masteredSeries() {
   return out;
 }
 
+/* 100% stacked history across the five student-facing mastery states.
+   Regressed points are counted as weak in this overview; the topic matrix
+   keeps the more specific regressed label. */
+const MASTERY_MIX = [
+  { key: "mastered", color: "var(--good)" },
+  { key: "ok", color: "var(--warn)" },
+  { key: "weak", color: "var(--serious)" },
+  { key: "unpracticed", color: "var(--muted)" },
+  { key: "not_covered", color: "var(--axis)" }
+];
+
+function masteryMixSeries() {
+  const kps = Object.values(kpIndex());
+  return masteredSeries().map(p => {
+    const counts = { mastered: 0, ok: 0, weak: 0, unpracticed: 0, not_covered: 0 };
+    for (const kp of kps) {
+      const state = masteryOf(kp.id, kp.covered, p.date).state;
+      counts[state === "regressed" ? "weak" : state] += 1;
+    }
+    return { date: p.date, counts, total: kps.length };
+  });
+}
+
+function masteryMixChart(container, pts) {
+  if (!pts.length) { container.innerHTML = `<div class="empty">${t("empty_chart")}</div>`; return; }
+  const W = 720, H = 260, Lm = 44, R = 14, T = 14, B = 30;
+  const xs = pts.map(p => +new Date(p.date + "T00:00"));
+  const X = v => Lm + (v - xs[0]) / (xs[xs.length - 1] - xs[0] || 1) * (W - Lm - R);
+  const Y = v => H - B - v / 100 * (H - T - B);
+  const xTickN = Math.min(6, pts.length);
+  const xTicks = xTickN === 1 ? [xs[0]] : Array.from({ length: xTickN }, (_, i) => xs[0] + (xs[xs.length - 1] - xs[0]) * i / (xTickN - 1));
+  const fdate = ms => { const d = new Date(ms); return `${d.getMonth() + 1}/${d.getDate()}`; };
+  let cumulative = pts.map(() => 0);
+  const layers = MASTERY_MIX.map(item => {
+    const bottom = [...cumulative];
+    const top = pts.map((p, i) => bottom[i] + (p.total ? p.counts[item.key] / p.total * 100 : 0));
+    cumulative = top;
+    const upper = top.map((v, i) => `${i ? "L" : "M"}${X(xs[i]).toFixed(1)},${Y(v).toFixed(1)}`).join("");
+    const lower = bottom.map((v, i) => `L${X(xs[bottom.length - 1 - i]).toFixed(1)},${Y(bottom[bottom.length - 1 - i]).toFixed(1)}`).join("");
+    return `<path d="${upper}${lower}Z" fill="${item.color}" opacity=".9"/>`;
+  }).join("");
+  const current = pts[pts.length - 1];
+
+  container.innerHTML = `<div class="mix-legend">${MASTERY_MIX.map(item => {
+      const pct = current.total ? Math.round(current.counts[item.key] / current.total * 100) : 0;
+      return `<span><i style="background:${item.color}"></i>${t("st_" + item.key)} <b>${pct}%</b></span>`;
+    }).join("")}</div>
+    <div class="chartwrap"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(t("chart_title"))}">
+      ${[0, 25, 50, 75, 100].map(v => `<line x1="${Lm}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)" stroke-width="1"/><text x="${Lm - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)">${v}%</text>`).join("")}
+      ${layers}
+      ${xTicks.map(ms => `<text x="${X(ms)}" y="${H - B + 18}" text-anchor="middle" font-size="11" fill="var(--muted)">${fdate(ms)}</text>`).join("")}
+      <line id="mix-x" y1="${T}" y2="${H - B}" stroke="var(--ink)" stroke-width="1" visibility="hidden"/>
+      <rect id="mix-hit" x="${Lm}" y="${T}" width="${W - Lm - R}" height="${H - T - B}" fill="transparent"/>
+    </svg><div class="tooltip mix-tip"></div></div>`;
+
+  const svg = container.querySelector("svg"), hit = container.querySelector("#mix-hit"), cross = container.querySelector("#mix-x"), tip = container.querySelector(".mix-tip");
+  const move = ev => {
+    const rect = svg.getBoundingClientRect();
+    const mx = (ev.clientX - rect.left) / rect.width * W;
+    let best = 0, distance = Infinity;
+    pts.forEach((p, i) => { const d = Math.abs(X(xs[i]) - mx); if (d < distance) { distance = d; best = i; } });
+    const px = X(xs[best]);
+    cross.setAttribute("x1", px); cross.setAttribute("x2", px); cross.setAttribute("visibility", "visible");
+    tip.style.display = "block"; tip.style.left = (px / W * rect.width) + "px"; tip.style.top = "8px";
+    tip.innerHTML = `<b>${pts[best].date}</b><br>${MASTERY_MIX.map(item => `${esc(t("st_" + item.key))}: ${pts[best].counts[item.key]} (${Math.round(pts[best].counts[item.key] / pts[best].total * 100)}%)`).join("<br>")}`;
+  };
+  const out = () => { cross.setAttribute("visibility", "hidden"); tip.style.display = "none"; };
+  hit.addEventListener("mousemove", move); hit.addEventListener("mouseleave", out);
+  hit.addEventListener("touchstart", e => move(e.touches[0]), { passive: true });
+}
+
 /* ───────── textbook reference chip ─────────
    local site → deep link into the PDF page; online → cloud_url if configured, else text chip */
 function tbRef(ref, subject) {
@@ -448,7 +519,7 @@ function pageHome() {
 
   $("#app").innerHTML = html;
   const c1 = $("#chart1");
-  if (c1) lineChart(c1, masteredSeries(), { yLabel: t("mastered_unit") });
+  if (c1) masteryMixChart(c1, masteryMixSeries());
 }
 
 function pageReview() {
