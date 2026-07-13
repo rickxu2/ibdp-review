@@ -67,9 +67,9 @@
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "2b(iv)" },
     "kps": ["R1.1.a"], "command_term": "Sketch", "max": 3, "earned": 2, "verdict": "partial",
     "error_type": "misread",
-    "analysis": "The question listed FOUR things to label: reactants, products, Ea, and ΔH. You drew and labelled Ea and ΔH but did not label the reactants and products levels — that is M1 lost. Ea from reactants level to the peak was fine. Because the forward reaction is endothermic (your 2b(iii)), the products MUST sit above the reactants; confirm your sketch showed that. Lesson: label every item the question names.",
+    "analysis": "Confirmed: products drawn above reactants (endothermic), so Ea and ΔH both scored (M2, M3). The lost mark (M1) is because reactants and products levels were NOT labelled — you labelled only Ea and ΔH. The question named FOUR things to label; label all of them next time. This was a completeness slip, not a chemistry error.",
     "textbook_ref": { "section": "R1.1", "pdf_page": 403, "para": 2, "quote": "the activation energy (Ea), and the enthalpy change for the reaction" },
-    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": true
+    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": false
   },
   {
     "id": "A-20260713-011", "date": "2026-07-13", "subject": "chem_sl",
@@ -83,11 +83,11 @@
   {
     "id": "A-20260713-012", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "3b" },
-    "kps": ["R2.1.c"], "command_term": "Deduce", "max": 2, "earned": 1, "verdict": "partial",
-    "error_type": "concept",
-    "analysis": "You concluded 'HCl is limiting' but the correct answer is CaCO3. n(CaCO3)=3.162/100.09=0.0316 mol; n(HCl)=0.0200x4.00=0.0800 mol. Ratio is CaCO3:HCl = 1:2, so 0.0316 mol CaCO3 needs 0.0632 mol HCl and only 0.0632 of the 0.0800 mol HCl is used -> HCl is in EXCESS, CaCO3 limiting. The comparison must divide each amount by its coefficient (HCl/2), then the SMALLER is limiting. Also double-check your n(CaCO3) value — a slip to 0.046 would flip the comparison. Method/mole values earned M1.",
+    "kps": ["R2.1.c"], "command_term": "Deduce", "max": 2, "earned": 0, "verdict": "wrong",
+    "error_type": "calculation",
+    "analysis": "Root cause confirmed as an arithmetic slip: you got n(CaCO3) = 0.0046 mol, but 3.162 / 100.09 = 0.0316 mol. The MS awards its first mark only when BOTH n(CaCO3)=0.0316 AND n(HCl)=0.0800 are correct, so the wrong value cost that mark; the second mark ('CaCO3 is limiting') was also missed. Two habits to fix: (1) sanity-check a division — 3.16/100 is roughly 0.03, so 0.0046 should have looked wrong; (2) to compare, divide each amount by its coefficient (HCl/2 = 0.0400) and the SMALLER is limiting -> 0.0316 < 0.0400, so CaCO3 is limiting. n(HCl)=0.0800 was correct.",
     "textbook_ref": { "section": "R2.1", "pdf_page": 476, "para": 1, "quote": "the limiting reactant allows us to determine the extent of reaction" },
-    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": true
+    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": false
   },
   {
     "id": "A-20260713-013", "date": "2026-07-13", "subject": "chem_sl",
