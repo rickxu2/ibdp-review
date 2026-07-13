@@ -114,7 +114,10 @@
         const submissionId = document.getElementById("guidedSubmission").value;
         if (submissionId) {
           const submission = submissions.find(s => s.id === submissionId), answer = submission && submission.submission_files[0];
-          if (answer) links.answer_file_path = answer.bucket_path;
+          if (answer) {
+            links.answer_file_path = answer.bucket_path;
+            if (!links.question_file_path) links.question_file_path = answer.bucket_path;
+          }
           links.submission_id = submissionId;
           const { error } = await client.from("submissions").update({ subject, resource_key: key }).eq("id", submissionId).eq("student_id", studentId);
           if (error) throw error;
