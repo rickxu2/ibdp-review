@@ -9,7 +9,7 @@ The portal keeps IB questions, markschemes, textbooks, student submissions, and 
    - Automatically expose new tables: **off**
    - Enable automatic RLS: **on**
 2. In the SQL editor, run `supabase/schema.sql` once.
-3. In Authentication settings, enable email magic-link sign-in.
+3. In Authentication settings, enable email/password sign-in. Magic links are kept only for initial setup and recovery.
 4. Add the final GitHub Pages URL and `http://localhost:8788/docs/` to the allowed redirect URLs.
 
 ## 2. Connect the website
@@ -32,6 +32,8 @@ where id = '<SUPERVISOR_UUID>';
 insert into public.supervisor_students(supervisor_id, student_id)
 values ('<SUPERVISOR_UUID>', '<STUDENT_UUID>');
 ```
+
+For the single-student MVP, create the student in Authentication > Users with a temporary password and email confirmation enabled. The student signs in with that password, then changes it on the portal's Account page. This avoids depending on Supabase's rate-limited demonstration email service for daily access.
 
 ## 4. Import existing records
 

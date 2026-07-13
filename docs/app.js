@@ -128,6 +128,8 @@ function applyChrome() {
   document.querySelector('[data-nav="files"]').textContent = t("nav_files");
   document.querySelector('[data-nav="submit"]').textContent = Portal.active && Portal.role === "supervisor" ? (LANG === "zh" ? "收件箱" : "Inbox") : t("nav_submit");
   document.querySelector('[data-nav="days"]').textContent = t("nav_days");
+  const account = document.getElementById("accountBtn");
+  if (account && account.style.display !== "none") account.textContent = LANG === "zh" ? "账户" : "Account";
   $("#langBtn").textContent = LANG === "en" ? "中" : "EN";
 }
 $("#langBtn").onclick = () => {
@@ -679,6 +681,7 @@ function route() {
   else if (p === "review") { nav("review"); pageReview(); }
   else if (p === "files") { nav("files"); Portal.pageFiles(LANG); }
   else if (p === "submit") { nav("submit"); Portal.pageSubmit(LANG); }
+  else if (p === "account") { Portal.pageAccount(LANG); }
   else if (p === "connection") { Portal.pageConnection(LANG); }
   else if (p === "days") { nav("days"); pageDays(); }
   else if (p === "day" && arg) { nav("days"); pageDay(arg); }

@@ -210,6 +210,10 @@ h2:first-child { margin-top: 4px; }
 .test-pass { color: var(--good-text); }
 .test-warn { color: #9a6b00; }
 .test-fail { color: var(--critical); }
+.magic-link { margin-top: 14px; border-top: 1px solid var(--grid); padding-top: 10px; }
+.magic-link summary { cursor: pointer; color: var(--ink-2); font-size: 13px; }
+.account-card { max-width: 560px; }
+.account-card h3 { margin-top: 20px; font-size: 15px; }
 
 /* ───────── chart ───────── */
 .chartwrap { position: relative; }

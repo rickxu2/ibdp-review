@@ -29,7 +29,8 @@ window.Portal = (() => {
       studentId = links && links[0] && links[0].student_id;
     }
     document.getElementById("accountBtn").style.display = "inline-block";
-    document.getElementById("accountBtn").onclick = async () => { await client.auth.signOut(); location.reload(); };
+    document.getElementById("accountBtn").textContent = "Account";
+    document.getElementById("accountBtn").onclick = () => { location.hash = "#/account"; };
     await syncData();
     return true;
   }
@@ -69,16 +70,55 @@ window.Portal = (() => {
       <h2>${tx(lang, "Private student portal", "私密学生门户")}</h2>
       <p>${tx(lang, "Sign in to view submissions, protected questions, markschemes and textbooks.", "登录后查看提交、受保护的题目、markscheme 和课本。")}</p>
       <form id="loginForm"><label>${tx(lang, "Email", "邮箱")}<input id="loginEmail" type="email" required autocomplete="email"></label>
-      <button type="submit" class="portal-primary">${tx(lang, "Send sign-in link", "发送登录链接")}</button></form>
+      <label>${tx(lang, "Password", "密码")}<input id="loginPassword" type="password" required autocomplete="current-password"></label>
+      <button type="submit" class="portal-primary">${tx(lang, "Sign in", "登录")}</button></form>
+      <details class="magic-link"><summary>${tx(lang, "First sign-in or forgot password?", "首次登录或忘记密码？")}</summary>
+        <p class="note">${tx(lang, "Email links are for account setup and recovery only; the built-in mail service is rate-limited.", "邮件链接只用于开户和找回密码；内置邮件服务有严格限流。")}</p>
+        <button type="button" id="magicLinkBtn" class="mini-btn">${tx(lang, "Send one-time email link", "发送一次性邮件链接")}</button>
+      </details>
       <div id="loginStatus" class="note"></div></div>`;
     document.getElementById("loginForm").onsubmit = async e => {
       e.preventDefault();
       const status = document.getElementById("loginStatus");
-      status.textContent = tx(lang, "Sending…", "正在发送…");
+      status.textContent = tx(lang, "Signing in…", "正在登录…");
       const email = document.getElementById("loginEmail").value.trim();
-      const { error } = await client.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + location.pathname } });
-      status.textContent = error ? error.message : tx(lang, "Check your email for the sign-in link.", "登录链接已发送，请检查邮箱。");
+      const password = document.getElementById("loginPassword").value;
+      const { error } = await client.auth.signInWithPassword({ email, password });
+      if (error) status.textContent = error.message;
+      else location.reload();
     };
+    document.getElementById("magicLinkBtn").onclick = async () => {
+      const status = document.getElementById("loginStatus");
+      const email = document.getElementById("loginEmail").value.trim();
+      if (!email) { status.textContent = tx(lang, "Enter your email first.", "请先填写邮箱。"); return; }
+      status.textContent = tx(lang, "Sending…", "正在发送…");
+      const { error } = await client.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + location.pathname, shouldCreateUser: false } });
+      status.textContent = error ? error.message : tx(lang, "Check your email for the one-time link.", "一次性链接已发送，请检查邮箱。");
+    };
+  }
+
+  function pageAccount(lang) {
+    if (!configured || !user) return renderLogin(lang);
+    document.getElementById("app").innerHTML = `<h2>${tx(lang, "Account", "账户")}</h2><div class="card portal-form account-card">
+      <div><b>${html(user.email || "")}</b><div class="note">${tx(lang, "Role", "角色")}: ${html(profile.role)}</div></div>
+      <h3>${tx(lang, "Set or change password", "设置或修改密码")}</h3>
+      <form id="passwordForm"><label>${tx(lang, "New password", "新密码")}<input id="newPassword" type="password" minlength="10" required autocomplete="new-password"></label>
+      <label>${tx(lang, "Confirm password", "确认密码")}<input id="confirmPassword" type="password" minlength="10" required autocomplete="new-password"></label>
+      <button type="submit" class="portal-primary">${tx(lang, "Save password", "保存密码")}</button></form>
+      <div id="passwordStatus" class="note"></div>
+      <button id="signOutBtn" class="mini-btn">${tx(lang, "Sign out on this device", "在这台设备退出")}</button>
+    </div>`;
+    document.getElementById("passwordForm").onsubmit = async e => {
+      e.preventDefault();
+      const status = document.getElementById("passwordStatus");
+      const password = document.getElementById("newPassword").value;
+      if (password !== document.getElementById("confirmPassword").value) { status.textContent = tx(lang, "Passwords do not match.", "两次密码不一致。"); return; }
+      status.textContent = tx(lang, "Saving…", "正在保存…");
+      const { error } = await client.auth.updateUser({ password });
+      status.textContent = error ? error.message : tx(lang, "Password saved. You can now sign in without an email link.", "密码已保存，以后无需邮件链接即可登录。");
+      if (!error) e.target.reset();
+    };
+    document.getElementById("signOutBtn").onclick = async () => { await client.auth.signOut({ scope: "local" }); location.reload(); };
   }
 
   function reviewState(attemptId) { return db && db.reviewProgress && db.reviewProgress[attemptId]; }
@@ -199,6 +239,6 @@ window.Portal = (() => {
     });
   }
 
-  return { configured, init, renderLogin, reviewState, saveReview, pageSubmit, pageFiles, pageConnection,
+  return { configured, init, renderLogin, pageAccount, reviewState, saveReview, pageSubmit, pageFiles, pageConnection,
     get active() { return configured && !!user; }, get role() { return profile && profile.role; }, get targetStudentId() { return studentId; } };
 })();
