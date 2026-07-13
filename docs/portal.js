@@ -202,8 +202,20 @@ window.Portal = (() => {
     if (!studentId) { document.getElementById("app").innerHTML = `<div class="card">${tx(lang, "No student is linked to this supervisor account yet.", "这个 supervisor 账号还没有关联学生。")}</div>`; return; }
     const { data, error } = await client.from("submissions").select("id,note,status,submitted_at,submission_files(file_name,bucket_path)").eq("student_id", studentId).order("submitted_at", { ascending: false });
     if (error) { document.getElementById("app").innerHTML = `<div class="card">${html(error.message)}</div>`; return; }
-    document.getElementById("app").innerHTML = `<h2>${tx(lang, "Submission inbox", "提交收件箱")}</h2><div class="card">${(data || []).length ? data.map(s => `<div class="portal-row"><div><b>${new Date(s.submitted_at).toLocaleString()}</b><div class="note">${html(s.note || "")}</div></div><span class="chip">${html(s.status)}</span><div>${(s.submission_files || []).map(f => `<button class="mini-btn js-open-private" data-path="${html(f.bucket_path)}">${html(f.file_name)}</button>`).join(" ")}</div></div>`).join("") : `<div class="empty">${tx(lang, "No submissions yet.", "还没有提交。")}</div>`}</div>`;
+    const actionFor = s => {
+      if (s.status === "submitted") return `<button class="mini-btn js-submission-status" data-id="${html(s.id)}" data-status="marking">${tx(lang, "Start marking", "开始批改")}</button>`;
+      if (s.status === "marking") return `<button class="mini-btn js-submission-status" data-id="${html(s.id)}" data-status="marked">${tx(lang, "Mark complete", "批改完成")}</button>`;
+      if (s.status === "marked") return `<button class="mini-btn js-submission-status" data-id="${html(s.id)}" data-status="archived">${tx(lang, "Archive", "归档")}</button>`;
+      return `<button class="mini-btn js-submission-status" data-id="${html(s.id)}" data-status="marking">${tx(lang, "Reopen", "重新打开")}</button>`;
+    };
+    document.getElementById("app").innerHTML = `<h2>${tx(lang, "Submission inbox", "提交收件箱")}</h2><div class="card">${(data || []).length ? data.map(s => `<div class="portal-row"><div><b>${new Date(s.submitted_at).toLocaleString()}</b><div class="note">${html(s.note || "")}</div></div><span class="chip">${html(s.status)}</span><div>${(s.submission_files || []).map(f => `<button class="mini-btn js-open-private" data-path="${html(f.bucket_path)}">${html(f.file_name)}</button>`).join(" ")}</div><div>${actionFor(s)}</div></div>`).join("") : `<div class="empty">${tx(lang, "No submissions yet.", "还没有提交。")}</div>`}</div>`;
     wirePrivateOpen(lang);
+    document.querySelectorAll(".js-submission-status").forEach(btn => btn.onclick = async () => {
+      btn.disabled = true;
+      const { error: updateError } = await client.from("submissions").update({ status: btn.dataset.status }).eq("id", btn.dataset.id).eq("student_id", studentId);
+      if (updateError) { btn.disabled = false; alert(updateError.message); return; }
+      await pageInbox(lang);
+    });
   }
 
   async function pageFiles(lang) {
