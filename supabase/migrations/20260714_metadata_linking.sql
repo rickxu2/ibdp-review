@@ -2,6 +2,7 @@
 alter table public.attempt_content
   add column if not exists answer_file_path text,
   add column if not exists textbook_file_path text,
+  add column if not exists supporting_file_paths jsonb not null default '[]'::jsonb,
   add column if not exists submission_id uuid references public.submissions(id) on delete set null;
 
 alter table public.submissions

@@ -54,7 +54,8 @@
           <label>${tx("Timezone", "时区")}<select id="guidedPaperTimezone"><option value="TZ0">TZ0</option><option value="TZ1" selected>TZ1</option><option value="TZ2">TZ2</option><option value="TZ3">TZ3</option></select></label>
           <label>${tx("Component", "试卷")}<select id="guidedPaperComponent"><option value="P1">Paper 1</option><option value="P1A">Paper 1A</option><option value="P1B">Paper 1B</option><option value="P2" selected>Paper 2</option><option value="P3">Paper 3</option></select></label>
           <div class="note">${tx("Paper key", "试卷编号")}: <b id="guidedPaperKeyPreview">—</b><br>${tx("Display title", "显示名称")}: <span id="guidedPaperTitlePreview">—</span></div>
-          <label>${tx("Question paper (optional)", "空白试卷（可选）")}<input id="guidedQuestionFile" type="file" accept=".pdf,image/*"></label>
+          <label>${tx("Question booklet (optional)", "Question booklet / 题册（可选）")}<input id="guidedQuestionFile" type="file" accept=".pdf,image/*"></label>
+          <label>${tx("Text/source booklet(s) (optional)", "Text/source booklet / 文本或材料册（可多选）")}<input id="guidedSourceFiles" type="file" accept=".pdf,image/*" multiple></label>
           <label>${tx("Markscheme (optional)", "Markscheme（可选）")}<input id="guidedMarkschemeFile" type="file" accept=".pdf,image/*"></label>
           <label>${tx("Student submission to bind (optional)", "对应学生提交（可选）")}<select id="guidedSubmission"><option value="">—</option>${submissionOptions}</select></label>
           <button class="portal-primary" type="submit">${tx("Upload and link", "上传并关联")}</button>
@@ -126,13 +127,21 @@
       paperForm.onsubmit = async event => {
       event.preventDefault();
       const button = event.target.querySelector("button"), status = document.getElementById("guidedPaperStatus");
-      const qpFile = document.getElementById("guidedQuestionFile").files[0], msFile = document.getElementById("guidedMarkschemeFile").files[0];
-      if (!qpFile && !msFile) { status.textContent = tx("Choose a question paper or markscheme.", "请至少选择空白试卷或 markscheme 之一。"); return; }
+      const qpFile = document.getElementById("guidedQuestionFile").files[0], sourceFiles = [...document.getElementById("guidedSourceFiles").files], msFile = document.getElementById("guidedMarkschemeFile").files[0];
+      if (!qpFile && !sourceFiles.length && !msFile) { status.textContent = tx("Choose at least one booklet or markscheme.", "请至少选择一个题册、材料册或 markscheme。"); return; }
       button.disabled = true;
       try {
         const { subject, key, title } = paperIdentity();
         const base = `${studentId}/resources/papers/${subject}/${I.safeName(key)}`, links = {};
-        if (qpFile) links.question_file_path = await storeResource(qpFile, { title, kind: "question_paper", subject, resource_key: key, file_role: "question_paper" }, `${base}/question-paper.pdf`, p => { status.textContent = `Question paper: ${p}%`; });
+        if (qpFile) links.question_file_path = await storeResource(qpFile, { title: `${title} Question booklet`, kind: "question_paper", subject, resource_key: key, file_role: "question_booklet" }, `${base}/question-booklet.pdf`, p => { status.textContent = `Question booklet: ${p}%`; });
+        if (sourceFiles.length) {
+          links.supporting_file_paths = [];
+          for (let index = 0; index < sourceFiles.length; index++) {
+            const sourceFile = sourceFiles[index], sourceTitle = `${title} Text/source booklet${sourceFiles.length > 1 ? ` ${index + 1}` : ""}`;
+            const sourcePath = await storeResource(sourceFile, { title: sourceTitle, kind: "question_paper", subject, resource_key: key, file_role: "source_booklet" }, `${base}/source-booklet-${index + 1}.pdf`, p => { status.textContent = `Text/source booklet ${index + 1}: ${p}%`; });
+            links.supporting_file_paths.push({ path: sourcePath, title: sourceTitle, role: "source_booklet" });
+          }
+        }
         if (msFile) links.markscheme_file_path = await storeResource(msFile, { title: `${title} Markscheme`, kind: "markscheme", subject, resource_key: key, file_role: "markscheme" }, `${base}/markscheme.pdf`, p => { status.textContent = `Markscheme: ${p}%`; });
         const submissionId = document.getElementById("guidedSubmission").value;
         if (submissionId) {

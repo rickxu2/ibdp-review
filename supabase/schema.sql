@@ -81,6 +81,7 @@ create table if not exists public.attempt_content (
   ms_page integer,
   question_file_path text,
   markscheme_file_path text,
+  supporting_file_paths jsonb not null default '[]'::jsonb,
   answer_file_path text,
   textbook_file_path text,
   updated_at timestamptz not null default now(),
@@ -202,6 +203,7 @@ on conflict (id) do update set public = false, file_size_limit = 524288000;
 
 alter table public.attempt_content add column if not exists answer_file_path text;
 alter table public.attempt_content add column if not exists textbook_file_path text;
+alter table public.attempt_content add column if not exists supporting_file_paths jsonb not null default '[]'::jsonb;
 alter table public.attempt_content add column if not exists submission_id uuid references public.submissions(id) on delete set null;
 alter table public.submissions add column if not exists subject text;
 alter table public.submissions add column if not exists resource_key text;

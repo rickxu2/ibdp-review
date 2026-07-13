@@ -117,6 +117,7 @@ window.Portal = (() => {
       q: c.question_text, ans: c.answer_text, ms: c.markscheme_text,
       paper: c.paper_key, qp_page: c.qp_page, ms_page: c.ms_page,
       qp_file: c.question_file_path, ms_file: c.markscheme_file_path,
+      source_files: c.supporting_file_paths || [],
       answer_file: c.answer_file_path, textbook_file: c.textbook_file_path
     };
     for (const r of rr.data || []) db.reviewProgress[r.attempt_id] = {

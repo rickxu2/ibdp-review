@@ -39,7 +39,7 @@ const L = {
     reveal_review: "Reveal question, answer & markscheme", collapse: "Collapse",
     lbl_question: "Question", lbl_your_answer: "Your answer", lbl_markscheme: "Markscheme", lbl_analysis: "Why / how to fix",
     content_local_only: "Question & markscheme are in the local version (run scripts/serve.ps1).",
-    open_qp: "Question paper ↗", open_ms: "Markscheme ↗",
+    open_qp: "Question booklet ↗", open_source: "Text/source booklet ↗", open_ms: "Markscheme ↗",
     open_answer: "Submitted answer ↗", open_textbook: "Textbook ↗",
     mark_reviewed: "Mark reviewed", reviewed_on: d => `Reviewed ${d}`, review_gate: "Reveal the answer & markscheme first",
     quick_review_note: "Quick check only — use the Review page for scheduled spaced repetition.",
@@ -87,7 +87,7 @@ const L = {
     reveal_review: "展开题目、答案与评分标准", collapse: "收起",
     lbl_question: "题目", lbl_your_answer: "你的答案", lbl_markscheme: "评分标准 (markscheme)", lbl_analysis: "错因与订正",
     content_local_only: "题目与 markscheme 仅本地版可见（运行 scripts/serve.ps1）。",
-    open_qp: "打开试卷 ↗", open_ms: "打开评分标准 ↗",
+    open_qp: "打开题册 ↗", open_source: "打开文本/材料册 ↗", open_ms: "打开评分标准 ↗",
     open_answer: "打开提交答案 ↗", open_textbook: "打开课本 ↗",
     mark_reviewed: "标记已复习", reviewed_on: d => `已复习 ${d}`, review_gate: "先展开看到答案与评分标准",
     quick_review_note: "这里只做快速自查；定时的间隔复习请进入“复习”页。",
@@ -664,9 +664,12 @@ function attemptSourceLinks(c) {
   if (!c) return "";
   const privateLink = (path, label, page) => path ? `<button class="tbref js-open-private" data-path="${esc(path)}"${page ? ` data-page="${page}"` : ""}>${label}</button>` : "";
   const localLink = (path, label, page) => path ? `<a class="tbref" target="_blank" href="/${encodeURI(path)}${page ? `#page=${page}` : ""}">${label}</a>` : "";
+  const supporting = (c.source_files || []).map((item, index) => Portal.active
+    ? privateLink(item.path, esc(item.title || `${t("open_source")} ${index + 1}`), item.page)
+    : localLink(item.path, esc(item.title || `${t("open_source")} ${index + 1}`), item.page)).join("");
   const links = Portal.active
-    ? `${privateLink(c.qp_file, t("open_qp"), c.qp_page)}${privateLink(c.ms_file, t("open_ms"), c.ms_page)}${privateLink(c.answer_file, t("open_answer"), c.qp_page)}`
-    : `${localLink(c.qp_file, t("open_qp"), c.qp_page)}${localLink(c.ms_file, t("open_ms"), c.ms_page)}`;
+    ? `${privateLink(c.qp_file, t("open_qp"), c.qp_page)}${supporting}${privateLink(c.ms_file, t("open_ms"), c.ms_page)}${privateLink(c.answer_file, t("open_answer"), c.qp_page)}`
+    : `${localLink(c.qp_file, t("open_qp"), c.qp_page)}${supporting}${localLink(c.ms_file, t("open_ms"), c.ms_page)}`;
   return links ? `<div class="src-links">${links}</div>` : "";
 }
 
