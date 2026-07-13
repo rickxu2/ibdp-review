@@ -3,7 +3,9 @@
     "id": "A-20260713-001", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "1a" },
     "kps": ["S1.1.a"], "command_term": "Describe", "max": 2, "earned": 2, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: the answer gave both required distinctions — an element contains one type of atom, while a compound contains two or more types chemically combined.",
+    "textbook_ref": { "section": "S1.1", "pdf_page": 18, "para": 1, "quote": "atoms and elements are represented by the same symbols" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-002", "date": "2026-07-13", "subject": "chem_sl",
@@ -27,7 +29,9 @@
     "id": "A-20260713-004", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "1c(ii)" },
     "kps": ["R3.2.b"], "command_term": "Write", "max": 2, "earned": 2, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: both electrode half-equations balance atoms and charge, place electrons on the correct side, and match the molten FeS electrolysis shown.",
+    "textbook_ref": { "section": "R3.2", "pdf_page": 598, "para": 1, "quote": "half-equations helps to show the transfer of electrons" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-005", "date": "2026-07-13", "subject": "chem_sl",
@@ -42,25 +46,33 @@
     "id": "A-20260713-006", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "2a" },
     "kps": ["S1.3.c"], "command_term": "Deduce", "max": 1, "earned": 1, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: Co loses its two 4s electrons before 3d electrons, giving Co2+ = [Ar] 3d7; the full configuration written is equivalent.",
+    "textbook_ref": { "section": "S1.3", "pdf_page": 64, "para": 1, "quote": "build up the electrons in successive orbitals" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-007", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "2b(i)" },
     "kps": ["R2.3.b"], "command_term": "State", "max": 1, "earned": 1, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: the equilibrium expression has CoCl4(2-) in the numerator and [Co2+][Cl-]^4 in the denominator, with the coefficient 4 correctly used as an exponent.",
+    "textbook_ref": { "section": "R2.3", "pdf_page": 529, "para": 1, "quote": "the value of the equilibrium constant depends on temperature" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-008", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "2b(ii)" },
     "kps": ["R2.3.c"], "command_term": "Predict", "max": 1, "earned": 1, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: adding NaCl increases chloride concentration, shifting the equilibrium right, while K remains unchanged because temperature is constant.",
+    "textbook_ref": { "section": "R2.3", "pdf_page": 531, "para": 1, "quote": "shift to counteract the change and return the system to equilibrium" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-009", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "2b(iii)" },
     "kps": ["R2.3.c"], "command_term": "Deduce", "max": 1, "earned": 1, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: heating shifts the equilibrium toward the blue CoCl4(2-) side, so heat acts as a reactant and the forward reaction is endothermic.",
+    "textbook_ref": { "section": "R2.3", "pdf_page": 534, "para": 1, "quote": "Temperature is the only factor that affects both the position of equilibrium" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-010", "date": "2026-07-13", "subject": "chem_sl",
@@ -95,25 +107,31 @@
     "kps": ["S1.5.b"], "command_term": "Calculate", "max": 1, "earned": 1, "verdict": "correct",
     "error_type": null,
     "analysis": "Awarded by ECF from 3b — method V = n x 22.7 dm3/mol is correct. Note the 'true' answer (with CaCO3 limiting) is 0.0316 x 22.7 = 0.717 dm3.",
-    "textbook_ref": null, "review": null, "uncertain": false
+    "textbook_ref": { "section": "S1.5", "pdf_page": 97, "para": 1, "quote": "at STP, the molar volume of an ideal gas" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-014", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "3d" },
     "kps": ["R2.2.b"], "command_term": "Sketch", "max": 1, "earned": 1, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: the higher-temperature curve starts at the origin, has a greater initial gradient, and reaches the same final gas volume because the reactant amount is unchanged.",
+    "textbook_ref": { "section": "R2.2", "pdf_page": 502, "para": 1, "quote": "volume of oxygen gas released ... as a function of time" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-015", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "4a(i)" },
     "kps": ["R2.2.b"], "command_term": "Explain", "max": 2, "earned": 2, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: both marking points were stated — the catalyst provides an alternative pathway and that pathway has lower activation energy.",
+    "textbook_ref": { "section": "R2.2", "pdf_page": 506, "para": 1, "quote": "a catalyst ... increases the rate ... but is not consumed" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-016", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "4a(ii)" },
     "kps": ["R3.2.b"], "command_term": "Deduce", "max": 2, "earned": 2, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: the oxidation half-equation balances S, O, H and charge, and combining it with four Fe3+ reduction half-equations gives the correct overall redox equation.",
+    "textbook_ref": { "section": "R3.2", "pdf_page": 598, "para": 1, "quote": "half-equations helps to show the transfer of electrons" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-017", "date": "2026-07-13", "subject": "chem_sl",
@@ -130,7 +148,7 @@
     "kps": ["S2.2.a"], "command_term": "Deduce", "max": 1, "earned": 1, "verdict": "correct",
     "error_type": null,
     "analysis": "Lewis structure of NO3- correct (one N=O, two N-O, charge shown). Minor: your valence-electron tally was written 3+1+18 (N contributes 5, not 3) though you reached 24 correctly — tidy that up so the count is defensible.",
-    "textbook_ref": null, "review": null, "uncertain": false
+    "textbook_ref": { "section": "S2.2", "pdf_page": 130, "para": 1, "quote": "Covalent bonds are formed when atoms share pairs of valence electrons" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-019", "date": "2026-07-13", "subject": "chem_sl",
@@ -145,18 +163,24 @@
     "id": "A-20260713-020", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "5a" },
     "kps": ["S1.4.b"], "command_term": "Determine", "max": 3, "earned": 3, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: the carbon and hydrogen amounts, oxygen by mass difference, and final simplest whole-number ratio all match the markscheme, giving C3H8O.",
+    "textbook_ref": { "section": "S1.4", "pdf_page": 80, "para": 1, "quote": "empirical formula shows the simplest ratio of atoms" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-021", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "5b(i)" },
     "kps": ["S1.5.b"], "command_term": "Calculate", "max": 2, "earned": 2, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: temperature and volume were converted to SI units before applying pV = nRT, producing 0.00180 mol.",
+    "textbook_ref": { "section": "S1.5", "pdf_page": 102, "para": 1, "quote": "the ideal gas equation ... pV=nRT" }, "review": null, "uncertain": false
   },
   {
     "id": "A-20260713-022", "date": "2026-07-13", "subject": "chem_sl",
     "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "5b(ii)" },
     "kps": ["S1.4.b"], "command_term": "Determine", "max": 1, "earned": 1, "verdict": "correct",
-    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+    "error_type": null,
+    "analysis": "Full marks: dividing 0.108 g by the amount from the previous part gives 60.0 g mol-1, matching the accepted markscheme range.",
+    "textbook_ref": { "section": "S1.4", "pdf_page": 78, "para": 1, "quote": "Molar mass ... is the mass of 1 mol" }, "review": null, "uncertain": false
   }
 ]
