@@ -28,6 +28,8 @@
     const resources = resourceResult.data || [], submissions = submissionResult.data || [];
     I.resources.splice(0, I.resources.length, ...resources);
     const subjects = `<option value="">—</option>${I.subjectOptions()}`;
+    const yearOptions = Array.from({ length: 12 }, (_, index) => new Date().getFullYear() + 1 - index)
+      .map(year => `<option value="${year}" ${year === 2025 ? "selected" : ""}>${year}</option>`).join("");
     const submissionOptions = submissions.map(s => {
       const label = s.title || s.note || `${new Date(s.submitted_at).toLocaleString()} · ${(s.submission_files[0] || {}).file_name || "submission"}`;
       return `<option value="${I.html(s.id)}">${I.html(label)}</option>`;
@@ -47,8 +49,11 @@
         <p>${tx("Enter the paper identity here. The actual PDF file names can be anything.", "在这里填写试卷身份；PDF 本身可以使用任意文件名。")}</p>
         <form id="guidedPaperForm">
           <label>${tx("Subject", "科目")}<select id="guidedPaperSubject" required>${subjects}</select></label>
-          <label>${tx("Paper key", "试卷编号")}<input id="guidedPaperKey" placeholder="2025_May_TZ1_P2" required></label>
-          <label>${tx("Display title", "显示名称")}<input id="guidedPaperTitle" placeholder="Chemistry 2025 May TZ1 Paper 2" required></label>
+          <label>${tx("Year", "年份")}<select id="guidedPaperYear">${yearOptions}</select></label>
+          <label>${tx("Session", "考季")}<select id="guidedPaperSession"><option value="May">May</option><option value="Nov">November</option></select></label>
+          <label>${tx("Timezone", "时区")}<select id="guidedPaperTimezone"><option value="TZ0">TZ0</option><option value="TZ1" selected>TZ1</option><option value="TZ2">TZ2</option><option value="TZ3">TZ3</option></select></label>
+          <label>${tx("Component", "试卷")}<select id="guidedPaperComponent"><option value="P1">Paper 1</option><option value="P1A">Paper 1A</option><option value="P1B">Paper 1B</option><option value="P2" selected>Paper 2</option><option value="P3">Paper 3</option></select></label>
+          <div class="note">${tx("Paper key", "试卷编号")}: <b id="guidedPaperKeyPreview">—</b><br>${tx("Display title", "显示名称")}: <span id="guidedPaperTitlePreview">—</span></div>
           <label>${tx("Question paper (optional)", "空白试卷（可选）")}<input id="guidedQuestionFile" type="file" accept=".pdf,image/*"></label>
           <label>${tx("Markscheme (optional)", "Markscheme（可选）")}<input id="guidedMarkschemeFile" type="file" accept=".pdf,image/*"></label>
           <label>${tx("Student submission to bind (optional)", "对应学生提交（可选）")}<select id="guidedSubmission"><option value="">—</option>${submissionOptions}</select></label>
@@ -101,14 +106,31 @@
     };
 
     const paperForm = document.getElementById("guidedPaperForm");
-    if (paperForm) paperForm.onsubmit = async event => {
+    if (paperForm) {
+      const paperIdentity = () => {
+        const subjectSelect = document.getElementById("guidedPaperSubject"), subject = subjectSelect.value;
+        const subjectName = subject ? subjectSelect.options[subjectSelect.selectedIndex].text : "—";
+        const year = document.getElementById("guidedPaperYear").value, session = document.getElementById("guidedPaperSession").value;
+        const timezone = document.getElementById("guidedPaperTimezone").value, component = document.getElementById("guidedPaperComponent").value;
+        return { subject, key: `${year}_${session}_${timezone}_${component}`, title: `${subjectName} ${year} ${session} ${timezone} ${component}` };
+      };
+      const updatePaperPreview = () => {
+        const identity = paperIdentity();
+        document.getElementById("guidedPaperKeyPreview").textContent = identity.key;
+        document.getElementById("guidedPaperTitlePreview").textContent = identity.title;
+      };
+      ["guidedPaperSubject", "guidedPaperYear", "guidedPaperSession", "guidedPaperTimezone", "guidedPaperComponent"].forEach(id => {
+        document.getElementById(id).onchange = updatePaperPreview;
+      });
+      updatePaperPreview();
+      paperForm.onsubmit = async event => {
       event.preventDefault();
       const button = event.target.querySelector("button"), status = document.getElementById("guidedPaperStatus");
       const qpFile = document.getElementById("guidedQuestionFile").files[0], msFile = document.getElementById("guidedMarkschemeFile").files[0];
       if (!qpFile && !msFile) { status.textContent = tx("Choose a question paper or markscheme.", "请至少选择空白试卷或 markscheme 之一。"); return; }
       button.disabled = true;
       try {
-        const subject = document.getElementById("guidedPaperSubject").value, key = document.getElementById("guidedPaperKey").value.trim(), title = document.getElementById("guidedPaperTitle").value.trim();
+        const { subject, key, title } = paperIdentity();
         const base = `${studentId}/resources/papers/${subject}/${I.safeName(key)}`, links = {};
         if (qpFile) links.question_file_path = await storeResource(qpFile, { title, kind: "question_paper", subject, resource_key: key, file_role: "question_paper" }, `${base}/question-paper.pdf`, p => { status.textContent = `Question paper: ${p}%`; });
         if (msFile) links.markscheme_file_path = await storeResource(msFile, { title: `${title} Markscheme`, kind: "markscheme", subject, resource_key: key, file_role: "markscheme" }, `${base}/markscheme.pdf`, p => { status.textContent = `Markscheme: ${p}%`; });
@@ -129,6 +151,7 @@
         status.textContent = tx("Paper uploaded and linked by metadata.", "试卷资料已按元数据上传并关联。");
       } catch (error) { status.textContent = error.message; }
       finally { button.disabled = false; }
-    };
+      };
+    }
   };
 })();
