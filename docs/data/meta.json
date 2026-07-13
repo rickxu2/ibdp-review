@@ -8,11 +8,11 @@
   ],
   "subjects": {
     "chem_sl":   { "name": "Chemistry",       "level": "SL", "target": null, "active": true },
-    "math_aa_hl":{ "name": "Mathematics AA",  "level": "HL", "target": null, "active": false },
-    "phys_hl":   { "name": "Physics",         "level": "HL", "target": null, "active": false },
-    "econ_sl":   { "name": "Economics",       "level": "SL", "target": null, "active": false },
-    "eng_b_hl":  { "name": "English B",       "level": "HL", "target": null, "active": false },
-    "chin_a_sl": { "name": "Chinese A",       "level": "SL", "target": null, "active": false }
+    "math_aa_hl":{ "name": "Mathematics AA",  "level": "HL", "target": null, "active": true },
+    "phys_hl":   { "name": "Physics",         "level": "HL", "target": null, "active": true },
+    "econ_sl":   { "name": "Economics",       "level": "SL", "target": null, "active": true },
+    "eng_b_hl":  { "name": "English B",       "level": "HL", "target": null, "active": true },
+    "chin_a_sl": { "name": "Chinese A: Language and Literature", "level": "SL", "target": null, "active": true }
   },
   "attempt_files": ["data/attempts/2026-07.json"],
   "mastery": {

@@ -1,0 +1,138 @@
+{
+  "subject": "phys_hl",
+  "syllabus": "Physics (first assessment 2025), HL scope",
+  "source": "https://www.ibo.org/programmes/diploma-programme/curriculum/sciences/physics/",
+  "note": "Student-facing KP framework paraphrased from the current IB course. All new KPs start covered=false until school coverage is confirmed.",
+  "topics": [
+    { "id": "A", "name": "Theme A: Space, time and motion", "subtopics": [
+      { "id": "A.1", "name": "Kinematics", "kps": [
+        { "id": "A.1.a", "name": "Position, displacement, velocity and acceleration", "covered": false },
+        { "id": "A.1.b", "name": "Motion graphs and constant-acceleration equations", "covered": false },
+        { "id": "A.1.c", "name": "Projectile and relative motion", "covered": false }
+      ]},
+      { "id": "A.2", "name": "Forces and momentum", "kps": [
+        { "id": "A.2.a", "name": "Free-body diagrams and Newton's laws", "covered": false },
+        { "id": "A.2.b", "name": "Impulse, momentum conservation and collisions", "covered": false },
+        { "id": "A.2.c", "name": "Circular motion and centripetal force", "covered": false }
+      ]},
+      { "id": "A.3", "name": "Work, energy and power", "kps": [
+        { "id": "A.3.a", "name": "Work, kinetic energy and the work-energy theorem", "covered": false },
+        { "id": "A.3.b", "name": "Potential energy and conservation of mechanical energy", "covered": false },
+        { "id": "A.3.c", "name": "Power and efficiency", "covered": false }
+      ]},
+      { "id": "A.4", "name": "Rigid body mechanics (HL)", "kps": [
+        { "id": "A.4.a", "name": "Torque, equilibrium and centre of mass", "covered": false },
+        { "id": "A.4.b", "name": "Angular motion and moment of inertia", "covered": false },
+        { "id": "A.4.c", "name": "Angular momentum and rotational energy", "covered": false }
+      ]},
+      { "id": "A.5", "name": "Relativity (HL)", "kps": [
+        { "id": "A.5.a", "name": "Galilean transformations and frames of reference", "covered": false },
+        { "id": "A.5.b", "name": "Lorentz factor, time dilation and length contraction", "covered": false },
+        { "id": "A.5.c", "name": "Relativistic energy and momentum", "covered": false }
+      ]}
+    ]},
+    { "id": "B", "name": "Theme B: The particulate nature of matter", "subtopics": [
+      { "id": "B.1", "name": "Thermal energy transfers", "kps": [
+        { "id": "B.1.a", "name": "Temperature, internal energy and thermal equilibrium", "covered": false },
+        { "id": "B.1.b", "name": "Specific heat capacity and phase changes", "covered": false },
+        { "id": "B.1.c", "name": "Conduction, convection and radiation", "covered": false }
+      ]},
+      { "id": "B.2", "name": "Greenhouse effect", "kps": [
+        { "id": "B.2.a", "name": "Black-body radiation and Wien/Stefan-Boltzmann laws", "covered": false },
+        { "id": "B.2.b", "name": "Energy balance, albedo and emissivity", "covered": false },
+        { "id": "B.2.c", "name": "Greenhouse gases and climate models", "covered": false }
+      ]},
+      { "id": "B.3", "name": "Gas laws", "kps": [
+        { "id": "B.3.a", "name": "Ideal gas law and kinetic model", "covered": false },
+        { "id": "B.3.b", "name": "Pressure, density and molecular speed", "covered": false },
+        { "id": "B.3.c", "name": "Model assumptions and real-gas limitations", "covered": false }
+      ]},
+      { "id": "B.4", "name": "Thermodynamics (HL)", "kps": [
+        { "id": "B.4.a", "name": "First law of thermodynamics and PV diagrams", "covered": false },
+        { "id": "B.4.b", "name": "Isothermal, isobaric, isochoric and adiabatic processes", "covered": false },
+        { "id": "B.4.c", "name": "Heat engines, entropy and the second law", "covered": false }
+      ]},
+      { "id": "B.5", "name": "Current and circuits", "kps": [
+        { "id": "B.5.a", "name": "Charge, current, potential difference and resistance", "covered": false },
+        { "id": "B.5.b", "name": "Series/parallel circuits and Kirchhoff's laws", "covered": false },
+        { "id": "B.5.c", "name": "EMF, internal resistance, power and potential dividers", "covered": false }
+      ]}
+    ]},
+    { "id": "C", "name": "Theme C: Wave behaviour", "subtopics": [
+      { "id": "C.1", "name": "Simple harmonic motion", "kps": [
+        { "id": "C.1.a", "name": "SHM conditions, displacement, velocity and acceleration", "covered": false },
+        { "id": "C.1.b", "name": "Energy exchange and phase relationships in SHM", "covered": false },
+        { "id": "C.1.c", "name": "Pendulum and spring-mass systems", "covered": false }
+      ]},
+      { "id": "C.2", "name": "Wave model", "kps": [
+        { "id": "C.2.a", "name": "Wave speed, frequency, wavelength and phase", "covered": false },
+        { "id": "C.2.b", "name": "Transverse/longitudinal waves and intensity", "covered": false },
+        { "id": "C.2.c", "name": "Electromagnetic spectrum and polarization", "covered": false }
+      ]},
+      { "id": "C.3", "name": "Wave phenomena", "kps": [
+        { "id": "C.3.a", "name": "Reflection, refraction and Snell's law", "covered": false },
+        { "id": "C.3.b", "name": "Superposition, interference and path difference", "covered": false },
+        { "id": "C.3.c", "name": "Single-slit diffraction and diffraction gratings", "covered": false }
+      ]},
+      { "id": "C.4", "name": "Standing waves and resonance", "kps": [
+        { "id": "C.4.a", "name": "Nodes, antinodes and standing-wave formation", "covered": false },
+        { "id": "C.4.b", "name": "Harmonics in strings and pipes", "covered": false },
+        { "id": "C.4.c", "name": "Resonance, damping and Q factor", "covered": false }
+      ]},
+      { "id": "C.5", "name": "Doppler effect", "kps": [
+        { "id": "C.5.a", "name": "Doppler effect for sound", "covered": false },
+        { "id": "C.5.b", "name": "Doppler effect for electromagnetic waves", "covered": false },
+        { "id": "C.5.c", "name": "Applications to astronomy and measurement", "covered": false }
+      ]}
+    ]},
+    { "id": "D", "name": "Theme D: Fields", "subtopics": [
+      { "id": "D.1", "name": "Gravitational fields", "kps": [
+        { "id": "D.1.a", "name": "Field strength, potential and inverse-square law", "covered": false },
+        { "id": "D.1.b", "name": "Orbital motion, energy and escape speed", "covered": false },
+        { "id": "D.1.c", "name": "Equipotentials and field diagrams", "covered": false }
+      ]},
+      { "id": "D.2", "name": "Electric and magnetic fields", "kps": [
+        { "id": "D.2.a", "name": "Electric field, potential and Coulomb's law", "covered": false },
+        { "id": "D.2.b", "name": "Capacitance, dielectrics and stored energy", "covered": false },
+        { "id": "D.2.c", "name": "Magnetic fields from currents and forces on charges", "covered": false }
+      ]},
+      { "id": "D.3", "name": "Motion in electromagnetic fields", "kps": [
+        { "id": "D.3.a", "name": "Charged-particle motion in uniform electric fields", "covered": false },
+        { "id": "D.3.b", "name": "Charged-particle motion in magnetic fields", "covered": false },
+        { "id": "D.3.c", "name": "Velocity selectors and mass spectrometers", "covered": false }
+      ]},
+      { "id": "D.4", "name": "Electromagnetic induction (HL)", "kps": [
+        { "id": "D.4.a", "name": "Magnetic flux and Faraday/Lenz laws", "covered": false },
+        { "id": "D.4.b", "name": "Generators, transformers and AC power", "covered": false },
+        { "id": "D.4.c", "name": "Inductance and energy in magnetic fields", "covered": false }
+      ]}
+    ]},
+    { "id": "E", "name": "Theme E: Nuclear and quantum physics", "subtopics": [
+      { "id": "E.1", "name": "Structure of the atom", "kps": [
+        { "id": "E.1.a", "name": "Atomic models, spectra and energy levels", "covered": false },
+        { "id": "E.1.b", "name": "Rutherford scattering and nuclear size", "covered": false },
+        { "id": "E.1.c", "name": "Mass defect and binding energy", "covered": false }
+      ]},
+      { "id": "E.2", "name": "Quantum physics", "kps": [
+        { "id": "E.2.a", "name": "Photons and the photoelectric effect", "covered": false },
+        { "id": "E.2.b", "name": "Matter waves and de Broglie wavelength", "covered": false },
+        { "id": "E.2.c", "name": "Wavefunction, uncertainty and tunnelling", "covered": false }
+      ]},
+      { "id": "E.3", "name": "Radioactive decay", "kps": [
+        { "id": "E.3.a", "name": "Alpha, beta and gamma decay; nuclear equations", "covered": false },
+        { "id": "E.3.b", "name": "Decay constant, half-life and activity", "covered": false },
+        { "id": "E.3.c", "name": "Random decay, detection and radiation safety", "covered": false }
+      ]},
+      { "id": "E.4", "name": "Fission", "kps": [
+        { "id": "E.4.a", "name": "Induced fission, chain reactions and critical mass", "covered": false },
+        { "id": "E.4.b", "name": "Nuclear reactor components and energy transfer", "covered": false },
+        { "id": "E.4.c", "name": "Fission risks, waste and sustainability", "covered": false }
+      ]},
+      { "id": "E.5", "name": "Fusion and stars", "kps": [
+        { "id": "E.5.a", "name": "Fusion reactions and conditions", "covered": false },
+        { "id": "E.5.b", "name": "Stellar evolution and nucleosynthesis", "covered": false },
+        { "id": "E.5.c", "name": "Luminosity, stellar spectra and Hertzsprung-Russell diagrams", "covered": false }
+      ]}
+    ]}
+  ]
+}

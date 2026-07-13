@@ -1,0 +1,86 @@
+{
+  "subject": "econ_sl",
+  "syllabus": "Economics (first assessment 2022), SL scope",
+  "source": "https://www.ibo.org/programmes/diploma-programme/curriculum/individuals-and-societies/economics/",
+  "note": "Student-facing KP framework paraphrased from the current IB course. All new KPs start covered=false until school coverage is confirmed.",
+  "topics": [
+    { "id": "EC1", "name": "Unit 1: Introduction to economics", "subtopics": [
+      { "id": "EC1.1", "name": "What is economics?", "kps": [
+        { "id": "EC1.1.a", "name": "Scarcity, choice and opportunity cost", "covered": false },
+        { "id": "EC1.1.b", "name": "Factors of production and production possibility curves", "covered": false },
+        { "id": "EC1.1.c", "name": "Positive/normative economics and economic systems", "covered": false }
+      ]},
+      { "id": "EC1.2", "name": "How economists approach the world", "kps": [
+        { "id": "EC1.2.a", "name": "Economic models, assumptions and ceteris paribus", "covered": false },
+        { "id": "EC1.2.b", "name": "Nine key concepts and real-world issues", "covered": false },
+        { "id": "EC1.2.c", "name": "Equity versus efficiency; intervention trade-offs", "covered": false }
+      ]}
+    ]},
+    { "id": "EC2", "name": "Unit 2: Microeconomics", "subtopics": [
+      { "id": "EC2.1", "name": "Demand, supply and equilibrium", "kps": [
+        { "id": "EC2.1.a", "name": "Demand law, curve shifts and determinants", "covered": false },
+        { "id": "EC2.1.b", "name": "Supply law, curve shifts and determinants", "covered": false },
+        { "id": "EC2.1.c", "name": "Market equilibrium, shortages, surpluses and price mechanism", "covered": false }
+      ]},
+      { "id": "EC2.2", "name": "Elasticities", "kps": [
+        { "id": "EC2.2.a", "name": "Price elasticity of demand and total revenue", "covered": false },
+        { "id": "EC2.2.b", "name": "Income and cross-price elasticity of demand", "covered": false },
+        { "id": "EC2.2.c", "name": "Price elasticity of supply and its determinants", "covered": false }
+      ]},
+      { "id": "EC2.3", "name": "Government intervention", "kps": [
+        { "id": "EC2.3.a", "name": "Indirect taxes and subsidies", "covered": false },
+        { "id": "EC2.3.b", "name": "Price ceilings and price floors", "covered": false },
+        { "id": "EC2.3.c", "name": "Evaluation of intervention: stakeholders, efficiency and equity", "covered": false }
+      ]},
+      { "id": "EC2.4", "name": "Market failure", "kps": [
+        { "id": "EC2.4.a", "name": "Externalities and welfare loss diagrams", "covered": false },
+        { "id": "EC2.4.b", "name": "Public goods, common-pool resources and asymmetric information", "covered": false },
+        { "id": "EC2.4.c", "name": "Policy responses to market failure", "covered": false }
+      ]}
+    ]},
+    { "id": "EC3", "name": "Unit 3: Macroeconomics", "subtopics": [
+      { "id": "EC3.1", "name": "Measuring economic activity", "kps": [
+        { "id": "EC3.1.a", "name": "GDP/GNI: nominal, real, total and per capita", "covered": false },
+        { "id": "EC3.1.b", "name": "Business cycle and output gaps", "covered": false },
+        { "id": "EC3.1.c", "name": "Limits of national income statistics and alternative well-being measures", "covered": false }
+      ]},
+      { "id": "EC3.2", "name": "Aggregate demand and aggregate supply", "kps": [
+        { "id": "EC3.2.a", "name": "Components and determinants of aggregate demand", "covered": false },
+        { "id": "EC3.2.b", "name": "Short-run and long-run aggregate supply", "covered": false },
+        { "id": "EC3.2.c", "name": "Keynesian and monetarist/new-classical perspectives", "covered": false }
+      ]},
+      { "id": "EC3.3", "name": "Macroeconomic objectives", "kps": [
+        { "id": "EC3.3.a", "name": "Economic growth and sustainable growth", "covered": false },
+        { "id": "EC3.3.b", "name": "Unemployment and inflation/deflation", "covered": false },
+        { "id": "EC3.3.c", "name": "Equity, poverty and income distribution", "covered": false }
+      ]},
+      { "id": "EC3.4", "name": "Macroeconomic management", "kps": [
+        { "id": "EC3.4.a", "name": "Monetary policy tools, transmission and evaluation", "covered": false },
+        { "id": "EC3.4.b", "name": "Fiscal policy, multiplier and public debt", "covered": false },
+        { "id": "EC3.4.c", "name": "Market-based and interventionist supply-side policies", "covered": false }
+      ]}
+    ]},
+    { "id": "EC4", "name": "Unit 4: The global economy", "subtopics": [
+      { "id": "EC4.1", "name": "International trade", "kps": [
+        { "id": "EC4.1.a", "name": "Absolute/comparative advantage and gains from trade", "covered": false },
+        { "id": "EC4.1.b", "name": "Tariffs, quotas and other protectionist measures", "covered": false },
+        { "id": "EC4.1.c", "name": "Arguments for and against free trade and protection", "covered": false }
+      ]},
+      { "id": "EC4.2", "name": "Exchange rates and balance of payments", "kps": [
+        { "id": "EC4.2.a", "name": "Floating, fixed and managed exchange-rate systems", "covered": false },
+        { "id": "EC4.2.b", "name": "Currency appreciation/depreciation and stakeholder effects", "covered": false },
+        { "id": "EC4.2.c", "name": "Balance of payments accounts and current-account imbalances", "covered": false }
+      ]},
+      { "id": "EC4.3", "name": "Economic integration", "kps": [
+        { "id": "EC4.3.a", "name": "Preferential agreements, free-trade areas and customs unions", "covered": false },
+        { "id": "EC4.3.b", "name": "Trade creation/diversion and regional integration", "covered": false },
+        { "id": "EC4.3.c", "name": "World Trade Organization roles and controversies", "covered": false }
+      ]},
+      { "id": "EC4.4", "name": "Development economics", "kps": [
+        { "id": "EC4.4.a", "name": "Economic development, multidimensional poverty and indicators", "covered": false },
+        { "id": "EC4.4.b", "name": "Barriers to growth and development", "covered": false },
+        { "id": "EC4.4.c", "name": "Development strategies, aid, trade and foreign investment", "covered": false }
+      ]}
+    ]}
+  ]
+}

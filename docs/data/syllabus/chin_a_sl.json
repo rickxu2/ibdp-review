@@ -1,0 +1,68 @@
+{
+  "subject": "chin_a_sl",
+  "syllabus": "Chinese A: Language and Literature (first assessment 2021), SL scope",
+  "source": "https://www.ibo.org/programmes/diploma-programme/curriculum/language-and-literature/language-a-language-and-literature/",
+  "note": "Language subjects use skill KPs. Literary and non-literary analysis are both included. All new KPs start covered=false until school coverage is confirmed.",
+  "topics": [
+    { "id": "CA1", "name": "Textual analysis", "subtopics": [
+      { "id": "CA1.1", "name": "Reading the text", "kps": [
+        { "id": "CA1.1.a", "name": "Identify text type, purpose, audience and context", "covered": false },
+        { "id": "CA1.1.b", "name": "Develop a precise, defensible interpretation", "covered": false },
+        { "id": "CA1.1.c", "name": "Select concise and relevant textual evidence", "covered": false }
+      ]},
+      { "id": "CA1.2", "name": "Writer's choices", "kps": [
+        { "id": "CA1.2.a", "name": "Analyze diction, syntax, imagery and rhetorical devices", "covered": false },
+        { "id": "CA1.2.b", "name": "Analyze structure, voice, perspective and tone", "covered": false },
+        { "id": "CA1.2.c", "name": "Explain how form and technique shape meaning and reader response", "covered": false }
+      ]}
+    ]},
+    { "id": "CA2", "name": "Paper 1: Guided textual analysis", "subtopics": [
+      { "id": "CA2.1", "name": "Unseen non-literary text", "kps": [
+        { "id": "CA2.1.a", "name": "Use the guiding question to establish an analytical focus", "covered": false },
+        { "id": "CA2.1.b", "name": "Analyze visual, verbal and multimodal features together", "covered": false },
+        { "id": "CA2.1.c", "name": "Evaluate audience positioning, ideology and representation", "covered": false }
+      ]},
+      { "id": "CA2.2", "name": "Analytical essay craft", "kps": [
+        { "id": "CA2.2.a", "name": "Organize a coherent line of inquiry", "covered": false },
+        { "id": "CA2.2.b", "name": "Integrate evidence and analysis within paragraphs", "covered": false },
+        { "id": "CA2.2.c", "name": "Write accurately and precisely in formal Chinese", "covered": false }
+      ]}
+    ]},
+    { "id": "CA3", "name": "Paper 2: Comparative essay", "subtopics": [
+      { "id": "CA3.1", "name": "Knowledge and comparison", "kps": [
+        { "id": "CA3.1.a", "name": "Demonstrate detailed knowledge of two studied literary works", "covered": false },
+        { "id": "CA3.1.b", "name": "Build sustained similarities and differences around the question", "covered": false },
+        { "id": "CA3.1.c", "name": "Use work-specific evidence without retelling plot", "covered": false }
+      ]},
+      { "id": "CA3.2", "name": "Comparative argument", "kps": [
+        { "id": "CA3.2.a", "name": "Formulate a comparative thesis that answers the prompt", "covered": false },
+        { "id": "CA3.2.b", "name": "Compare authorial choices, not only content", "covered": false },
+        { "id": "CA3.2.c", "name": "Maintain balanced treatment and coherent progression", "covered": false }
+      ]}
+    ]},
+    { "id": "CA4", "name": "Individual oral", "subtopics": [
+      { "id": "CA4.1", "name": "Global issue and extracts", "kps": [
+        { "id": "CA4.1.a", "name": "Define a focused and significant global issue", "covered": false },
+        { "id": "CA4.1.b", "name": "Analyze a literary extract and its wider work", "covered": false },
+        { "id": "CA4.1.c", "name": "Analyze a non-literary extract and its wider body of work", "covered": false }
+      ]},
+      { "id": "CA4.2", "name": "Oral delivery and discussion", "kps": [
+        { "id": "CA4.2.a", "name": "Balance both extracts within a clear ten-minute structure", "covered": false },
+        { "id": "CA4.2.b", "name": "Use precise analytical language and fluent delivery", "covered": false },
+        { "id": "CA4.2.c", "name": "Respond thoughtfully and specifically to follow-up questions", "covered": false }
+      ]}
+    ]},
+    { "id": "CA5", "name": "Course concepts and contexts", "subtopics": [
+      { "id": "CA5.1", "name": "Areas of exploration", "kps": [
+        { "id": "CA5.1.a", "name": "Readers, writers and texts", "covered": false },
+        { "id": "CA5.1.b", "name": "Time and space", "covered": false },
+        { "id": "CA5.1.c", "name": "Intertextuality: connecting texts", "covered": false }
+      ]},
+      { "id": "CA5.2", "name": "Central concepts", "kps": [
+        { "id": "CA5.2.a", "name": "Identity, culture and representation", "covered": false },
+        { "id": "CA5.2.b", "name": "Communication, perspective and transformation", "covered": false },
+        { "id": "CA5.2.c", "name": "Creativity and the construction of meaning", "covered": false }
+      ]}
+    ]}
+  ]
+}

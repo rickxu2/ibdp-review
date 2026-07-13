@@ -1,0 +1,103 @@
+{
+  "subject": "math_aa_hl",
+  "syllabus": "Mathematics: Analysis and Approaches (first assessment 2021), HL scope for May 2027",
+  "source": "https://www.ibo.org/programmes/diploma-programme/curriculum/mathematics/",
+  "note": "Student-facing KP framework paraphrased from the current IB course. All new KPs start covered=false until school coverage is confirmed.",
+  "topics": [
+    {
+      "id": "M1", "name": "Topic 1: Number and algebra", "subtopics": [
+        { "id": "M1.1", "name": "Number systems and sequences", "kps": [
+          { "id": "M1.1.a", "name": "Arithmetic and geometric sequences and series; sigma notation", "covered": false },
+          { "id": "M1.1.b", "name": "Financial applications: compound interest, depreciation and annuities", "covered": false },
+          { "id": "M1.1.c", "name": "Exponents, logarithms and laws of indices", "covered": false }
+        ]},
+        { "id": "M1.2", "name": "Proof and algebraic structure", "kps": [
+          { "id": "M1.2.a", "name": "Binomial theorem, combinations and Pascal's triangle", "covered": false },
+          { "id": "M1.2.b", "name": "Mathematical induction; direct and contradiction proofs", "covered": false },
+          { "id": "M1.2.c", "name": "Complex numbers in Cartesian, polar and exponential form", "covered": false }
+        ]},
+        { "id": "M1.3", "name": "Systems and approximation", "kps": [
+          { "id": "M1.3.a", "name": "Simultaneous linear equations and Gaussian elimination", "covered": false },
+          { "id": "M1.3.b", "name": "Solutions of polynomial equations; roots, factors and conjugates", "covered": false },
+          { "id": "M1.3.c", "name": "Error bounds, percentage error and approximation", "covered": false }
+        ]}
+      ]
+    },
+    {
+      "id": "M2", "name": "Topic 2: Functions", "subtopics": [
+        { "id": "M2.1", "name": "Function concepts and transformations", "kps": [
+          { "id": "M2.1.a", "name": "Domain, range, inverse and composite functions", "covered": false },
+          { "id": "M2.1.b", "name": "Graph transformations, symmetry and modulus", "covered": false },
+          { "id": "M2.1.c", "name": "Quadratic, polynomial and rational functions; asymptotes", "covered": false }
+        ]},
+        { "id": "M2.2", "name": "Exponential and logarithmic models", "kps": [
+          { "id": "M2.2.a", "name": "Exponential and logarithmic functions and equations", "covered": false },
+          { "id": "M2.2.b", "name": "Growth and decay models; parameter interpretation", "covered": false },
+          { "id": "M2.2.c", "name": "Solving equations graphically and numerically", "covered": false }
+        ]},
+        { "id": "M2.3", "name": "HL function analysis", "kps": [
+          { "id": "M2.3.a", "name": "Odd/even functions, self-inverse functions and restrictions", "covered": false },
+          { "id": "M2.3.b", "name": "Polynomial roots, factor relationships and graph behaviour", "covered": false },
+          { "id": "M2.3.c", "name": "Inequalities involving rational, exponential and logarithmic functions", "covered": false }
+        ]}
+      ]
+    },
+    {
+      "id": "M3", "name": "Topic 3: Geometry and trigonometry", "subtopics": [
+        { "id": "M3.1", "name": "Trigonometry", "kps": [
+          { "id": "M3.1.a", "name": "Radians, arc length, sector area and unit-circle definitions", "covered": false },
+          { "id": "M3.1.b", "name": "Trigonometric identities, equations and transformations", "covered": false },
+          { "id": "M3.1.c", "name": "Sine rule, cosine rule and area of a triangle", "covered": false }
+        ]},
+        { "id": "M3.2", "name": "Vectors and geometry", "kps": [
+          { "id": "M3.2.a", "name": "Vectors, scalar product, angles and geometric applications", "covered": false },
+          { "id": "M3.2.b", "name": "Vector equations of lines and planes in three dimensions", "covered": false },
+          { "id": "M3.2.c", "name": "Intersections, distances and angles between lines and planes", "covered": false }
+        ]},
+        { "id": "M3.3", "name": "HL trigonometric structure", "kps": [
+          { "id": "M3.3.a", "name": "Compound-angle, double-angle and half-angle identities", "covered": false },
+          { "id": "M3.3.b", "name": "Inverse trigonometric functions and principal values", "covered": false },
+          { "id": "M3.3.c", "name": "Complex numbers as rotations and roots of unity", "covered": false }
+        ]}
+      ]
+    },
+    {
+      "id": "M4", "name": "Topic 4: Statistics and probability", "subtopics": [
+        { "id": "M4.1", "name": "Data and statistical models", "kps": [
+          { "id": "M4.1.a", "name": "Sampling, bias, reliability and presentation of data", "covered": false },
+          { "id": "M4.1.b", "name": "Measures of central tendency, dispersion and outliers", "covered": false },
+          { "id": "M4.1.c", "name": "Correlation, regression and interpretation of technology output", "covered": false }
+        ]},
+        { "id": "M4.2", "name": "Probability", "kps": [
+          { "id": "M4.2.a", "name": "Set notation, sample spaces and conditional probability", "covered": false },
+          { "id": "M4.2.b", "name": "Independent events, Bayes' theorem and tree diagrams", "covered": false },
+          { "id": "M4.2.c", "name": "Discrete random variables and expected value", "covered": false }
+        ]},
+        { "id": "M4.3", "name": "Distributions and inference", "kps": [
+          { "id": "M4.3.a", "name": "Binomial and normal distributions; inverse probability", "covered": false },
+          { "id": "M4.3.b", "name": "Continuous random variables and probability density functions", "covered": false },
+          { "id": "M4.3.c", "name": "Hypothesis testing: chi-squared and t-tests; Type I and II errors", "covered": false }
+        ]}
+      ]
+    },
+    {
+      "id": "M5", "name": "Topic 5: Calculus", "subtopics": [
+        { "id": "M5.1", "name": "Differentiation", "kps": [
+          { "id": "M5.1.a", "name": "Limits, continuity and derivative from first principles", "covered": false },
+          { "id": "M5.1.b", "name": "Product, quotient and chain rules; implicit differentiation", "covered": false },
+          { "id": "M5.1.c", "name": "Tangents, normals, optimization and related rates", "covered": false }
+        ]},
+        { "id": "M5.2", "name": "Integration", "kps": [
+          { "id": "M5.2.a", "name": "Antiderivatives, definite integrals and area", "covered": false },
+          { "id": "M5.2.b", "name": "Substitution, integration by parts and partial fractions", "covered": false },
+          { "id": "M5.2.c", "name": "Volumes of revolution and improper integrals", "covered": false }
+        ]},
+        { "id": "M5.3", "name": "Differential equations and series", "kps": [
+          { "id": "M5.3.a", "name": "First-order separable differential equations and models", "covered": false },
+          { "id": "M5.3.b", "name": "Slope fields and Euler's method", "covered": false },
+          { "id": "M5.3.c", "name": "Maclaurin series, convergence and approximation", "covered": false }
+        ]}
+      ]
+    }
+  ]
+}

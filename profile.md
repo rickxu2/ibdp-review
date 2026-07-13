@@ -11,7 +11,7 @@
 ## 科目（已确认，2026-07-13）
 | Subject | Level | 目标分 | 备注 |
 |---|---|---|---|
-| Chinese A 【Literature / Lang&Lit?】 | SL | 【】 | 课程类型待确认 |
+| Chinese A: Language and Literature | SL | 【】 | 课程类型已确认 |
 | English B | HL | 【】 | |
 | Chemistry | SL | 【】 | 首个接入数据库的科目 |
 | Physics | HL | 【】 | |
@@ -19,7 +19,7 @@
 | Economics | SL | 【】 | |
 
 ## 进度说明
-- 部分内容课内未学：**Chemistry 的 organic chemistry**（S3.2 / R3.3 / R3.4，已在知识点树标 `covered: false`）。其他科目类似情况随学随更新。
+- 部分内容课内未学：**Chemistry 的 organic chemistry**（S3.2 / R3.3 / R3.4，已在知识点树标 `covered: false`）。其余五科 outline 已建立，所有新 KP 暂标 `covered: false`，随学校教学进度逐步确认。
 
 ## 弱项清单（由数据库自动统计后补充，也可手动记）
 - 【】

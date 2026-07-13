@@ -48,7 +48,7 @@ const L = {
     review_show_answer: "Reveal answer & markscheme", review_rate: "How did recall feel?",
     review_again: "Again", review_hard: "Hard", review_good: "Good", review_saved: "Progress saved on this device.",
     review_private_missing: "This review item contains protected question material. It is not available on the public site; the private student portal is required.",
-    review_device_note: "Current prototype saves review progress in this browser only. It does not sync to the supervisor yet."
+    review_device_note: "Signed-in students sync review progress to their private account. Without sign-in, progress stays in this browser only."
   },
   zh: {
     nav_home: "总览", nav_matrix: "知识点", nav_review: "复习", nav_files: "资料", nav_submit: "提交", nav_days: "每日记录",
@@ -94,7 +94,7 @@ const L = {
     review_show_answer: "展开答案与评分标准", review_rate: "这次回忆得怎么样？",
     review_again: "不会", review_hard: "吃力", review_good: "掌握", review_saved: "进度已保存在这台设备。",
     review_private_missing: "这道复习题含受版权保护的题目内容，公网版不提供；需要迁移到学生私密门户后才能在线复习。",
-    review_device_note: "当前原型只把复习进度保存在这个浏览器里，还不会同步给 supervisor。"
+    review_device_note: "学生登录后，复习进度会同步到私密账号；未登录时才只保存在当前浏览器。"
   }
 };
 let LANG = localStorage.getItem("ibdp-lang") || "en";
@@ -106,6 +106,8 @@ const $ = sel => document.querySelector(sel);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const fmtPct = x => (x == null || isNaN(x)) ? "–" : Math.round(x * 100) + "%";
 const todayStr = () => {
+  const override = new URLSearchParams(location.search).get("today");
+  if (["localhost", "127.0.0.1"].includes(location.hostname) && /^\d{4}-\d{2}-\d{2}$/.test(override || "")) return override;
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 };
@@ -174,20 +176,23 @@ async function recordReview(id, rating) {
   if (!a) return;
   const store = getSrsStore();
   const cur = reviewState(a);
+  const nextState = nextReviewState(cur, rating, todayStr());
+  if (window.Portal && await Portal.saveReview(id, nextState)) return;
+  store[id] = nextState;
+  saveSrsStore(store);
+}
+function nextReviewState(cur, rating, date) {
   let stage = cur.stage || 0;
   let wait = 1;
   if (rating === "again") { stage = 0; wait = 1; }
   else if (rating === "hard") { wait = Math.max(1, SRS_INTERVALS[Math.max(0, stage - 1)] || 1); }
   else { stage += 1; wait = SRS_INTERVALS[Math.min(stage - 1, SRS_INTERVALS.length - 1)]; }
-  const nextState = {
+  return {
     stage,
-    next: addDays(todayStr(), wait),
+    next: addDays(date, wait),
     done: stage >= SRS_INTERVALS.length,
-    history: [...(cur.history || []), { date: todayStr(), rating }]
+    history: [...(cur.history || []), { date, rating }]
   };
-  if (window.Portal && await Portal.saveReview(id, nextState)) return;
-  store[id] = nextState;
-  saveSrsStore(store);
 }
 
 async function j(url) {

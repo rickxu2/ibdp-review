@@ -1,0 +1,60 @@
+{
+  "subject": "eng_b_hl",
+  "syllabus": "English B (first assessment 2020), HL scope for May 2027",
+  "source": "https://www.ibo.org/programmes/diploma-programme/curriculum/language-acquisition/language-b/",
+  "note": "Language subjects use skill KPs plus thematic-context KPs. All new KPs start covered=false until school coverage is confirmed.",
+  "topics": [
+    { "id": "EB1", "name": "Receptive skills", "subtopics": [
+      { "id": "EB1.1", "name": "Reading", "kps": [
+        { "id": "EB1.1.a", "name": "Identify purpose, audience, register and text type", "covered": false },
+        { "id": "EB1.1.b", "name": "Infer meaning, attitude, tone and implied viewpoint", "covered": false },
+        { "id": "EB1.1.c", "name": "Select evidence and distinguish main ideas from detail", "covered": false }
+      ]},
+      { "id": "EB1.2", "name": "Listening", "kps": [
+        { "id": "EB1.2.a", "name": "Recognize gist, context and speaker relationship", "covered": false },
+        { "id": "EB1.2.b", "name": "Extract precise factual details and sequence", "covered": false },
+        { "id": "EB1.2.c", "name": "Infer intention, attitude and unstated meaning", "covered": false }
+      ]}
+    ]},
+    { "id": "EB2", "name": "Productive skills", "subtopics": [
+      { "id": "EB2.1", "name": "Paper 1 writing", "kps": [
+        { "id": "EB2.1.a", "name": "Fulfil task, purpose and required content", "covered": false },
+        { "id": "EB2.1.b", "name": "Choose and sustain appropriate text type, register and conventions", "covered": false },
+        { "id": "EB2.1.c", "name": "Organize ideas coherently with effective paragraphing and cohesion", "covered": false }
+      ]},
+      { "id": "EB2.2", "name": "Language control", "kps": [
+        { "id": "EB2.2.a", "name": "Grammar accuracy and varied sentence structures", "covered": false },
+        { "id": "EB2.2.b", "name": "Range, precision and idiomatic use of vocabulary", "covered": false },
+        { "id": "EB2.2.c", "name": "Spelling, punctuation and clarity of expression", "covered": false }
+      ]}
+    ]},
+    { "id": "EB3", "name": "Interactive and oral skills", "subtopics": [
+      { "id": "EB3.1", "name": "Individual oral", "kps": [
+        { "id": "EB3.1.a", "name": "Present a focused interpretation of the literary extract", "covered": false },
+        { "id": "EB3.1.b", "name": "Support ideas with relevant reference to the work", "covered": false },
+        { "id": "EB3.1.c", "name": "Respond spontaneously and extend answers in discussion", "covered": false }
+      ]},
+      { "id": "EB3.2", "name": "Fluency and interaction", "kps": [
+        { "id": "EB3.2.a", "name": "Pronunciation, intonation and comprehensibility", "covered": false },
+        { "id": "EB3.2.b", "name": "Fluency, pacing and repair strategies", "covered": false },
+        { "id": "EB3.2.c", "name": "Interactive listening, turn-taking and elaboration", "covered": false }
+      ]}
+    ]},
+    { "id": "EB4", "name": "HL literary study", "subtopics": [
+      { "id": "EB4.1", "name": "Literary interpretation", "kps": [
+        { "id": "EB4.1.a", "name": "Character, setting, conflict and theme", "covered": false },
+        { "id": "EB4.1.b", "name": "Narrative voice, structure and stylistic choices", "covered": false },
+        { "id": "EB4.1.c", "name": "Context, perspective and authorial purpose", "covered": false }
+      ]}
+    ]},
+    { "id": "EB5", "name": "Prescribed thematic contexts", "subtopics": [
+      { "id": "EB5.1", "name": "Themes", "kps": [
+        { "id": "EB5.1.a", "name": "Identities", "covered": false },
+        { "id": "EB5.1.b", "name": "Experiences", "covered": false },
+        { "id": "EB5.1.c", "name": "Human ingenuity", "covered": false },
+        { "id": "EB5.1.d", "name": "Social organization", "covered": false },
+        { "id": "EB5.1.e", "name": "Sharing the planet", "covered": false }
+      ]}
+    ]}
+  ]
+}
