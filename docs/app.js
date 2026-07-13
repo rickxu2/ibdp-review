@@ -40,6 +40,7 @@ const L = {
     lbl_question: "Question", lbl_your_answer: "Your answer", lbl_markscheme: "Markscheme", lbl_analysis: "Why / how to fix",
     content_local_only: "Question & markscheme are in the local version (run scripts/serve.ps1).",
     open_qp: "Question paper ↗", open_ms: "Markscheme ↗",
+    open_answer: "Submitted answer ↗", open_textbook: "Textbook ↗",
     mark_reviewed: "Mark reviewed", reviewed_on: d => `Reviewed ${d}`, review_gate: "Reveal the answer & markscheme first",
     quick_review_note: "Quick check only — use the Review page for scheduled spaced repetition.",
     edit_mark: "Edit grade", save_edit: "Copy correction", copied: "Copied — paste it to Claude to apply",
@@ -87,6 +88,7 @@ const L = {
     lbl_question: "题目", lbl_your_answer: "你的答案", lbl_markscheme: "评分标准 (markscheme)", lbl_analysis: "错因与订正",
     content_local_only: "题目与 markscheme 仅本地版可见（运行 scripts/serve.ps1）。",
     open_qp: "打开试卷 ↗", open_ms: "打开评分标准 ↗",
+    open_answer: "打开提交答案 ↗", open_textbook: "打开课本 ↗",
     mark_reviewed: "标记已复习", reviewed_on: d => `已复习 ${d}`, review_gate: "先展开看到答案与评分标准",
     quick_review_note: "这里只做快速自查；定时的间隔复习请进入“复习”页。",
     edit_mark: "编辑批改", save_edit: "复制订正", copied: "已复制——粘贴给 Claude 即可应用",
@@ -448,6 +450,10 @@ function tbRef(ref, subject) {
   const map = DB.tbmap[subject];
   const file = ref.file || (map && map.file);
   const label = `📖 ${esc(ref.section || "")} · PDF p.${ref.pdf_page}${ref.para ? " · ¶" + ref.para : ""}`;
+  const privatePath = window.Portal && Portal.active && Portal.resourcePath(subject, "textbook");
+  if (privatePath) {
+    return `<button class="tbref js-open-private" data-path="${esc(privatePath)}" data-page="${ref.pdf_page}">${label} ↗</button>`;
+  }
   if (IS_LOCAL && file) {
     return `<a class="tbref" target="_blank" href="/${encodeURI(file)}#page=${ref.pdf_page}">${label} ↗</a>`;
   }
@@ -648,11 +654,11 @@ function attemptPanel(a, idx) {
   const errored = a.verdict !== "correct";
   const reviewedOn = getReviewed(a.id);
   const kpn = (a.kps || []).map(k => idx[k] ? `${k} ${idx[k].name}` : k);
-  const links = c && c.qp_file
-    ? `<div class="src-links">
-         <a class="tbref" target="_blank" href="/${encodeURI(c.qp_file)}#page=${c.qp_page}">${t("open_qp")}</a>
-         <a class="tbref" target="_blank" href="/${encodeURI(c.ms_file)}#page=${c.ms_page}">${t("open_ms")}</a>
-       </div>` : "";
+  const privateLink = (path, label, page) => path ? `<button class="tbref js-open-private" data-path="${esc(path)}"${page ? ` data-page="${page}"` : ""}>${label}</button>` : "";
+  const localLink = (path, label, page) => path ? `<a class="tbref" target="_blank" href="/${encodeURI(path)}${page ? `#page=${page}` : ""}">${label}</a>` : "";
+  const links = c ? `<div class="src-links">${Portal.active
+      ? `${privateLink(c.qp_file, t("open_qp"), c.qp_page)}${privateLink(c.ms_file, t("open_ms"), c.ms_page)}${privateLink(c.answer_file, t("open_answer"), c.qp_page)}`
+      : `${localLink(c.qp_file, t("open_qp"), c.qp_page)}${localLink(c.ms_file, t("open_ms"), c.ms_page)}`}</div>` : "";
   const contentBlock = c
     ? `<div class="rv-field"><span class="rv-lbl">${t("lbl_question")}</span><div class="rv-val">${esc(c.q)}</div></div>
        <div class="rv-field"><span class="rv-lbl">${t("lbl_your_answer")}</span><div class="rv-val yours">${esc(c.ans)}</div></div>
@@ -716,6 +722,7 @@ function pageDay(date) {
 }
 
 function wireDayHandlers() {
+  if (window.Portal) Portal.wirePrivateOpen(LANG);
   document.querySelectorAll(".js-reveal").forEach(btn => btn.onclick = () => {
     const p = document.getElementById("rv-" + btn.dataset.id);
     const open = p.style.display !== "none";

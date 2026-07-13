@@ -56,6 +56,10 @@ foreach ($relative in $meta.attempt_files) {
         attempt_id = $a.id; student_id = $StudentId; question_text = $c.q
         answer_text = $c.ans; markscheme_text = $c.ms; paper_key = $paper
         qp_page = $c.qp_page; ms_page = $c.ms_page
+        question_file_path = $private.papers.$paper.qp_storage
+        markscheme_file_path = $private.papers.$paper.ms_storage
+        answer_file_path = $private.papers.$paper.answer_storage
+        textbook_file_path = $private.papers.$paper.textbook_storage
       }
     }
   }

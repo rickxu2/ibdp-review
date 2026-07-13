@@ -81,6 +81,8 @@ create table if not exists public.attempt_content (
   ms_page integer,
   question_file_path text,
   markscheme_file_path text,
+  answer_file_path text,
+  textbook_file_path text,
   updated_at timestamptz not null default now(),
   foreign key (attempt_id, student_id) references public.attempts(id, student_id) on delete cascade
 );
@@ -186,8 +188,11 @@ create policy "supervisor creates resources" on public.learning_resources for in
 create policy "supervisor deletes resources" on public.learning_resources for delete to authenticated using (public.is_supervisor_of(student_id));
 
 insert into storage.buckets (id, name, public, file_size_limit)
-values ('private-study-files', 'private-study-files', false, 52428800)
-on conflict (id) do update set public = false;
+values ('private-study-files', 'private-study-files', false, 524288000)
+on conflict (id) do update set public = false, file_size_limit = 524288000;
+
+alter table public.attempt_content add column if not exists answer_file_path text;
+alter table public.attempt_content add column if not exists textbook_file_path text;
 
 create policy "read accessible private study files" on storage.objects for select to authenticated
 using (bucket_id = 'private-study-files' and (
