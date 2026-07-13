@@ -13,6 +13,7 @@ const L = {
     records_label: "Total records", q_unit: "questions", weighted: "Weighted score",
     chart_title: "Knowledge points mastered over time",
     chart_note: (p, h, n) => `Mastered = marks-weighted accuracy ≥ ${p}% (with ${h}-day half-life decay) plus ≥ ${n} full-mark attempts. One correct answer is never enough.`,
+    chart_status: (mastered, practiced) => `Current: ${mastered} mastered · ${practiced} practiced`,
     mastered_unit: "mastered",
     subjects_title: "Subjects", score_rate: "score", view_matrix: "View topic matrix →",
     pending: list => `Not yet onboarded: ${list} (ask Claude to build the topic tree when needed)`,
@@ -28,7 +29,7 @@ const L = {
     tb_hint: "Open the local site (scripts/serve.ps1) or add a cloud_url to open the book online",
     open_cloud: "open in cloud",
     no_day: d => `No records on ${d}`, no_records: "No attempts recorded yet",
-    empty_chart: "Not enough data for a curve yet (needs two different days)",
+    empty_chart: "Mastery history will appear after the first attempt.",
     foot_local: "Local full version (textbook links active)", foot_online: "Online version",
     foot_records: "records", foot_last: "last attempt",
     loading: "Loading…",
@@ -59,6 +60,7 @@ const L = {
     records_label: "累计记录", q_unit: "题", weighted: "加权得分率",
     chart_title: "掌握知识点数走势",
     chart_note: (p, h, n) => `掌握 = 按分值加权正确率 ≥ ${p}%（含 ${h} 天半衰期时间衰减）且至少 ${n} 次拿满分。只对 1 次绝不会算掌握。`,
+    chart_status: (mastered, practiced) => `当前：${mastered} 个已掌握 · ${practiced} 个已练习`,
     mastered_unit: "个已掌握",
     subjects_title: "各科概况", score_rate: "得分率", view_matrix: "查看知识点矩阵 →",
     pending: list => `待接入：${list}（有需要时让 Claude 建对应知识点树）`,
@@ -74,7 +76,7 @@ const L = {
     tb_hint: "本地站可直达 PDF（scripts/serve.ps1）；或在 textbook_map 配 cloud_url 在线打开",
     open_cloud: "云端打开",
     no_day: d => `${d} 没有记录`, no_records: "还没有做题记录",
-    empty_chart: "数据还不够画曲线（至少两天记录）",
+    empty_chart: "第一次做题后会显示掌握度历史。",
     foot_local: "本地完整版（课本可跳转）", foot_online: "公网版",
     foot_records: "条记录", foot_last: "最近做题",
     loading: "加载数据中…",
@@ -164,9 +166,12 @@ const addDays = (date, n) => {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 };
 function reviewState(a) {
+  const saved = getSrsStore()[a.id];
+  // A supervisor's ratings are a private preview and must never be replaced
+  // by the linked student's cloud state after a page reload.
+  if (window.Portal && Portal.role === "supervisor" && saved) return saved;
   const cloud = window.Portal && Portal.reviewState(a.id);
   if (cloud) return cloud;
-  const saved = getSrsStore()[a.id];
   if (saved) return saved;
   if (a.review) return { stage: a.review.stage || 0, next: a.review.next || todayStr(), done: !!a.review.done, history: a.review.history || [] };
   return { stage: 0, next: todayStr(), done: false, history: [] };
@@ -180,6 +185,9 @@ async function recordReview(id, rating) {
   if (window.Portal && await Portal.saveReview(id, nextState)) return;
   store[id] = nextState;
   saveSrsStore(store);
+  // Supervisors use a device-local preview. Keep the loaded portal cache in
+  // sync too, otherwise its older cloud state wins and the same card repeats.
+  DB.reviewProgress[id] = nextState;
 }
 function nextReviewState(cur, rating, date) {
   let stage = cur.stage || 0;
@@ -293,7 +301,7 @@ function reviewQueue() {
 
 /* ───────── SVG line chart (single series, crosshair + tooltip) ───────── */
 function lineChart(container, pts, { yLabel = "", fmt = v => v } = {}) {
-  if (pts.length < 2) { container.innerHTML = `<div class="empty">${t("empty_chart")}</div>`; return; }
+  if (!pts.length) { container.innerHTML = `<div class="empty">${t("empty_chart")}</div>`; return; }
   const W = 720, H = 250, Lm = 44, R = 14, T = 14, B = 30;
   const xs = pts.map(p => +new Date(p.date + "T00:00"));
   const yMax = Math.max(4, Math.max(...pts.map(p => p.value)));
@@ -302,7 +310,7 @@ function lineChart(container, pts, { yLabel = "", fmt = v => v } = {}) {
   const yTicks = []; const step = Math.max(1, Math.ceil(yMax / 4));
   for (let v = 0; v <= yMax; v += step) yTicks.push(v);
   const xTickN = Math.min(6, pts.length);
-  const xTicks = Array.from({ length: xTickN }, (_, i) => xs[0] + (xs[xs.length - 1] - xs[0]) * i / (xTickN - 1));
+  const xTicks = xTickN === 1 ? [xs[0]] : Array.from({ length: xTickN }, (_, i) => xs[0] + (xs[xs.length - 1] - xs[0]) * i / (xTickN - 1));
   const path = pts.map((p, i) => `${i ? "L" : "M"}${X(xs[i]).toFixed(1)},${Y(p.value).toFixed(1)}`).join("");
   const fdate = ms => { const d = new Date(ms); return `${d.getMonth() + 1}/${d.getDate()}`; };
 
@@ -314,6 +322,7 @@ function lineChart(container, pts, { yLabel = "", fmt = v => v } = {}) {
       <line x1="${Lm}" x2="${W - R}" y1="${H - B}" y2="${H - B}" stroke="var(--axis)" stroke-width="1"/>
       ${xTicks.map(ms => `<text x="${X(ms)}" y="${H - B + 18}" text-anchor="middle" font-size="11" fill="var(--muted)">${fdate(ms)}</text>`).join("")}
       <path d="${path}" fill="none" stroke="var(--series-1)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      ${pts.map((p, i) => `<circle cx="${X(xs[i])}" cy="${Y(p.value)}" r="3" fill="var(--series-1)" stroke="var(--surface)" stroke-width="1.5"/>`).join("")}
       <line id="ch-x" y1="${T}" y2="${H - B}" stroke="var(--axis)" stroke-width="1" visibility="hidden"/>
       <circle id="ch-dot" r="4.5" fill="var(--series-1)" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>
       <rect id="ch-hit" x="${Lm}" y="${T}" width="${W - Lm - R}" height="${H - T - B}" fill="transparent"/>
@@ -349,7 +358,8 @@ function masteredSeries() {
   const span = dayDiff(todayStr(), first);
   const stepDays = span > 120 ? 7 : 1;
   const idx = Object.values(kpIndex()).filter(k => k.covered);
-  const out = [];
+  // A zero baseline makes growth visible even when all attempts are from one day.
+  const out = [{ date: addDays(first, -1), value: 0 }];
   for (let d = 0; ; d += stepDays) {
     const cur = new Date(first + "T00:00"); cur.setDate(cur.getDate() + d);
     const ds = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, "0")}-${String(cur.getDate()).padStart(2, "0")}`;
@@ -398,7 +408,10 @@ function pageHome() {
     return;
   }
 
+  const masteredNow = states.filter(x => x.m.state === "mastered").length;
+  const practicedNow = states.filter(x => !["unpracticed", "not_covered"].includes(x.m.state)).length;
   html += `<h2>${t("chart_title")}</h2><div class="card"><div id="chart1"></div>
+    <div class="chart-status">${t("chart_status")(masteredNow, practicedNow)}</div>
     <div class="note">${t("chart_note")(Math.round(m.mastery.master_min * 100), m.mastery.halflife_days, m.mastery.min_correct_attempts || m.mastery.min_attempts)}</div></div>`;
 
   html += `<h2>${t("subjects_title")}</h2>`;

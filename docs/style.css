@@ -223,6 +223,7 @@ h2:first-child { margin-top: 4px; }
   transform: translate(-50%, -110%); display: none; z-index: 5;
 }
 .tooltip b { font-variant-numeric: tabular-nums; }
+.chart-status { margin-top: 4px; font-size: 13px; font-weight: 700; color: var(--ink-2); }
 
 .note { color: var(--muted); font-size: 12.5px; margin-top: 8px; }
 table.plain { border-collapse: collapse; width: 100%; font-size: 14px; }
