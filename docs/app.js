@@ -5,13 +5,13 @@
 /* ───────── i18n ───────── */
 const L = {
   en: {
-    nav_home: "Overview", nav_matrix: "Topics", nav_review: "Review", nav_files: "Files", nav_submit: "Submit", nav_days: "Daily log",
+    nav_home: "Overview", nav_matrix: "Topics", nav_review: "Review", nav_files: "Resources", nav_submit: "Submit", nav_days: "Daily log",
     today: "Today",
     mock_label: "Mock exams (predicted grades)", final_label: "Final exams · May 2027",
     days: "days", approx: "approx.",
     review_label: "Reviews due", due_n: "due", overdue_n: n => `${n} overdue`, no_overdue: "none overdue",
     records_label: "Total records", q_unit: "questions", weighted: "Weighted score",
-    chart_title: "Mastery mix over time by subject",
+    chart_title: "Mastery mix over time",
     chart_note: (p, h, n) => `Mastered = marks-weighted accuracy ≥ ${p}% (with ${h}-day half-life decay) plus ≥ ${n} full-mark attempts. One correct answer is never enough. Review ratings never affect mastery; only marked exam and assignment attempts do.`,
     chart_status: (mastered, practiced) => `Current: ${mastered} mastered · ${practiced} practiced`,
     mastered_unit: "mastered",
@@ -52,7 +52,7 @@ const L = {
     review_device_note: "Signed-in students sync review progress to their private account. Without sign-in, progress stays in this browser only."
   },
   zh: {
-    nav_home: "总览", nav_matrix: "知识点", nav_review: "复习", nav_files: "资料", nav_submit: "提交", nav_days: "每日记录",
+    nav_home: "总览", nav_matrix: "知识点", nav_review: "复习", nav_files: "资料库", nav_submit: "提交", nav_days: "每日记录",
     today: "今日",
     mock_label: "距模考（定预估分）", final_label: "距 May 2027 大考",
     days: "天", approx: "约",
@@ -480,18 +480,15 @@ function pageHome() {
     return;
   }
 
-  html += `<h2>${t("chart_title")}</h2>
-    <div class="note mastery-note">${t("chart_note")(Math.round(m.mastery.master_min * 100), m.mastery.halflife_days, m.mastery.min_correct_attempts || m.mastery.min_attempts)}</div>
-    <div class="subject-chart-grid">`;
+  html += `<h2>${t("subjects_title")}</h2>`;
   for (const [id, s] of Object.entries(m.subjects)) {
     if (!s.active) continue;
     const sub = states.filter(x => x.kp.subject === id);
     const cnt = st => sub.filter(x => x.m.state === st).length;
     const rel = DB.attempts.filter(a => a.subject === id);
     const sm = rel.reduce((x, a) => x + a.max, 0), se = rel.reduce((x, a) => x + a.earned, 0);
-    html += `<div class="card subject-chart-card"><b>${esc(s.name)} ${s.level}</b>
+    html += `<div class="card"><b>${esc(s.name)} ${s.level}</b>
       <span class="kp-meta" style="margin-left:8px">${rel.length} ${t("q_unit")} · ${t("score_rate")} ${sm ? Math.round(se / sm * 100) + "%" : "–"}</span>
-      <div class="subject-chart" id="chart-${esc(id)}"></div>
       <div class="legend" style="margin:8px 0 0">
         ${stateChip("mastered")} ${cnt("mastered")}　${stateChip("ok")} ${cnt("ok")}　${stateChip("weak")} ${cnt("weak")}
         ${cnt("regressed") ? "　" + stateChip("regressed") + " " + cnt("regressed") : ""}
@@ -499,7 +496,6 @@ function pageHome() {
       </div>
       <div style="margin-top:8px"><a href="#/matrix/${id}">${t("view_matrix")}</a></div></div>`;
   }
-  html += `</div>`;
   const inactive = Object.values(m.subjects).filter(s => !s.active).map(s => `${s.name} ${s.level}`);
   if (inactive.length) html += `<div class="note">${t("pending")(esc(inactive.join(" · ")))}</div>`;
 
@@ -517,11 +513,6 @@ function pageHome() {
   }
 
   $("#app").innerHTML = html;
-  for (const [id, s] of Object.entries(m.subjects)) {
-    if (!s.active) continue;
-    const chart = document.getElementById(`chart-${id}`);
-    if (chart) masteryMixChart(chart, masteryMixSeries(id));
-  }
 }
 
 function pageReview() {
@@ -583,6 +574,8 @@ function pageMatrix(subj) {
   let html = `<h2>${t("matrix_title")}</h2><div class="subject-tabs">` +
     active.map(([id, s]) => `<a href="#/matrix/${id}" class="${id === subj ? "on" : ""}">${esc(s.name)} ${s.level}</a>`).join("") + `</div>`;
 
+  html += `<div class="card topic-mastery-chart"><div id="topic-chart"></div>
+    <div class="note">${t("chart_note")(Math.round(DB.meta.mastery.master_min * 100), DB.meta.mastery.halflife_days, DB.meta.mastery.min_correct_attempts || DB.meta.mastery.min_attempts)}</div></div>`;
   html += `<div class="legend">${["mastered", "ok", "weak", "regressed", "unpracticed", "not_covered"].map(stateChip).join(" ")}</div>`;
 
   for (const tp of syl.topics) {
@@ -611,6 +604,7 @@ function pageMatrix(subj) {
     html += `</div>`;
   }
   $("#app").innerHTML = html;
+  masteryMixChart(document.getElementById("topic-chart"), masteryMixSeries(subj));
 
   document.querySelectorAll(".kp-row").forEach(row => {
     row.onclick = () => {

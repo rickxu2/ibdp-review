@@ -174,7 +174,7 @@ window.Portal = (() => {
     if (!configured || !user) return renderLogin(lang);
     if (profile.role === "supervisor") return pageInbox(lang);
     document.getElementById("app").innerHTML = `<h2>${tx(lang, "Submit work", "提交作业")}</h2>
-      <div class="card portal-form"><p>${tx(lang, "Upload clear photos or a PDF. Your supervisor will receive them for marking.", "上传清晰照片或 PDF，supervisor 会收到并批改。")}</p><p class="note"><a href="#/connection">${tx(lang, "Test connection from China", "测试中国大陆连接")}</a></p>
+      <div class="card portal-form"><p>${tx(lang, "Upload newly completed work here for supervisor marking. Textbooks, question papers and markschemes are stored under Resources.", "在这里提交刚做完、等待 supervisor 批改的作业。课本、试卷和 markscheme 请到“资料库”查看。")}</p><p class="note"><a href="#/connection">${tx(lang, "Test connection from China", "测试中国大陆连接")}</a></p>
       <form id="submitWork"><label>${tx(lang, "Files", "文件")}<input id="workFiles" type="file" accept="image/*,.pdf" multiple required></label>
       <label>${tx(lang, "Note (optional)", "备注（可选）")}<textarea id="workNote" rows="3" placeholder="${tx(lang, "Subject, paper and question numbers", "科目、试卷和题号")}"></textarea></label>
       <button type="submit" class="portal-primary">${tx(lang, "Upload submission", "上传提交")}</button></form><div id="submitStatus" class="note"></div></div>`;
@@ -230,7 +230,7 @@ window.Portal = (() => {
       <label>${tx(lang, "Type", "类型")}<select id="resourceKind"><option value="question_paper">Question paper</option><option value="markscheme">Markscheme</option><option value="textbook">Textbook</option><option value="other">Other</option></select></label>
       <label>${tx(lang, "Subject", "科目")}<input id="resourceSubject"></label><label>${tx(lang, "File", "文件")}<input id="resourceFile" type="file" accept=".pdf,image/*" required></label>
       <button class="portal-primary" type="submit">${tx(lang, "Upload privately", "私密上传")}</button></form><div id="resourceStatus" class="note"></div></div>`;
-    document.getElementById("app").innerHTML = `<h2>${tx(lang, "Private resources", "私密资料库")}</h2>${upload}<div class="card resource-list">${resources.length ? resources.map(r => `<div class="portal-row"><div><b>${html(r.title)}</b><div class="note">${html(r.kind)}${r.subject ? " · " + html(r.subject) : ""}</div></div><button class="mini-btn js-open-private" data-path="${html(r.bucket_path)}">${tx(lang, "Open", "打开")}</button></div>`).join("") : `<div class="empty">${tx(lang, "No resources uploaded yet.", "还没有上传资料。")}</div>`}</div>`;
+    document.getElementById("app").innerHTML = `<h2>${tx(lang, "Private resources", "私密资料库")}</h2><div class="note">${tx(lang, "Your long-term study library: textbooks, question papers, markschemes and supervisor-provided materials. Submit completed work through Submit instead.", "这里是长期学习资料库：课本、试卷、markscheme 和 supervisor 提供的资料。做完待批改的作业请通过“提交”上传。")}</div>${upload}<div class="card resource-list">${resources.length ? resources.map(r => `<div class="portal-row"><div><b>${html(r.title)}</b><div class="note">${html(r.kind)}${r.subject ? " · " + html(r.subject) : ""}</div></div><button class="mini-btn js-open-private" data-path="${html(r.bucket_path)}">${tx(lang, "Open", "打开")}</button></div>`).join("") : `<div class="empty">${tx(lang, "No resources uploaded yet.", "还没有上传资料。")}</div>`}</div>`;
     wirePrivateOpen(lang);
     const form = document.getElementById("resourceForm");
     if (form) form.onsubmit = async e => {

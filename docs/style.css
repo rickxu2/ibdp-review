@@ -230,9 +230,7 @@ h2:first-child { margin-top: 4px; }
 .mix-tip { transform: translate(-50%, 0); }
 .chart-status { margin-top: 4px; font-size: 13px; font-weight: 700; color: var(--ink-2); }
 .mastery-note { margin: -4px 0 12px; }
-.subject-chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.subject-chart-card { min-width: 0; }
-.subject-chart { margin-top: 12px; }
+.topic-mastery-chart { margin-bottom: 18px; }
 
 .note { color: var(--muted); font-size: 12.5px; margin-top: 8px; }
 table.plain { border-collapse: collapse; width: 100%; font-size: 14px; }
@@ -241,7 +239,6 @@ table.plain th { color: var(--ink-2); font-weight: 600; font-size: 12.5px; }
 table.plain td.num { font-variant-numeric: tabular-nums; }
 
 @media (max-width: 640px) {
-  .subject-chart-grid { grid-template-columns: 1fr; }
   .topbar { gap: 8px; padding: 10px 12px; }
   .topbar nav a { padding: 4px 8px; }
 }
