@@ -36,7 +36,7 @@
     }).join("");
 
     const upload = profile.role === "supervisor" ? `
-      <div class="card portal-form"><h3>${tx("1. Upload textbook set", "1. 上传课本分章")}</h3>
+      <details class="card portal-form upload-panel"><summary><b>${tx("Upload textbook set", "上传课本分章")}</b></summary>
         <p>${tx("Choose a subject and select every PDF plus manifest.json from one split folder. The manifest supplies the original page ranges.", "选择科目，然后一次选中某个分章文件夹内的全部 PDF 和 manifest.json；原书页码范围由 manifest 自动提供。")}</p>
         <form id="guidedTextbookForm">
           <label>${tx("Subject", "科目")}<select id="guidedTextbookSubject" required>${subjects}</select></label>
@@ -44,8 +44,8 @@
           <label>${tx("Folder files", "文件夹内容")}<input id="guidedTextbookFiles" type="file" accept=".pdf,.json" multiple required></label>
           <button class="portal-primary" type="submit">${tx("Upload textbook set", "上传整套分章")}</button>
         </form><div id="guidedTextbookStatus" class="note"></div>
-      </div>
-      <div class="card portal-form"><h3>${tx("2. Upload and link a paper", "2. 上传并关联试卷")}</h3>
+      </details>
+      <details class="card portal-form upload-panel"><summary><b>${tx("Upload and link a paper", "上传并关联试卷")}</b></summary>
         <p>${tx("Enter the paper identity here. The actual PDF file names can be anything.", "在这里填写试卷身份；PDF 本身可以使用任意文件名。")}</p>
         <form id="guidedPaperForm">
           <label>${tx("Subject", "科目")}<select id="guidedPaperSubject" required>${subjects}</select></label>
@@ -60,10 +60,53 @@
           <label>${tx("Student submission to bind (optional)", "对应学生提交（可选）")}<select id="guidedSubmission"><option value="">—</option>${submissionOptions}</select></label>
           <button class="portal-primary" type="submit">${tx("Upload and link", "上传并关联")}</button>
         </form><div id="guidedPaperStatus" class="note"></div>
-      </div>` : "";
+      </details>` : "";
 
-    const list = resources.length ? resources.map(r => `<div class="portal-row"><div><b>${I.html(r.title)}</b><div class="note">${I.html(r.kind)}${r.subject ? " · " + I.html(r.subject) : ""}${r.resource_key ? " · " + I.html(r.resource_key) : ""}${r.page_start ? ` · pp. ${r.page_start}–${r.page_end}` : ""}</div></div><button class="mini-btn js-open-private" data-path="${I.html(r.bucket_path)}">${tx("Open", "打开")}</button></div>`).join("") : `<div class="empty">${tx("No resources uploaded yet.", "还没有上传资料。")}</div>`;
-    document.getElementById("app").innerHTML = `<h2>${tx("Private resources", "私密资料库")}</h2><div class="note">${tx("Resources are linked by metadata, never by their file names.", "资料通过科目、试卷编号和提交记录关联，不再依赖文件名。")}</div>${upload}<div class="card resource-list">${list}</div>`;
+    const openButton = (path, label) => `<button class="mini-btn js-open-private" data-path="${I.html(path)}">${I.html(label)}</button>`;
+    const subjectName = id => (I.db.meta.subjects[id] || {}).name || id || tx("Other", "其他");
+    const subjectIds = [...new Set([
+      ...resources.map(r => r.subject || ""),
+      ...submissions.map(s => s.subject || "")
+    ])].sort((a, b) => subjectName(a).localeCompare(subjectName(b)));
+    const renderSubject = subject => {
+      const subjectResources = resources.filter(r => (r.subject || "") === subject);
+      const subjectSubmissions = submissions.filter(s => (s.subject || "") === subject);
+      const textbookGroups = new Map();
+      for (const r of subjectResources.filter(r => r.kind === "textbook")) {
+        const key = r.resource_key || `textbook:${subject}`;
+        if (!textbookGroups.has(key)) textbookGroups.set(key, []);
+        textbookGroups.get(key).push(r);
+      }
+      const textbooks = [...textbookGroups.entries()].map(([key, parts]) => {
+        parts.sort((a, b) => Number(a.page_start || 0) - Number(b.page_start || 0));
+        const starts = parts.map(p => Number(p.page_start)).filter(Boolean), ends = parts.map(p => Number(p.page_end)).filter(Boolean);
+        const pageSummary = starts.length ? ` · pp. ${Math.min(...starts)}–${Math.max(...ends)}` : "";
+        const baseTitle = String(parts[0].title || tx("Textbook", "课本")).replace(/\s+pp\.\s*\d+[–-]\d+$/i, "");
+        return `<details class="resource-group"><summary><b>${I.html(baseTitle)}</b><span>${parts.length} ${tx("sections", "个章节")}${pageSummary}</span></summary><div class="resource-group-body">${parts.map(part => `<div class="portal-row"><div><b>${I.html(part.title)}</b><div class="note">${part.page_start ? `pp. ${part.page_start}–${part.page_end}` : I.html(part.file_name)}</div></div>${openButton(part.bucket_path, tx("Open section", "打开章节"))}</div>`).join("")}</div></details>`;
+      }).join("");
+
+      const paperResources = subjectResources.filter(r => r.kind !== "textbook" && r.resource_key);
+      const paperKeys = [...new Set([...paperResources.map(r => r.resource_key), ...subjectSubmissions.map(s => s.resource_key).filter(Boolean)])].sort().reverse();
+      const papers = paperKeys.map(key => {
+        const files = paperResources.filter(r => r.resource_key === key), matched = subjectSubmissions.filter(s => s.resource_key === key);
+        const first = files.find(r => r.file_role === "question_booklet" || r.file_role === "question_paper") || files.find(r => r.kind !== "markscheme") || files[0];
+        const title = first ? String(first.title).replace(/\s+(Question booklet|Markscheme|Text\/source booklet(?:\s+\d+)?)$/i, "") : key;
+        const resourceRows = files.map((r, index) => {
+          const role = r.kind === "markscheme" ? "Markscheme" : r.file_role === "source_booklet" ? `${tx("Text/source booklet", "文本/材料册")}${files.filter(x => x.file_role === "source_booklet").length > 1 ? ` ${index + 1}` : ""}` : tx("Question booklet", "题册");
+          return `<div class="portal-row"><div><b>${I.html(role)}</b><div class="note">${I.html(r.file_name)}</div></div>${openButton(r.bucket_path, tx("Open", "打开"))}</div>`;
+        }).join("");
+        const answerRows = matched.flatMap(s => (s.submission_files || []).map(f => `<div class="portal-row submission-resource"><div><b>${tx("Student answer", "学生答卷")}</b><div class="note">${I.html(s.title || new Date(s.submitted_at).toLocaleString())} · ${I.html(f.file_name)}</div></div>${openButton(f.bucket_path, tx("Open answer", "打开答卷"))}</div>`)).join("");
+        return `<details class="resource-group paper-group"><summary><b>${I.html(title)}</b><span>${I.html(key)} · ${files.length} ${tx("resources", "份资料")} · ${matched.length} ${tx("submissions", "份提交")}</span></summary><div class="resource-group-body">${resourceRows}${answerRows || `<div class="note resource-missing">${tx("No student answer matched yet.", "尚未匹配学生答卷。")}</div>`}</div></details>`;
+      }).join("");
+
+      const unmatchedResources = subjectResources.filter(r => r.kind !== "textbook" && !r.resource_key);
+      const unmatchedSubmissions = subjectSubmissions.filter(s => !s.resource_key);
+      const unmatched = [...unmatchedResources.map(r => `<div class="portal-row"><div><b>${I.html(r.title)}</b><div class="note">${I.html(r.kind)} · ${I.html(r.file_name)}</div></div>${openButton(r.bucket_path, tx("Open", "打开"))}</div>`),
+        ...unmatchedSubmissions.flatMap(s => (s.submission_files || []).map(f => `<div class="portal-row"><div><b>${tx("Unmatched student submission", "未匹配的学生提交")}</b><div class="note">${I.html(s.title || s.note || "")} · ${I.html(f.file_name)}</div></div>${openButton(f.bucket_path, tx("Open", "打开"))}</div>`))].join("");
+      return `<section class="card resource-subject"><h3>${I.html(subjectName(subject))}</h3>${textbooks ? `<div class="resource-category"><h4>${tx("Textbooks", "课本")}</h4>${textbooks}</div>` : ""}${papers ? `<div class="resource-category"><h4>${tx("Papers and submissions", "试卷与学生提交")}</h4>${papers}</div>` : ""}${unmatched ? `<details class="resource-group unmatched-group"><summary><b>${tx("Unmatched resources", "未匹配资料")}</b><span>${unmatchedResources.length + unmatchedSubmissions.length}</span></summary><div class="resource-group-body">${unmatched}</div></details>` : ""}</section>`;
+    };
+    const list = subjectIds.length ? `<div class="resource-groups">${subjectIds.map(renderSubject).join("")}</div>` : `<div class="empty">${tx("No resources uploaded yet.", "还没有上传资料。")}</div>`;
+    document.getElementById("app").innerHTML = `<h2>${tx("Private resources", "私密资料库")}</h2><div class="note">${tx("Resources are grouped by subject, textbook and paper. Files are linked by metadata, never by their names.", "资料按科目、课本和试卷分组；关联依靠元数据，不依赖文件名。")}</div>${list}${upload}`;
     P.wirePrivateOpen(lang);
 
     const storeResource = async (file, meta, objectPath, progress) => {

@@ -207,6 +207,20 @@ h2:first-child { margin-top: 4px; }
 .portal-row { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 11px 2px; border-top: 1px solid var(--grid); flex-wrap: wrap; }
 .portal-row:first-child { border-top: 0; }
 .resource-list { margin-top: 12px; }
+.resource-groups { display: grid; gap: 16px; margin-top: 14px; }
+.resource-subject > h3 { margin: 0 0 12px; font-size: 20px; }
+.resource-category + .resource-category { margin-top: 18px; }
+.resource-category h4 { margin: 0 0 8px; color: var(--ink-2); font-size: 13px; text-transform: uppercase; letter-spacing: .05em; }
+.resource-group { border: 1px solid var(--border); border-radius: 10px; margin-top: 8px; overflow: hidden; }
+.resource-group summary { cursor: pointer; padding: 12px 14px; display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; background: var(--page); }
+.resource-group summary span { color: var(--ink-2); font-size: 12px; }
+.resource-group-body { padding: 0 12px 8px; }
+.submission-resource { background: color-mix(in srgb, var(--series-1) 7%, transparent); }
+.resource-missing { padding: 12px 2px 4px; }
+.unmatched-group { margin-top: 18px; opacity: .85; }
+.upload-panel { margin-top: 12px; }
+.upload-panel > summary { cursor: pointer; font-size: 15px; }
+.upload-panel[open] > summary { margin-bottom: 10px; }
 .connection-result { margin-top: 14px; line-height: 1.8; }
 .test-pass { color: var(--good-text); }
 .test-warn { color: #9a6b00; }
