@@ -15,6 +15,16 @@ alter table public.learning_resources
   add column if not exists page_start integer,
   add column if not exists page_end integer;
 
+-- One-time adoption of textbook parts uploaded by the previous importer.
+-- Future uploads receive these values directly from manifest.json.
+update public.learning_resources
+set resource_key = coalesce(resource_key, 'textbook:' || subject),
+    file_role = coalesce(file_role, 'textbook_part'),
+    page_start = coalesce(page_start, ((regexp_match(file_name, '_p([0-9]+)-([0-9]+)\.pdf$', 'i'))[1])::integer),
+    page_end = coalesce(page_end, ((regexp_match(file_name, '_p([0-9]+)-([0-9]+)\.pdf$', 'i'))[2])::integer)
+where kind = 'textbook'
+  and file_name ~* '_p[0-9]+-[0-9]+\.pdf$';
+
 create index if not exists resources_student_key_idx
   on public.learning_resources(student_id, resource_key);
 
