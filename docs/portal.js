@@ -270,11 +270,23 @@ window.Portal = (() => {
 
   function wirePrivateOpen(lang) {
     document.querySelectorAll(".js-open-private").forEach(btn => btn.onclick = async () => {
+      // Open synchronously so the browser does not block the tab after the
+      // asynchronous signed-URL request finishes.
+      const popup = window.open("about:blank", "_blank");
       btn.disabled = true;
       const { data, error } = await client.storage.from(C.bucket).createSignedUrl(btn.dataset.path, 300);
       btn.disabled = false;
-      if (error) { alert(error.message); return; }
-      window.open(data.signedUrl, "_blank", "noopener");
+      if (error) {
+        if (popup) popup.close();
+        alert(error.message);
+        return;
+      }
+      if (popup) {
+        popup.opener = null;
+        popup.location.replace(data.signedUrl);
+      } else {
+        location.href = data.signedUrl;
+      }
     });
   }
 
