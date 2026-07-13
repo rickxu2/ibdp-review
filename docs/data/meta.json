@@ -1,5 +1,6 @@
 {
   "student": "Rick",
+  "time_zone": "Asia/Shanghai",
   "exam_session": "May 2027",
   "exams_start": "2027-04-30",
   "exams_start_estimate": true,

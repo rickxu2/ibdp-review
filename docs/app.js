@@ -109,11 +109,18 @@ const errTxt = e => e ? (t("err_" + e) !== "err_" + e ? t("err_" + e) : e) : "";
 const $ = sel => document.querySelector(sel);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const fmtPct = x => (x == null || isNaN(x)) ? "–" : Math.round(x * 100) + "%";
+let STUDENT_TIME_ZONE = "Asia/Shanghai";
+const dateInTimeZone = (date, timeZone) => {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone, year: "numeric", month: "2-digit", day: "2-digit"
+  }).formatToParts(date);
+  const value = type => parts.find(p => p.type === type).value;
+  return `${value("year")}-${value("month")}-${value("day")}`;
+};
 const todayStr = () => {
   const override = new URLSearchParams(location.search).get("today");
   if (["localhost", "127.0.0.1"].includes(location.hostname) && /^\d{4}-\d{2}-\d{2}$/.test(override || "")) return override;
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  return dateInTimeZone(new Date(), STUDENT_TIME_ZONE);
 };
 const dayDiff = (a, b) => Math.round((new Date(a + "T00:00") - new Date(b + "T00:00")) / 864e5);
 const IS_LOCAL = ["localhost", "127.0.0.1"].includes(location.hostname);
@@ -213,6 +220,7 @@ async function j(url) {
 
 async function loadAll() {
   DB.meta = await j("data/meta.json");
+  STUDENT_TIME_ZONE = DB.meta.time_zone || STUDENT_TIME_ZONE;
   const active = Object.entries(DB.meta.subjects).filter(([, s]) => s.active).map(([id]) => id);
   await Promise.all([
     ...active.map(async id => { DB.syllabus[id] = await j(`data/syllabus/${id}.json`); }),
