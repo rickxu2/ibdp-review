@@ -1,1 +1,162 @@
-[]
+[
+  {
+    "id": "A-20260713-001", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "1a" },
+    "kps": ["S1.1.a"], "command_term": "Describe", "max": 2, "earned": 2, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-002", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "1b" },
+    "kps": ["S2.2.c"], "command_term": "Outline", "max": 1, "earned": 0, "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "The MS wanted the data-booklet NUMBERS: electronegativity difference ΔΧ = 0.8 AND average Χ = 2.2. Just saying 'there is a difference in electronegativity' scores nothing. When a question says 'Use sections 9 and 17 of the data booklet', it is telling you the mark depends on quoting those values. The average Χ ≈ 2.2 is what places FeS in the polar-covalent region, and ΔΧ = 0.8 shows the bond is polar.",
+    "textbook_ref": { "section": "S2.2", "pdf_page": 131, "para": 2, "quote": "electronegativity difference ... character covalent bonding" },
+    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": false
+  },
+  {
+    "id": "A-20260713-003", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "1c(i)" },
+    "kps": ["R3.2.d"], "command_term": "Annotate", "max": 2, "earned": 1, "verdict": "partial",
+    "error_type": "misread",
+    "analysis": "Anode (left) and cathode (right) were labelled correctly = 1 mark, but the question also asked to 'show the direction of ion movement' and that was left off. In electrolysis of molten FeS the anion S2- migrates to the anode (left) and the cation Fe2+ to the cathode (right). The 4 markable items were: left=anode, right=cathode, S2-→left, Fe2+→right; you showed 2 of 4.",
+    "textbook_ref": { "section": "R3.2", "pdf_page": 615, "para": 1, "quote": "Electrolytic cells ... an electrochemical cell" },
+    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": false
+  },
+  {
+    "id": "A-20260713-004", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "1c(ii)" },
+    "kps": ["R3.2.b"], "command_term": "Write", "max": 2, "earned": 2, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-005", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "1c(iii)" },
+    "kps": ["S2.1.b"], "command_term": "Contrast", "max": 1, "earned": 0, "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "'Iron is solid, iron(II) sulfide is aqueous' is factually wrong — both are solids, and 'state' is not a distinguishing physical property here. You needed a real physical-property contrast of a metal (Fe) vs an ionic solid (FeS): e.g. Fe conducts electricity / is malleable / is magnetic / denser / higher melting point, AND FeS is not. Do NOT use chemical properties or molar mass.",
+    "textbook_ref": { "section": "S2.1", "pdf_page": 108, "para": 1, "quote": "crystalline and brittle ... characteristic of ionic compounds" },
+    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": false
+  },
+  {
+    "id": "A-20260713-006", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "2a" },
+    "kps": ["S1.3.c"], "command_term": "Deduce", "max": 1, "earned": 1, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-007", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "2b(i)" },
+    "kps": ["R2.3.b"], "command_term": "State", "max": 1, "earned": 1, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-008", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "2b(ii)" },
+    "kps": ["R2.3.c"], "command_term": "Predict", "max": 1, "earned": 1, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-009", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "2b(iii)" },
+    "kps": ["R2.3.c"], "command_term": "Deduce", "max": 1, "earned": 1, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-010", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "2b(iv)" },
+    "kps": ["R1.1.a"], "command_term": "Sketch", "max": 3, "earned": 2, "verdict": "partial",
+    "error_type": "misread",
+    "analysis": "The question listed FOUR things to label: reactants, products, Ea, and ΔH. You drew and labelled Ea and ΔH but did not label the reactants and products levels — that is M1 lost. Ea from reactants level to the peak was fine. Because the forward reaction is endothermic (your 2b(iii)), the products MUST sit above the reactants; confirm your sketch showed that. Lesson: label every item the question names.",
+    "textbook_ref": { "section": "R1.1", "pdf_page": 403, "para": 2, "quote": "the activation energy (Ea), and the enthalpy change for the reaction" },
+    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": true
+  },
+  {
+    "id": "A-20260713-011", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "3a" },
+    "kps": ["R2.1.a"], "command_term": "Write", "max": 2, "earned": 1, "verdict": "partial",
+    "error_type": "misread",
+    "analysis": "Balancing was correct (CaCO3 + 2HCl -> CaCl2 + CO2 + H2O) = 1 mark. But the question said 'including state symbols' and the MS bundled state symbols into the first mark: CaCO3(s) + 2HCl(aq) -> CaCl2(aq) + CO2(g) + H2O(l). No state symbols = M1 lost. Normally IB ignores state symbols, but when the question explicitly asks for them they are worth a mark — always add (s)/(l)/(g)/(aq) when told to.",
+    "textbook_ref": { "section": "R2.1", "pdf_page": 474, "para": 1, "quote": "State symbols commonly used ... solid s liquid l gas g aqueous aq" },
+    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": false
+  },
+  {
+    "id": "A-20260713-012", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "3b" },
+    "kps": ["R2.1.c"], "command_term": "Deduce", "max": 2, "earned": 1, "verdict": "partial",
+    "error_type": "concept",
+    "analysis": "You concluded 'HCl is limiting' but the correct answer is CaCO3. n(CaCO3)=3.162/100.09=0.0316 mol; n(HCl)=0.0200x4.00=0.0800 mol. Ratio is CaCO3:HCl = 1:2, so 0.0316 mol CaCO3 needs 0.0632 mol HCl and only 0.0632 of the 0.0800 mol HCl is used -> HCl is in EXCESS, CaCO3 limiting. The comparison must divide each amount by its coefficient (HCl/2), then the SMALLER is limiting. Also double-check your n(CaCO3) value — a slip to 0.046 would flip the comparison. Method/mole values earned M1.",
+    "textbook_ref": { "section": "R2.1", "pdf_page": 476, "para": 1, "quote": "the limiting reactant allows us to determine the extent of reaction" },
+    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": true
+  },
+  {
+    "id": "A-20260713-013", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "3c" },
+    "kps": ["S1.5.b"], "command_term": "Calculate", "max": 1, "earned": 1, "verdict": "correct",
+    "error_type": null,
+    "analysis": "Awarded by ECF from 3b — method V = n x 22.7 dm3/mol is correct. Note the 'true' answer (with CaCO3 limiting) is 0.0316 x 22.7 = 0.717 dm3.",
+    "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-014", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "3d" },
+    "kps": ["R2.2.b"], "command_term": "Sketch", "max": 1, "earned": 1, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-015", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "4a(i)" },
+    "kps": ["R2.2.b"], "command_term": "Explain", "max": 2, "earned": 2, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-016", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "4a(ii)" },
+    "kps": ["R3.2.b"], "command_term": "Deduce", "max": 2, "earned": 2, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-017", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "4b(i)" },
+    "kps": ["S2.1.a", "S2.2.a"], "command_term": "Describe", "max": 2, "earned": 0, "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Left blank. Both definitions hinge on the phrase 'electrostatic attraction'. Ionic bonding = electrostatic attraction between oppositely charged ions (cations AND anions). Covalent bonding = electrostatic attraction between a shared pair of electrons and the (two) positively charged nuclei. Do NOT describe ionic bonding as 'transfer of electrons' — that loses the mark. This is pure recall; worth memorising the two one-liners.",
+    "textbook_ref": { "section": "S2.1", "pdf_page": 108, "para": 2, "quote": "electrostatic attractions between positively charged species and negatively charged species" },
+    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": false
+  },
+  {
+    "id": "A-20260713-018", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "4b(ii)" },
+    "kps": ["S2.2.a"], "command_term": "Deduce", "max": 1, "earned": 1, "verdict": "correct",
+    "error_type": null,
+    "analysis": "Lewis structure of NO3- correct (one N=O, two N-O, charge shown). Minor: your valence-electron tally was written 3+1+18 (N contributes 5, not 3) though you reached 24 correctly — tidy that up so the count is defensible.",
+    "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-019", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "4b(iii)" },
+    "kps": ["S2.2.b"], "command_term": "State", "max": 1, "earned": 0, "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "You wrote 'trigonal pyramidal'; the answer is trigonal planar. NO3- has 3 bonding domains on N and NO lone pair on N, so VSEPR gives trigonal planar (120 degrees). Trigonal pyramidal (like NH3) needs 3 bonds PLUS a lone pair on the central atom. Count domains on the central atom first: your own correct Lewis structure in 4b(ii) had no lone pair on N, so it must be planar.",
+    "textbook_ref": { "section": "S2.2", "pdf_page": 191, "para": 1, "quote": "3 trigonal planar 0 trigonal planar ... 1 bent" },
+    "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] }, "uncertain": false
+  },
+  {
+    "id": "A-20260713-020", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "5a" },
+    "kps": ["S1.4.b"], "command_term": "Determine", "max": 3, "earned": 3, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-021", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "5b(i)" },
+    "kps": ["S1.5.b"], "command_term": "Calculate", "max": 2, "earned": 2, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260713-022", "date": "2026-07-13", "subject": "chem_sl",
+    "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "5b(ii)" },
+    "kps": ["S1.4.b"], "command_term": "Determine", "max": 1, "earned": 1, "verdict": "correct",
+    "error_type": null, "analysis": null, "textbook_ref": null, "review": null, "uncertain": false
+  }
+]

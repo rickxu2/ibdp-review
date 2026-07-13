@@ -28,5 +28,14 @@
     "R3.3": { "pdf_start": 633, "pdf_end": 639 },
     "R3.4": { "pdf_start": 640, "pdf_end": 662 }
   },
-  "kp_overrides": {}
+  "kp_overrides": {
+    "S2.2.c": { "pdf_page": 131, "para": 2 },
+    "R3.2.d": { "pdf_page": 615, "para": 1 },
+    "S2.1.b": { "pdf_page": 108, "para": 1 },
+    "R1.1.a": { "pdf_page": 403, "para": 2 },
+    "R2.1.a": { "pdf_page": 474, "para": 1 },
+    "R2.1.c": { "pdf_page": 476, "para": 1 },
+    "S2.1.a": { "pdf_page": 108, "para": 2 },
+    "S2.2.b": { "pdf_page": 191, "para": 1 }
+  }
 }
