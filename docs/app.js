@@ -11,7 +11,7 @@ const L = {
     days: "days", approx: "approx.",
     review_label: "Reviews due", due_n: "due", overdue_n: n => `${n} overdue`, no_overdue: "none overdue",
     records_label: "Total records", q_unit: "questions", weighted: "Weighted score",
-    chart_title: "Mastery mix over time",
+    chart_title: "Mastery mix over time by subject",
     chart_note: (p, h, n) => `Mastered = marks-weighted accuracy ≥ ${p}% (with ${h}-day half-life decay) plus ≥ ${n} full-mark attempts. One correct answer is never enough. Review ratings never affect mastery; only marked exam and assignment attempts do.`,
     chart_status: (mastered, practiced) => `Current: ${mastered} mastered · ${practiced} practiced`,
     mastered_unit: "mastered",
@@ -58,7 +58,7 @@ const L = {
     days: "天", approx: "约",
     review_label: "错题复习", due_n: "道到期", overdue_n: n => `其中逾期 ${n} 道`, no_overdue: "无逾期",
     records_label: "累计记录", q_unit: "题", weighted: "加权得分率",
-    chart_title: "掌握度构成走势",
+    chart_title: "各科掌握度构成走势",
     chart_note: (p, h, n) => `掌握 = 按分值加权正确率 ≥ ${p}%（含 ${h} 天半衰期时间衰减）且至少 ${n} 次拿满分。只对 1 次绝不会算掌握。复习评分不影响掌握度；只有正式批改入库的考卷和作业答题记录才计入。`,
     chart_status: (mastered, practiced) => `当前：${mastered} 个已掌握 · ${practiced} 个已练习`,
     mastered_unit: "个已掌握",
@@ -352,12 +352,13 @@ function lineChart(container, pts, { yLabel = "", fmt = v => v } = {}) {
 }
 
 /* mastered-count series: replay by day (weekly sampling beyond 120 days) */
-function masteredSeries() {
-  if (!DB.attempts.length) return [];
-  const first = DB.attempts.reduce((m, a) => a.date < m ? a.date : m, todayStr());
+function masteredSeries(subject) {
+  const attempts = subject ? DB.attempts.filter(a => a.subject === subject) : DB.attempts;
+  if (!attempts.length) return [{ date: addDays(todayStr(), -1), value: 0 }, { date: todayStr(), value: 0 }];
+  const first = attempts.reduce((m, a) => a.date < m ? a.date : m, todayStr());
   const span = dayDiff(todayStr(), first);
   const stepDays = span > 120 ? 7 : 1;
-  const idx = Object.values(kpIndex()).filter(k => k.covered);
+  const idx = Object.values(kpIndex()).filter(k => k.covered && (!subject || k.subject === subject));
   // A zero baseline makes growth visible even when all attempts are from one day.
   const out = [{ date: addDays(first, -1), value: 0 }];
   for (let d = 0; ; d += stepDays) {
@@ -380,9 +381,9 @@ const MASTERY_MIX = [
   { key: "not_covered", color: "var(--axis)" }
 ];
 
-function masteryMixSeries() {
-  const kps = Object.values(kpIndex());
-  return masteredSeries().map(p => {
+function masteryMixSeries(subject) {
+  const kps = Object.values(kpIndex()).filter(kp => !subject || kp.subject === subject);
+  return masteredSeries(subject).map(p => {
     const counts = { mastered: 0, ok: 0, weak: 0, unpracticed: 0, not_covered: 0 };
     for (const kp of kps) {
       const state = masteryOf(kp.id, kp.covered, p.date).state;
@@ -479,21 +480,18 @@ function pageHome() {
     return;
   }
 
-  const masteredNow = states.filter(x => x.m.state === "mastered").length;
-  const practicedNow = states.filter(x => !["unpracticed", "not_covered"].includes(x.m.state)).length;
-  html += `<h2>${t("chart_title")}</h2><div class="card"><div id="chart1"></div>
-    <div class="chart-status">${t("chart_status")(masteredNow, practicedNow)}</div>
-    <div class="note">${t("chart_note")(Math.round(m.mastery.master_min * 100), m.mastery.halflife_days, m.mastery.min_correct_attempts || m.mastery.min_attempts)}</div></div>`;
-
-  html += `<h2>${t("subjects_title")}</h2>`;
+  html += `<h2>${t("chart_title")}</h2>
+    <div class="note mastery-note">${t("chart_note")(Math.round(m.mastery.master_min * 100), m.mastery.halflife_days, m.mastery.min_correct_attempts || m.mastery.min_attempts)}</div>
+    <div class="subject-chart-grid">`;
   for (const [id, s] of Object.entries(m.subjects)) {
     if (!s.active) continue;
     const sub = states.filter(x => x.kp.subject === id);
     const cnt = st => sub.filter(x => x.m.state === st).length;
     const rel = DB.attempts.filter(a => a.subject === id);
     const sm = rel.reduce((x, a) => x + a.max, 0), se = rel.reduce((x, a) => x + a.earned, 0);
-    html += `<div class="card"><b>${esc(s.name)} ${s.level}</b>
+    html += `<div class="card subject-chart-card"><b>${esc(s.name)} ${s.level}</b>
       <span class="kp-meta" style="margin-left:8px">${rel.length} ${t("q_unit")} · ${t("score_rate")} ${sm ? Math.round(se / sm * 100) + "%" : "–"}</span>
+      <div class="subject-chart" id="chart-${esc(id)}"></div>
       <div class="legend" style="margin:8px 0 0">
         ${stateChip("mastered")} ${cnt("mastered")}　${stateChip("ok")} ${cnt("ok")}　${stateChip("weak")} ${cnt("weak")}
         ${cnt("regressed") ? "　" + stateChip("regressed") + " " + cnt("regressed") : ""}
@@ -501,6 +499,7 @@ function pageHome() {
       </div>
       <div style="margin-top:8px"><a href="#/matrix/${id}">${t("view_matrix")}</a></div></div>`;
   }
+  html += `</div>`;
   const inactive = Object.values(m.subjects).filter(s => !s.active).map(s => `${s.name} ${s.level}`);
   if (inactive.length) html += `<div class="note">${t("pending")(esc(inactive.join(" · ")))}</div>`;
 
@@ -518,8 +517,11 @@ function pageHome() {
   }
 
   $("#app").innerHTML = html;
-  const c1 = $("#chart1");
-  if (c1) masteryMixChart(c1, masteryMixSeries());
+  for (const [id, s] of Object.entries(m.subjects)) {
+    if (!s.active) continue;
+    const chart = document.getElementById(`chart-${id}`);
+    if (chart) masteryMixChart(chart, masteryMixSeries(id));
+  }
 }
 
 function pageReview() {
