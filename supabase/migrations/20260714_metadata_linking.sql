@@ -36,4 +36,18 @@ create policy "supervisor updates resources" on public.learning_resources
   using (public.is_supervisor_of(student_id))
   with check (public.is_supervisor_of(student_id) and uploaded_by = (select auth.uid()));
 
+drop policy if exists "supervisor updates resource files" on storage.objects;
+create policy "supervisor updates resource files" on storage.objects
+  for update to authenticated
+  using (
+    bucket_id = 'private-study-files'
+    and (storage.foldername(name))[2] = 'resources'
+    and public.is_supervisor_of(((storage.foldername(name))[1])::uuid)
+  )
+  with check (
+    bucket_id = 'private-study-files'
+    and (storage.foldername(name))[2] = 'resources'
+    and public.is_supervisor_of(((storage.foldername(name))[1])::uuid)
+  );
+
 notify pgrst, 'reload schema';

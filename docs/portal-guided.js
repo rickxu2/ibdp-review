@@ -61,14 +61,15 @@
     P.wirePrivateOpen(lang);
 
     const storeResource = async (file, meta, objectPath, progress) => {
-      await I.resumableUpload(file, objectPath, progress);
       const { data: existing, error: findError } = await client.from("learning_resources").select("id").eq("bucket_path", objectPath).limit(1);
       if (findError) throw findError;
       const row = { student_id: studentId, bucket_path: objectPath, file_name: file.name, mime_type: file.type || "application/pdf", size_bytes: file.size, uploaded_by: user.id, ...meta };
       if (existing && existing.length) {
         const { error } = await client.from("learning_resources").update(row).eq("id", existing[0].id);
         if (error) throw error;
+        progress(100);
       } else {
+        await I.resumableUpload(file, objectPath, progress);
         const { error } = await client.from("learning_resources").insert(row);
         if (error) throw error;
       }

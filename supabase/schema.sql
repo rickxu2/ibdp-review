@@ -224,6 +224,9 @@ create policy "student removes connection tests" on storage.objects for delete t
 using (bucket_id = 'private-study-files' and (storage.foldername(name))[1] = (select auth.uid())::text and (storage.foldername(name))[2] = 'connectivity');
 create policy "supervisor uploads resources" on storage.objects for insert to authenticated
 with check (bucket_id = 'private-study-files' and (storage.foldername(name))[2] = 'resources' and public.is_supervisor_of(((storage.foldername(name))[1])::uuid));
+create policy "supervisor updates resource files" on storage.objects for update to authenticated
+using (bucket_id = 'private-study-files' and (storage.foldername(name))[2] = 'resources' and public.is_supervisor_of(((storage.foldername(name))[1])::uuid))
+with check (bucket_id = 'private-study-files' and (storage.foldername(name))[2] = 'resources' and public.is_supervisor_of(((storage.foldername(name))[1])::uuid));
 create policy "supervisor deletes accessible files" on storage.objects for delete to authenticated
 using (bucket_id = 'private-study-files' and public.is_supervisor_of(((storage.foldername(name))[1])::uuid));
 
