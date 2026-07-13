@@ -72,10 +72,7 @@ window.Portal = (() => {
       <form id="loginForm"><label>${tx(lang, "Email", "邮箱")}<input id="loginEmail" type="email" required autocomplete="email"></label>
       <label>${tx(lang, "Password", "密码")}<input id="loginPassword" type="password" required autocomplete="current-password"></label>
       <button type="submit" class="portal-primary">${tx(lang, "Sign in", "登录")}</button></form>
-      <details class="magic-link"><summary>${tx(lang, "First sign-in or forgot password?", "首次登录或忘记密码？")}</summary>
-        <p class="note">${tx(lang, "Email links are for account setup and recovery only; the built-in mail service is rate-limited.", "邮件链接只用于开户和找回密码；内置邮件服务有严格限流。")}</p>
-        <button type="button" id="magicLinkBtn" class="mini-btn">${tx(lang, "Send one-time email link", "发送一次性邮件链接")}</button>
-      </details>
+      <p class="note">${tx(lang, "Accounts are created by the supervisor. There is no public sign-up or email-link login.", "账号由 supervisor 创建，不开放公开注册或邮件链接登录。")}</p>
       <div id="loginStatus" class="note"></div></div>`;
     document.getElementById("loginForm").onsubmit = async e => {
       e.preventDefault();
@@ -86,14 +83,6 @@ window.Portal = (() => {
       const { error } = await client.auth.signInWithPassword({ email, password });
       if (error) status.textContent = error.message;
       else location.reload();
-    };
-    document.getElementById("magicLinkBtn").onclick = async () => {
-      const status = document.getElementById("loginStatus");
-      const email = document.getElementById("loginEmail").value.trim();
-      if (!email) { status.textContent = tx(lang, "Enter your email first.", "请先填写邮箱。"); return; }
-      status.textContent = tx(lang, "Sending…", "正在发送…");
-      const { error } = await client.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + location.pathname, shouldCreateUser: false } });
-      status.textContent = error ? error.message : tx(lang, "Check your email for the one-time link.", "一次性链接已发送，请检查邮箱。");
     };
   }
 

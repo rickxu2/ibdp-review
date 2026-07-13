@@ -9,7 +9,7 @@ The portal keeps IB questions, markschemes, textbooks, student submissions, and 
    - Automatically expose new tables: **off**
    - Enable automatic RLS: **on**
 2. In the SQL editor, run `supabase/schema.sql` once.
-3. In Authentication settings, enable email/password sign-in. Magic links are kept only for initial setup and recovery.
+3. In Authentication settings, enable email/password sign-in and disable **Allow new users to sign up**. Accounts are provisioned only by the supervisor from Authentication > Users; the portal never sends magic links.
 4. Add the final GitHub Pages URL and `http://localhost:8788/docs/` to the allowed redirect URLs.
 
 ## 2. Connect the website
@@ -20,7 +20,7 @@ Never put a Supabase secret key or service-role key in `docs/`, Git, a browser, 
 
 ## 3. Create and link the two users
 
-1. The supervisor and student each sign in to the portal once. This creates their profile rows.
+1. In Authentication > Users, create each account with an email and temporary password, and mark the email confirmed. Creating the Auth user also creates its profile row automatically.
 2. In Supabase Authentication > Users, copy both UUIDs.
 3. In the SQL editor, run:
 
