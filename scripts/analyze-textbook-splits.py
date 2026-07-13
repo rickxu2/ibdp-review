@@ -100,6 +100,20 @@ def split_book(subject: str, config: dict) -> dict:
         })
 
     split_bytes = sum(item["bytes"] for item in results)
+    manifest = {
+        "version": 1,
+        "subject": {"chemistry": "chem_sl", "physics": "phys_hl", "economics": "econ_sl"}[subject],
+        "title": {"chemistry": "Chemistry Course Book", "physics": "Physics Course Companion", "economics": "Economics Course Companion"}[subject],
+        "files": [
+            {
+                "file": Path(item["file"]).name,
+                "page_start": item["start_page"],
+                "page_end": item["end_page"],
+            }
+            for item in results
+        ],
+    }
+    (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     return {
         "subject": subject,
         "source": str(src.relative_to(ROOT)),

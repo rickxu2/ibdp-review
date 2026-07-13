@@ -102,6 +102,9 @@ create index if not exists review_student_next_idx on public.review_progress(stu
 create table if not exists public.submissions (
   id uuid primary key default gen_random_uuid(),
   student_id uuid not null references public.profiles(id) on delete cascade,
+  subject text,
+  resource_key text,
+  title text,
   note text,
   status text not null default 'submitted' check (status in ('submitted', 'marking', 'marked', 'archived')),
   submitted_at timestamptz not null default now(),
@@ -127,6 +130,10 @@ create table if not exists public.learning_resources (
   title text not null,
   kind text not null check (kind in ('question_paper', 'markscheme', 'textbook', 'other')),
   subject text,
+  resource_key text,
+  file_role text,
+  page_start integer,
+  page_end integer,
   bucket_path text not null unique,
   file_name text not null,
   mime_type text,
@@ -135,6 +142,7 @@ create table if not exists public.learning_resources (
   created_at timestamptz not null default now()
 );
 create index if not exists resources_student_kind_idx on public.learning_resources(student_id, kind, created_at desc);
+create index if not exists resources_student_key_idx on public.learning_resources(student_id, resource_key);
 
 alter table public.profiles enable row level security;
 alter table public.supervisor_students enable row level security;
@@ -154,7 +162,7 @@ grant select, insert, update on public.attempt_content to authenticated;
 grant select, insert, update, delete on public.review_progress to authenticated;
 grant select, insert, update on public.submissions to authenticated;
 grant select, insert on public.submission_files to authenticated;
-grant select, insert, delete on public.learning_resources to authenticated;
+grant select, insert, update, delete on public.learning_resources to authenticated;
 
 create policy "read own profile or linked profiles" on public.profiles for select to authenticated
 using (id = (select auth.uid()) or public.is_supervisor_of(id) or exists (
@@ -185,6 +193,7 @@ create policy "student creates submission metadata" on public.submission_files f
 create policy "read accessible submission metadata" on public.submission_files for select to authenticated using (public.can_access_student(student_id));
 create policy "read accessible resources" on public.learning_resources for select to authenticated using (public.can_access_student(student_id));
 create policy "supervisor creates resources" on public.learning_resources for insert to authenticated with check (public.is_supervisor_of(student_id) and uploaded_by = (select auth.uid()));
+create policy "supervisor updates resources" on public.learning_resources for update to authenticated using (public.is_supervisor_of(student_id)) with check (public.is_supervisor_of(student_id) and uploaded_by = (select auth.uid()));
 create policy "supervisor deletes resources" on public.learning_resources for delete to authenticated using (public.is_supervisor_of(student_id));
 
 insert into storage.buckets (id, name, public, file_size_limit)
@@ -193,6 +202,14 @@ on conflict (id) do update set public = false, file_size_limit = 524288000;
 
 alter table public.attempt_content add column if not exists answer_file_path text;
 alter table public.attempt_content add column if not exists textbook_file_path text;
+alter table public.attempt_content add column if not exists submission_id uuid references public.submissions(id) on delete set null;
+alter table public.submissions add column if not exists subject text;
+alter table public.submissions add column if not exists resource_key text;
+alter table public.submissions add column if not exists title text;
+alter table public.learning_resources add column if not exists resource_key text;
+alter table public.learning_resources add column if not exists file_role text;
+alter table public.learning_resources add column if not exists page_start integer;
+alter table public.learning_resources add column if not exists page_end integer;
 
 create policy "read accessible private study files" on storage.objects for select to authenticated
 using (bucket_id = 'private-study-files' and (

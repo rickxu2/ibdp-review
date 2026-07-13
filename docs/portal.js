@@ -8,6 +8,15 @@ window.Portal = (() => {
   const tx = (lang, en, zh) => lang === "zh" ? zh : en;
   const html = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const safeName = name => name.replace(/[^a-zA-Z0-9._-]+/g, "_").slice(-100);
+  const subjectOptions = selected => Object.entries((db && db.meta && db.meta.subjects) || {})
+    .map(([id, item]) => `<option value="${html(id)}" ${id === selected ? "selected" : ""}>${html(item.name || id)}</option>`).join("");
+  const paperChoices = () => {
+    const seen = new Map();
+    for (const r of resources) if (r.resource_key && ["question_paper", "markscheme"].includes(r.kind)) {
+      if (!seen.has(r.resource_key)) seen.set(r.resource_key, r);
+    }
+    return [...seen.values()];
+  };
   const librarySpec = fileName => {
     const n = fileName.toLowerCase();
     const split = n.match(/^(chem_sl|econ_sl|phys_hl)_.+_p(\d+)-(\d+)\.pdf$/);
@@ -226,9 +235,13 @@ window.Portal = (() => {
   function pageSubmit(lang) {
     if (!configured || !user) return renderLogin(lang);
     if (profile.role === "supervisor") return pageInbox(lang);
+    const papers = paperChoices();
     document.getElementById("app").innerHTML = `<h2>${tx(lang, "Submit work", "提交作业")}</h2>
-      <div class="card portal-form"><p>${tx(lang, "Upload newly completed work here for supervisor marking. Textbooks, question papers and markschemes are stored under Resources.", "在这里提交刚做完、等待 supervisor 批改的作业。课本、试卷和 markscheme 请到“资料库”查看。")}</p><p class="note"><a href="#/connection">${tx(lang, "Test connection from China", "测试中国大陆连接")}</a></p>
-      <form id="submitWork"><label>${tx(lang, "Files", "文件")}<input id="workFiles" type="file" accept="image/*,.pdf" multiple required></label>
+      <div class="card portal-form"><p>${tx(lang, "Choose what this work belongs to, then upload the completed answer. File names do not matter.", "先选择这份作业属于哪套试卷或哪个科目，再上传完成的答案；文件名不影响关联。")}</p><p class="note"><a href="#/connection">${tx(lang, "Test connection from China", "测试中国大陆连接")}</a></p>
+      <form id="submitWork"><label>${tx(lang, "Subject", "科目")}<select id="workSubject" required><option value="">—</option>${subjectOptions()}</select></label>
+      <label>${tx(lang, "Related paper (optional)", "对应试卷（可选）")}<select id="workResource"><option value="">${tx(lang, "Other assignment", "其他作业")}</option>${papers.map(r => `<option value="${html(r.resource_key)}">${html(r.title)}</option>`).join("")}</select></label>
+      <label>${tx(lang, "Assignment title", "作业名称")}<input id="workTitle" placeholder="e.g. Topic 4 homework" required></label>
+      <label>${tx(lang, "Files", "文件")}<input id="workFiles" type="file" accept="image/*,.pdf" multiple required></label>
       <label>${tx(lang, "Note (optional)", "备注（可选）")}<textarea id="workNote" rows="3" placeholder="${tx(lang, "Subject, paper and question numbers", "科目、试卷和题号")}"></textarea></label>
       <button type="submit" class="portal-primary">${tx(lang, "Upload submission", "上传提交")}</button></form><div id="submitStatus" class="note"></div></div>`;
     document.getElementById("submitWork").onsubmit = async e => {
@@ -237,7 +250,11 @@ window.Portal = (() => {
       const files = [...document.getElementById("workFiles").files];
       status.textContent = tx(lang, "Uploading…", "正在上传…");
       const submissionId = crypto.randomUUID();
-      const { error: se } = await client.from("submissions").insert({ id: submissionId, student_id: user.id, note: document.getElementById("workNote").value.trim() || null });
+      const { error: se } = await client.from("submissions").insert({ id: submissionId, student_id: user.id,
+        subject: document.getElementById("workSubject").value,
+        resource_key: document.getElementById("workResource").value || null,
+        title: document.getElementById("workTitle").value.trim(),
+        note: document.getElementById("workNote").value.trim() || null });
       if (se) { status.textContent = se.message; return; }
       for (const file of files) {
         const path = `${user.id}/submissions/${submissionId}/${crypto.randomUUID()}-${safeName(file.name)}`;
@@ -253,7 +270,7 @@ window.Portal = (() => {
 
   async function pageInbox(lang) {
     if (!studentId) { document.getElementById("app").innerHTML = `<div class="card">${tx(lang, "No student is linked to this supervisor account yet.", "这个 supervisor 账号还没有关联学生。")}</div>`; return; }
-    const { data, error } = await client.from("submissions").select("id,note,status,submitted_at,submission_files(file_name,bucket_path)").eq("student_id", studentId).order("submitted_at", { ascending: false });
+    const { data, error } = await client.from("submissions").select("id,title,subject,resource_key,note,status,submitted_at,submission_files(file_name,bucket_path)").eq("student_id", studentId).order("submitted_at", { ascending: false });
     if (error) { document.getElementById("app").innerHTML = `<div class="card">${html(error.message)}</div>`; return; }
     const actionFor = s => {
       if (s.status === "submitted") return `<button class="mini-btn js-submission-status" data-id="${html(s.id)}" data-status="marking">${tx(lang, "Start marking", "开始批改")}</button>`;
@@ -261,7 +278,7 @@ window.Portal = (() => {
       if (s.status === "marked") return `<button class="mini-btn js-submission-status" data-id="${html(s.id)}" data-status="archived">${tx(lang, "Archive", "归档")}</button>`;
       return `<button class="mini-btn js-submission-status" data-id="${html(s.id)}" data-status="marking">${tx(lang, "Reopen", "重新打开")}</button>`;
     };
-    document.getElementById("app").innerHTML = `<h2>${tx(lang, "Submission inbox", "提交收件箱")}</h2><div class="card">${(data || []).length ? data.map(s => `<div class="portal-row"><div><b>${new Date(s.submitted_at).toLocaleString()}</b><div class="note">${html(s.note || "")}</div></div><span class="chip">${html(s.status)}</span><div>${(s.submission_files || []).map(f => `<button class="mini-btn js-open-private" data-path="${html(f.bucket_path)}">${html(f.file_name)}</button>`).join(" ")}</div><div>${actionFor(s)}</div></div>`).join("") : `<div class="empty">${tx(lang, "No submissions yet.", "还没有提交。")}</div>`}</div>`;
+    document.getElementById("app").innerHTML = `<h2>${tx(lang, "Submission inbox", "提交收件箱")}</h2><div class="card">${(data || []).length ? data.map(s => `<div class="portal-row"><div><b>${html(s.title || tx(lang, "Untitled submission", "未命名提交"))}</b><div class="note">${new Date(s.submitted_at).toLocaleString()} · ${html(s.subject || "")} ${s.resource_key ? "· " + html(s.resource_key) : ""}<br>${html(s.note || "")}</div></div><span class="chip">${html(s.status)}</span><div>${(s.submission_files || []).map(f => `<button class="mini-btn js-open-private" data-path="${html(f.bucket_path)}">${html(f.file_name)}</button>`).join(" ")}</div><div>${actionFor(s)}</div></div>`).join("") : `<div class="empty">${tx(lang, "No submissions yet.", "还没有提交。")}</div>`}</div>`;
     wirePrivateOpen(lang);
     document.querySelectorAll(".js-submission-status").forEach(btn => btn.onclick = async () => {
       btn.disabled = true;
@@ -410,6 +427,9 @@ window.Portal = (() => {
     const matches = resources.filter(r => r.subject === subject && r.kind === kind);
     if (kind === "textbook" && page) {
       for (const item of matches) {
+        if (item.page_start && item.page_end && page >= Number(item.page_start) && page <= Number(item.page_end)) {
+          return { path: item.bucket_path, page: page - Number(item.page_start) + 1 };
+        }
         const range = String(item.file_name || "").match(/_p(\d+)-(\d+)\.pdf$/i);
         if (range && page >= Number(range[1]) && page <= Number(range[2])) {
           return { path: item.bucket_path, page: page - Number(range[1]) + 1 };
@@ -420,6 +440,10 @@ window.Portal = (() => {
     return item ? { path: item.bucket_path, page } : null;
   }
 
-  return { configured, init, renderLogin, pageAccount, pageMigrate, reviewState, saveReview, pageSubmit, pageFiles, pageConnection, wirePrivateOpen, resourceTarget,
+  const internal = { tx, html, safeName, resumableUpload, syncData, subjectOptions,
+    get client() { return client; }, get user() { return user; }, get profile() { return profile; },
+    get studentId() { return studentId; }, get resources() { return resources; }, get db() { return db; }, get config() { return C; } };
+
+  return { configured, init, renderLogin, pageAccount, pageMigrate, reviewState, saveReview, pageSubmit, pageFiles, pageConnection, wirePrivateOpen, resourceTarget, _internal: internal,
     get active() { return configured && !!user; }, get role() { return profile && profile.role; }, get targetStudentId() { return studentId; } };
 })();
