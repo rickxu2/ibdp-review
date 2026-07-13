@@ -3,6 +3,7 @@
   "book": "Oxford Resources for IB DP Chemistry Course Book (2023, Bylikin/Horner/Jimenez Grant/Tarcy)",
   "file": "Textbook/Oxford_Resources_for_IB_DP_Chemistry_Course_Book__Sergey_Bylikin__Gary_Horner_etc.___Z-Library_.pdf",
   "print_to_pdf_offset": 12,
+  "cloud_url": null,
   "note": "pdf_start/pdf_end 为该子章节在 PDF 中的页码区间（由章节扫描推得，end 页即该节 End-of-topic questions）。kp_overrides 由 /mark 懒建：每次定位到某 KP 的精确页后回写 {kp_id: {pdf_page, para}}。",
   "subtopics": {
     "S1.1": { "pdf_start": 14,  "pdf_end": 30 },

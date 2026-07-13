@@ -4,7 +4,7 @@
   "exams_start": "2027-04-30",
   "exams_start_estimate": true,
   "milestones": [
-    { "name": "校内模考（定预估分）", "date": "2026-10-15", "estimate": true }
+    { "name": "School mock exams — determines predicted grades", "date": "2026-10-15", "estimate": true }
   ],
   "subjects": {
     "chem_sl":   { "name": "Chemistry",       "level": "SL", "target": null, "active": true },

@@ -26,8 +26,8 @@ argument-hint: [可选：练习文件夹或题目说明]
   "command_term": "Calculate",
   "max": 3, "earned": 1,
   "verdict": "partial",
-  "error_type": "概念",
-  "analysis": "为什么错：把键焓计算的符号约定记反了（断键吸热为正）……",
+  "error_type": "concept",
+  "analysis": "Reversed the sign convention in the bond-enthalpy calculation (bond breaking is endothermic, +ve)...",
   "textbook_ref": { "section": "R1.2", "pdf_page": 421, "para": 2, "quote": "bond enthalpy is the energy required to break one mole" },
   "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] },
   "uncertain": false
@@ -39,7 +39,7 @@ argument-hint: [可选：练习文件夹或题目说明]
 - `verdict`：correct（满分）/ partial / wrong（0 分）。
 - `source.type`：paper / quiz / textbook / other。
 - 满分题：`error_type`、`textbook_ref`、`review` 置 null，`analysis` 可一句带过或省略。
-- 失分题必填 `analysis`（为什么错，写给两个月后的自己）、`error_type`（概念/计算/审题/表达/时间）、`textbook_ref`、`review`（固定初值 `{"stage":0,"next":"明天","done":false,"history":[]}`）。
+- 失分题必填 `analysis`（为什么错，写给两个月后的自己；**用英文写**，与考试语言一致）、`error_type`（枚举英文值：`concept` 概念 / `calculation` 计算 / `misread` 审题 / `expression` 表达 / `time` 时间）、`textbook_ref`、`review`（固定初值 `{"stage":0,"next":"明天","done":false,"history":[]}`）。
 
 ## 课本归因（textbook_ref）
 1. 查 `docs/data/textbook_map/<subj>.json`：KP 所属 subtopic 的 `pdf_start`–`pdf_end` 区间；`kp_overrides` 里有精确页就直接用。
