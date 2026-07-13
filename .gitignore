@@ -4,6 +4,9 @@ inbox/
 papers/*
 !papers/index.md
 
+# ── 私有复习内容（IB 版权题目/MS + 手写答案转录），仅本地站读取 ──
+docs/data/private/
+
 # ── 个人练习现场（照片/手稿/批改报告），保持本地 ──
 practice/
 notes/

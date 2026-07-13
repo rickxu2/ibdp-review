@@ -34,7 +34,15 @@ const L = {
     loading: "Loading…",
     load_fail: "Failed to load data:",
     load_help: `• Locally: run <code>scripts\\serve.ps1</code> then open <a href="http://localhost:8788/docs/">http://localhost:8788/docs/</a> (opening index.html directly cannot fetch data)<br>• Or visit the GitHub Pages site`,
-    err_concept: "Concept", err_calculation: "Calculation", err_misread: "Misread", err_expression: "Expression", err_time: "Time management"
+    err_concept: "Concept", err_calculation: "Calculation", err_misread: "Misread", err_expression: "Expression", err_time: "Time management",
+    reveal_review: "Reveal question, answer & markscheme", collapse: "Collapse",
+    lbl_question: "Question", lbl_your_answer: "Your answer", lbl_markscheme: "Markscheme", lbl_analysis: "Why / how to fix",
+    content_local_only: "Question & markscheme are in the local version (run scripts/serve.ps1).",
+    open_qp: "Question paper ↗", open_ms: "Markscheme ↗",
+    mark_reviewed: "Mark reviewed", reviewed_on: d => `Reviewed ${d}`, review_gate: "Reveal the answer & markscheme first",
+    quick_review_note: "Quick self-review only — real spaced repetition still runs through /drill.",
+    edit_mark: "Edit grade", save_edit: "Copy correction", copied: "Copied — paste it to Claude to apply",
+    fld_earned: "Marks earned", fld_verdict: "Verdict", fld_errtype: "Error type", cancel: "Cancel"
   },
   zh: {
     nav_home: "总览", nav_matrix: "知识点", nav_days: "每日记录",
@@ -66,7 +74,15 @@ const L = {
     loading: "加载数据中…",
     load_fail: "数据加载失败：",
     load_help: `• 本地查看：运行 <code>scripts\\serve.ps1</code> 后打开 <a href="http://localhost:8788/docs/">http://localhost:8788/docs/</a>（直接双击 index.html 读不到数据）<br>• 或访问 GitHub Pages 线上版`,
-    err_concept: "概念", err_calculation: "计算", err_misread: "审题", err_expression: "表达", err_time: "时间"
+    err_concept: "概念", err_calculation: "计算", err_misread: "审题", err_expression: "表达", err_time: "时间",
+    reveal_review: "展开题目、答案与评分标准", collapse: "收起",
+    lbl_question: "题目", lbl_your_answer: "你的答案", lbl_markscheme: "评分标准 (markscheme)", lbl_analysis: "错因与订正",
+    content_local_only: "题目与 markscheme 仅本地版可见（运行 scripts/serve.ps1）。",
+    open_qp: "打开试卷 ↗", open_ms: "打开评分标准 ↗",
+    mark_reviewed: "标记已复习", reviewed_on: d => `已复习 ${d}`, review_gate: "先展开看到答案与评分标准",
+    quick_review_note: "仅快速自查——真正的间隔重复仍走 /drill。",
+    edit_mark: "编辑批改", save_edit: "复制订正", copied: "已复制——粘贴给 Claude 即可应用",
+    fld_earned: "得分", fld_verdict: "判定", fld_errtype: "错误类型", cancel: "取消"
   }
 };
 let LANG = localStorage.getItem("ibdp-lang") || "en";
@@ -106,7 +122,13 @@ $("#langBtn").onclick = () => {
 };
 
 /* ───────── data ───────── */
-const DB = { meta: null, syllabus: {}, tbmap: {}, attempts: [] };
+const DB = { meta: null, syllabus: {}, tbmap: {}, attempts: [], content: {} };
+
+/* review-checkbox state lives per-device in localStorage (distinct from DB spaced-repetition) */
+const reviewedKey = id => "ibdp-reviewed-" + id;
+const getReviewed = id => localStorage.getItem(reviewedKey(id));
+const setReviewed = id => localStorage.setItem(reviewedKey(id), todayStr());
+const clearReviewed = id => localStorage.removeItem(reviewedKey(id));
 
 async function j(url) {
   const r = await fetch(url, { cache: "no-store" });
@@ -126,7 +148,20 @@ async function loadAll() {
     })
   ]);
   DB.attempts.sort((a, b) => a.id < b.id ? -1 : 1);
+  // private content layer (question/answer/markscheme) — local only, gitignored; absent on public site
+  await Promise.all(DB.meta.attempt_files.map(async f => {
+    const pf = f.replace("attempts/", "private/").replace(/\.json$/, ".content.json");
+    const doc = await j(pf).catch(() => null);
+    if (!doc || !doc.items) return;
+    const papers = doc.papers || {};
+    for (const [id, c] of Object.entries(doc.items)) {
+      const pk = c.paper || (DB.attempts.find(a => a.id === id)?.source?.paper);
+      DB.content[id] = { ...c, ...(papers[pk] || {}) };
+    }
+  }));
 }
+
+const hasContent = () => Object.keys(DB.content).length > 0;
 
 /* KP index: id → {name, subtopicId, …} */
 function kpIndex() {
@@ -405,39 +440,120 @@ function pageDays() {
   }).join("") + `</div>`;
 }
 
+const VERDICTS = ["correct", "partial", "wrong"];
+const ERRTYPES = ["concept", "calculation", "misread", "expression", "time"];
+
+function attemptPanel(a, idx) {
+  const c = DB.content[a.id];
+  const errored = a.verdict !== "correct";
+  const reviewedOn = getReviewed(a.id);
+  const kpn = (a.kps || []).map(k => idx[k] ? `${k} ${idx[k].name}` : k);
+  const links = c && c.qp_file
+    ? `<div class="src-links">
+         <a class="tbref" target="_blank" href="/${encodeURI(c.qp_file)}#page=${c.qp_page}">${t("open_qp")}</a>
+         <a class="tbref" target="_blank" href="/${encodeURI(c.ms_file)}#page=${c.ms_page}">${t("open_ms")}</a>
+       </div>` : "";
+  const contentBlock = c
+    ? `<div class="rv-field"><span class="rv-lbl">${t("lbl_question")}</span><div class="rv-val">${esc(c.q)}</div></div>
+       <div class="rv-field"><span class="rv-lbl">${t("lbl_your_answer")}</span><div class="rv-val yours">${esc(c.ans)}</div></div>
+       <div class="rv-field"><span class="rv-lbl">${t("lbl_markscheme")}</span><div class="rv-val ms">${esc(c.ms)}</div></div>
+       ${links}`
+    : `<div class="note">${t("content_local_only")}</div>`;
+  const analysisBlock = (errored || a.analysis)
+    ? `<div class="rv-field"><span class="rv-lbl">${t("lbl_analysis")}</span>
+         <div class="rv-val">${a.error_type ? `<span class="chip err">${esc(errTxt(a.error_type))}</span> ` : ""}${esc(a.analysis || "")}</div>
+         ${tbRef(a.textbook_ref, a.subject)}
+         ${a.review && !a.review.done ? `<div class="review-note">${t("review_prog")(a.review.stage, esc(a.review.next))}</div>`
+           : a.review && a.review.done ? `<div class="review-note">${t("review_done")}</div>` : ""}
+       </div>` : "";
+  const reviewChk = errored
+    ? `<label class="rv-check"><input type="checkbox" class="js-review-chk" data-id="${a.id}" ${reviewedOn ? "checked" : ""}>
+         <span>${reviewedOn ? t("reviewed_on")(reviewedOn) : t("mark_reviewed")}</span></label>
+       <div class="note">${t("quick_review_note")}</div>` : "";
+  const editBlock = `
+    <button class="mini-btn js-edit" data-id="${a.id}">${t("edit_mark")}</button>
+    <div class="edit-form" id="ef-${a.id}" style="display:none">
+      <label>${t("fld_earned")} <input type="number" min="0" max="${a.max}" step="1" class="ef-earned" value="${a.earned}"> / ${a.max}</label>
+      <label>${t("fld_verdict")} <select class="ef-verdict">${VERDICTS.map(v => `<option value="${v}" ${a.verdict === v ? "selected" : ""}>${t("v_" + v)}</option>`).join("")}</select></label>
+      <label>${t("fld_errtype")} <select class="ef-errtype"><option value="">—</option>${ERRTYPES.map(v => `<option value="${v}" ${a.error_type === v ? "selected" : ""}>${errTxt(v)}</option>`).join("")}</select></label>
+      <label class="ef-wide">${t("lbl_analysis")}<textarea class="ef-analysis" rows="3">${esc(a.analysis || "")}</textarea></label>
+      <div class="ef-actions">
+        <button class="mini-btn primary js-copy" data-id="${a.id}">${t("save_edit")}</button>
+        <button class="mini-btn js-cancel" data-id="${a.id}">${t("cancel")}</button>
+        <span class="copied-note" id="cp-${a.id}"></span>
+      </div>
+    </div>`;
+
+  return `<div class="attempt" data-id="${a.id}">
+    <div class="att-head">
+      <span class="att-src">${esc(a.source && (a.source.paper || a.source.type) || "")} ${esc(a.source && a.source.q ? "Q" + a.source.q : "")}</span>
+      ${a.command_term ? `<span class="chip">${esc(a.command_term)}</span>` : ""}
+      <span class="att-marks">${a.earned}/${a.max}</span>
+      <span class="chip v-${a.verdict}">${t("v_" + a.verdict)}</span>
+      ${a.uncertain ? `<span class="chip">${t("uncertain")}</span>` : ""}
+      ${reviewedOn ? `<span class="chip v-correct">✓ ${esc(reviewedOn)}</span>` : ""}
+    </div>
+    <div class="kp-meta" style="margin-top:4px">${kpn.map(esc).join("　")}</div>
+    <button class="reveal-btn js-reveal" data-id="${a.id}">${t("reveal_review")}</button>
+    <div class="rv-panel" id="rv-${a.id}" style="display:none">
+      ${contentBlock}
+      ${analysisBlock}
+      ${reviewChk}
+      ${editBlock}
+    </div>
+  </div>`;
+}
+
 function pageDay(date) {
   const arr = DB.attempts.filter(a => a.date === date);
   if (!arr.length) { $("#app").innerHTML = `<div class="empty">${esc(t("no_day")(date))}</div>`; return; }
   const idx = kpIndex();
   const e = arr.reduce((s, a) => s + a.earned, 0), mx = arr.reduce((s, a) => s + a.max, 0);
-  let html = `<h2>${esc(date)}　<span class="kp-meta">${arr.length} ${t("q_count")} · ${e}/${mx} (${mx ? Math.round(e / mx * 100) : 0}%)</span></h2>
-    <div style="margin-bottom:10px"><a href="#/days">${t("back_all")}</a></div><div class="card">`;
-  for (const a of arr) {
-    const kpn = (a.kps || []).map(k => idx[k] ? `${k} ${idx[k].name}` : k);
-    html += `<div class="attempt">
-      <div class="att-head">
-        <span class="att-src">${esc(a.source && (a.source.paper || a.source.type) || "")} ${esc(a.source && a.source.q ? "Q" + a.source.q : "")}</span>
-        ${a.command_term ? `<span class="chip">${esc(a.command_term)}</span>` : ""}
-        <span class="att-marks">${a.earned}/${a.max}</span>
-        <span class="chip v-${a.verdict}">${t("v_" + a.verdict)}</span>
-        ${a.uncertain ? `<span class="chip">${t("uncertain")}</span>` : ""}
-      </div>
-      <div class="kp-meta" style="margin-top:4px">${kpn.map(esc).join("　")}</div>`;
-    if (a.verdict !== "correct") {
-      html += `<div class="att-body">
-        ${a.error_type ? `<span class="chip err">${esc(errTxt(a.error_type))}</span>` : ""}
-        ${a.analysis ? `<div class="why">${esc(a.analysis)}</div>` : ""}
-        ${tbRef(a.textbook_ref, a.subject)}
-        ${a.review && !a.review.done ? `<div class="review-note">${t("review_prog")(a.review.stage, esc(a.review.next))}</div>`
-          : a.review && a.review.done ? `<div class="review-note">${t("review_done")}</div>` : ""}
-      </div>`;
-    } else if (a.analysis) {
-      html += `<div class="att-body"><div class="why">${esc(a.analysis)}</div></div>`;
-    }
-    html += `</div>`;
-  }
-  html += `</div>`;
-  $("#app").innerHTML = html;
+  $("#app").innerHTML = `<h2>${esc(date)}　<span class="kp-meta">${arr.length} ${t("q_count")} · ${e}/${mx} (${mx ? Math.round(e / mx * 100) : 0}%)</span></h2>
+    <div style="margin-bottom:10px"><a href="#/days">${t("back_all")}</a></div>
+    <div class="card">${arr.map(a => attemptPanel(a, idx)).join("")}</div>`;
+  wireDayHandlers();
+}
+
+function wireDayHandlers() {
+  document.querySelectorAll(".js-reveal").forEach(btn => btn.onclick = () => {
+    const p = document.getElementById("rv-" + btn.dataset.id);
+    const open = p.style.display !== "none";
+    p.style.display = open ? "none" : "block";
+    btn.textContent = open ? t("reveal_review") : t("collapse");
+  });
+  document.querySelectorAll(".js-review-chk").forEach(chk => chk.onchange = () => {
+    chk.checked ? setReviewed(chk.dataset.id) : clearReviewed(chk.dataset.id);
+    const span = chk.parentElement.querySelector("span");
+    span.textContent = chk.checked ? t("reviewed_on")(getReviewed(chk.dataset.id)) : t("mark_reviewed");
+    const head = chk.closest(".attempt").querySelector(".att-head");
+    let tag = head.querySelector(".rv-done-tag");
+    if (chk.checked && !tag) {
+      tag = document.createElement("span"); tag.className = "chip v-correct rv-done-tag";
+      tag.textContent = "✓ " + getReviewed(chk.dataset.id); head.appendChild(tag);
+    } else if (!chk.checked && tag) tag.remove();
+  });
+  document.querySelectorAll(".js-edit").forEach(btn => btn.onclick = () => {
+    const f = document.getElementById("ef-" + btn.dataset.id);
+    f.style.display = f.style.display === "none" ? "block" : "none";
+  });
+  document.querySelectorAll(".js-cancel").forEach(btn => btn.onclick = () => {
+    document.getElementById("ef-" + btn.dataset.id).style.display = "none";
+  });
+  document.querySelectorAll(".js-copy").forEach(btn => btn.onclick = async () => {
+    const f = document.getElementById("ef-" + btn.dataset.id);
+    const correction = {
+      id: btn.dataset.id,
+      earned: Number(f.querySelector(".ef-earned").value),
+      verdict: f.querySelector(".ef-verdict").value,
+      error_type: f.querySelector(".ef-errtype").value || null,
+      analysis: f.querySelector(".ef-analysis").value
+    };
+    const text = "CORRECTION " + JSON.stringify(correction);
+    try { await navigator.clipboard.writeText(text); }
+    catch { const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); }
+    document.getElementById("cp-" + btn.dataset.id).textContent = t("copied");
+  });
 }
 
 /* ───────── router ───────── */

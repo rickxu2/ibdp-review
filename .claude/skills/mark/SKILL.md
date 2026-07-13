@@ -49,9 +49,13 @@ argument-hint: [可选：练习文件夹或题目说明]
 
 ## 写库（顺序固定）
 1. 记录追加到 `docs/data/attempts/YYYY-MM.json`（新月份：建 `[]` 文件 + 加进 meta.json 的 `attempt_files`）。
-2. `python -m json.tool` 验证改过的每个 JSON。
-3. 整卷练习：写人类可读的 `report.md` 到会话文件夹（逐题表+3条改进建议+用时分析）；更新 papers/index.md（✅+得分）。
-4. `git add -A` → **`git ls-files "*.pdf"` 输出必须为空**（版权红线复查）→ commit（`data: chem_sl 2025May P2 Q1-8 (+8 records)`）→ push。
+2. **私有内容层**：每条 attempt 同时往 `docs/data/private/YYYY-MM.content.json` 的 `items[<id>]` 写一条 `{q, ans, ms, qp_page, ms_page}`——题目原文、学生答案转录、markscheme 要点、试卷/答案的 PDF 页码。文件顶层 `papers[<paper>]` 存 `qp_file`/`ms_file` 路径。**这层是 IB 版权内容 + 手写转录，被 .gitignore 挡住，绝不 push**；网站本地版靠它显示"题目/你的答案/markscheme"，公网版自动降级。零散题/quiz 无 paper 页码就填 qp_page/ms_page 为 null。
+3. `python -m json.tool` 验证改过的每个 JSON。
+4. 整卷练习：写人类可读的 `report.md` 到会话文件夹（逐题表+3条改进建议+用时分析）；更新 papers/index.md（✅+得分）。
+5. `git add -A` → **`git ls-files "*.pdf"` 和 `git ls-files "docs/data/private/*"` 输出都必须为空**（版权红线复查）→ commit（`data: chem_sl 2025May P2 Q1-8 (+8 records)`）→ push。
+
+## 处理网站发来的订正（feature 3）
+用户在网站"编辑批改"后会粘来一行 `CORRECTION {"id":"A-...","earned":N,"verdict":"...","error_type":"...","analysis":"..."}`。照做：按 id 找到 attempt 记录，用这些字段覆盖（earned 变了要顺带核对 verdict 一致性；改成 correct 则把 review/textbook_ref 置 null）；json.tool 验证；commit（`data: correction <id> per user`）+ push。改的是人工判断，尊重用户结论，但如发现明显笔误可回一句确认。
 
 ## 回给用户的摘要
 总分/百分比、估计等级（标注"单卷估算"）、失分点一览、最值钱的 1–3 条建议、网站当日页链接。图表细节不用复述——网站会算。
