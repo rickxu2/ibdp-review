@@ -664,7 +664,21 @@ function attemptSourceLinks(c) {
   if (!c) return "";
   const privateLink = (path, label, page) => path ? `<button class="tbref js-open-private" data-path="${esc(path)}"${page ? ` data-page="${page}"` : ""}>${label}</button>` : "";
   const localLink = (path, label, page) => path ? `<a class="tbref" target="_blank" href="/${encodeURI(path)}${page ? `#page=${page}` : ""}">${label}</a>` : "";
-  const supporting = (c.source_files || []).map((item, index) => Portal.active
+  // Older portal records may contain one source object (or a JSON-encoded
+  // object) rather than the current array.  Normalize here so a malformed
+  // optional link never prevents the complete study record from rendering.
+  const rawSources = c.source_files;
+  let sourceFiles = Array.isArray(rawSources) ? rawSources : rawSources ? [rawSources] : [];
+  sourceFiles = sourceFiles.flatMap(item => {
+    if (typeof item !== "string") return [item];
+    try {
+      const parsed = JSON.parse(item);
+      return Array.isArray(parsed) ? parsed : [parsed];
+    } catch (_) {
+      return [{ path: item }];
+    }
+  }).filter(item => item && typeof item === "object");
+  const supporting = sourceFiles.map((item, index) => Portal.active
     ? privateLink(item.path, esc(item.title || `${t("open_source")} ${index + 1}`), item.page)
     : localLink(item.path, esc(item.title || `${t("open_source")} ${index + 1}`), item.page)).join("");
   const links = Portal.active

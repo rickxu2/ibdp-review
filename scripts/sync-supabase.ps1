@@ -51,6 +51,16 @@ function Send-Upsert([string]$Table, [string]$Conflict, $Rows) {
   }
 }
 
+function ConvertTo-SupportingFilePaths($Value) {
+  if ($null -eq $Value -or $Value -eq '') { return @() }
+  if ($Value -is [string]) {
+    try { $Value = $Value | ConvertFrom-Json -ErrorAction Stop }
+    catch { return @([ordered]@{ path = $Value }) }
+  }
+  if ($Value -is [System.Array]) { return @($Value) }
+  return @($Value)
+}
+
 $meta = Get-Content -Raw -Encoding UTF8 (Join-Path $root 'docs/data/meta.json') | ConvertFrom-Json
 $attemptRows = @()
 $contentRows = @()
@@ -92,7 +102,7 @@ foreach ($relative in $meta.attempt_files) {
         markscheme_file_path = $paperMeta.ms_storage
         answer_file_path = $answerPath
         textbook_file_path = $paperMeta.textbook_storage
-        supporting_file_paths = if ($c.supporting_file_paths) { @($c.supporting_file_paths) } else { @() }
+        supporting_file_paths = ConvertTo-SupportingFilePaths $c.supporting_file_paths
         submission_id = $submissionId
       }
     }
