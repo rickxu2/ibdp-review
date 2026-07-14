@@ -35,7 +35,7 @@ argument-hint: [可选：练习文件夹或题目说明]
   "id": "A-20260713-001",
   "date": "2026-07-13",
   "subject": "chem_sl",
-  "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "3b" },
+  "source": { "type": "paper", "assignment_id": "ASG-20260713-001", "paper": "2025_May_TZ1_P2", "q": "3b" },
   "kps": ["R1.2.b"],
   "command_term": "Calculate",
   "max": 3, "earned": 1,
@@ -52,6 +52,7 @@ argument-hint: [可选：练习文件夹或题目说明]
 - `kps`：从 `docs/data/syllabus/<subj>.json` 选**已存在的 id**（1–3 个，主考点在前）。没有合适的 → 用最接近的并在对话里提出，需要时先给 syllabus 加 KP 再引用。做到的 KP 若原 `covered:false` 说明已学过 → 顺手改 true。
 - `verdict`：correct（满分）/ partial / wrong（0 分）。
 - `source.type`：paper / quiz / textbook / other。
+- `source.assignment_id`：每份 assignment 的稳定公开标识，格式 `ASG-YYYYMMDD-NNN`；同一提交/练习里的所有逐题 attempts 必须共用同一个值，同一天下一份 assignment 才递增。它只用于 Daily log 分组，不写学生姓名、submission UUID 或文件路径。
 - 满分题：`error_type`、`textbook_ref`、`review` 置 null，`analysis` 可一句带过或省略。
 - 失分题必填 `analysis`（为什么错，写给两个月后的自己；**用英文写**，与考试语言一致）、`error_type`（枚举英文值：`concept` 概念 / `calculation` 计算 / `misread` 审题 / `expression` 表达 / `time` 时间）、`textbook_ref`、`review`（固定初值 `{"stage":0,"next":"明天","done":false,"history":[]}`）。
 

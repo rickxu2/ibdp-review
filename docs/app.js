@@ -22,7 +22,7 @@ const L = {
     matrix_title: "Topic mastery",
     st_mastered: "Mastered", st_ok: "OK", st_weak: "Weak", st_unpracticed: "Unpracticed", st_not_covered: "Not covered", st_regressed: "Regressed",
     times: "×", full_marks_n: (x, n) => `${x}/${n} full-mark evidence`, never_practiced: "No attempts on this point yet",
-    days_title: "Daily log", all_correct: "all correct ✓", lost_on: n => `${n} with lost marks`,
+    days_title: "Daily log", assignments_n: n => `${n} assignment${n === 1 ? "" : "s"}`, all_correct: "all correct ✓", lost_on: n => `${n} with lost marks`,
     back_all: "← All days", q_count: "questions",
     v_correct: "✓ Full marks", v_partial: "Partial", v_wrong: "✗ Wrong", uncertain: "Marks in dispute",
     review_prog: (s, d) => `Review ${s}/5 · next ${d}`, review_done: "✅ Review complete (5 passes)",
@@ -70,7 +70,7 @@ const L = {
     matrix_title: "知识点掌握度",
     st_mastered: "掌握", st_ok: "一般", st_weak: "薄弱", st_unpracticed: "未练", st_not_covered: "未学", st_regressed: "回潮",
     times: "次", full_marks_n: (x, n) => `${x}/${n} 次满分证据`, never_practiced: "还没做过这个考点的题",
-    days_title: "每日记录", all_correct: "全对 ✓", lost_on: n => `失分 ${n} 题`,
+    days_title: "每日记录", assignments_n: n => `${n} 份作业`, all_correct: "全对 ✓", lost_on: n => `失分 ${n} 题`,
     back_all: "← 全部日期", q_count: "题",
     v_correct: "✓ 全对", v_partial: "部分", v_wrong: "✗ 错", uncertain: "给分待议",
     review_prog: (s, d) => `复习进度 ${s}/5 · 下次 ${d}`, review_done: "✅ 复习毕业（5 轮通过）",
@@ -641,19 +641,62 @@ function pageMatrix(subj) {
   });
 }
 
+function assignmentKey(a) {
+  const source = a.source || {};
+  const content = DB.content[a.id] || {};
+  return String(source.assignment_id || content.submission_id || content.answer_file_path || content.answer_file ||
+    `${a.subject}|${source.paper || source.resource_key || source.session || source.title || source.type || "other"}`);
+}
+
+function assignmentSourceLabel(a) {
+  const source = a.source || {};
+  const raw = source.title || source.paper || source.resource_key || source.session || source.type || "Assignment";
+  return String(raw).replace(/_/g, " ");
+}
+
+function assignmentSubjectLabel(a) {
+  const subject = DB.meta.subjects[a.subject];
+  return subject ? `${subject.name}${subject.level ? " " + subject.level : ""}` : a.subject;
+}
+
+function assignmentsForDate(date) {
+  const grouped = new Map();
+  for (const attempt of DB.attempts) {
+    if (attempt.date !== date) continue;
+    const key = assignmentKey(attempt);
+    if (!grouped.has(key)) grouped.set(key, { key, attempts: [] });
+    grouped.get(key).attempts.push(attempt);
+  }
+  return [...grouped.values()].map(group => {
+    const first = group.attempts[0];
+    const earned = group.attempts.reduce((sum, a) => sum + a.earned, 0);
+    const max = group.attempts.reduce((sum, a) => sum + a.max, 0);
+    return {
+      ...group,
+      subject: assignmentSubjectLabel(first),
+      title: assignmentSourceLabel(first),
+      earned,
+      max,
+      percent: max ? Math.round(earned / max * 100) : 0,
+      lost: group.attempts.filter(a => a.verdict !== "correct").length
+    };
+  });
+}
+
 function pageDays() {
-  const byDate = {};
-  for (const a of DB.attempts) (byDate[a.date] = byDate[a.date] || []).push(a);
-  const dates = Object.keys(byDate).sort().reverse();
+  const dates = [...new Set(DB.attempts.map(a => a.date))].sort().reverse();
   if (!dates.length) { $("#app").innerHTML = `<div class="empty">${t("no_records")}</div>`; return; }
-  $("#app").innerHTML = `<h2>${t("days_title")}</h2><div class="day-list">` + dates.map(d => {
-    const arr = byDate[d];
-    const e = arr.reduce((s, a) => s + a.earned, 0), mx = arr.reduce((s, a) => s + a.max, 0);
-    const subs = [...new Set(arr.map(a => DB.meta.subjects[a.subject] ? DB.meta.subjects[a.subject].name : a.subject))];
-    const wrong = arr.filter(a => a.verdict !== "correct").length;
-    return `<a class="day-item" href="#/day/${d}"><span class="d-date">${d}</span>
-      <span>${arr.length} ${t("q_unit")} · ${e}/${mx} (${mx ? Math.round(e / mx * 100) : 0}%)</span>
-      <span class="d-meta">${esc(subs.join(" · "))} · ${wrong ? t("lost_on")(wrong) : t("all_correct")}</span></a>`;
+  $("#app").innerHTML = `<h2>${t("days_title")}</h2><div class="day-sections">` + dates.map(date => {
+    const assignments = assignmentsForDate(date);
+    return `<section class="day-section">
+      <div class="day-section-head"><h3><time datetime="${esc(date)}">${esc(date)}</time></h3><span>${t("assignments_n")(assignments.length)}</span></div>
+      <div class="assignment-list">${assignments.map(group =>
+        `<a class="assignment-entry" href="#/day/${esc(date)}/${encodeURIComponent(group.key)}">
+          <span class="assignment-main"><strong class="assignment-title">${esc(group.title)}</strong>
+            <span class="assignment-meta">${esc(group.subject)} · ${group.attempts.length} ${t("q_unit")} · ${group.lost ? t("lost_on")(group.lost) : t("all_correct")}</span></span>
+          <span class="assignment-grade"><strong>${group.earned}/${group.max}</strong><span>${group.percent}%</span></span>
+        </a>`).join("")}</div>
+    </section>`;
   }).join("") + `</div>`;
 }
 
@@ -744,14 +787,17 @@ function attemptPanel(a, idx) {
   </div>`;
 }
 
-function pageDay(date) {
-  const arr = DB.attempts.filter(a => a.date === date);
-  if (!arr.length) { $("#app").innerHTML = `<div class="empty">${esc(t("no_day")(date))}</div>`; return; }
+function pageDay(date, selectedKey) {
+  const assignments = assignmentsForDate(date);
+  const visible = selectedKey ? assignments.filter(group => group.key === selectedKey) : assignments;
+  if (!visible.length) { $("#app").innerHTML = `<div class="empty">${esc(t("no_day")(date))}</div>`; return; }
   const idx = kpIndex();
-  const e = arr.reduce((s, a) => s + a.earned, 0), mx = arr.reduce((s, a) => s + a.max, 0);
-  $("#app").innerHTML = `<h2>${esc(date)}　<span class="kp-meta">${arr.length} ${t("q_count")} · ${e}/${mx} (${mx ? Math.round(e / mx * 100) : 0}%)</span></h2>
-    <div style="margin-bottom:10px"><a href="#/days">${t("back_all")}</a></div>
-    <div class="card">${arr.map(a => attemptPanel(a, idx)).join("")}</div>`;
+  $("#app").innerHTML = `<h2>${esc(date)}</h2><div class="day-back"><a href="#/days">${t("back_all")}</a></div>` + visible.map(group =>
+    `<section class="assignment-detail">
+      <div class="assignment-detail-head"><span><strong>${esc(group.title)}</strong><span>${esc(group.subject)} · ${group.attempts.length} ${t("q_count")}</span></span>
+        <span class="assignment-grade"><strong>${group.earned}/${group.max}</strong><span>${group.percent}%</span></span></div>
+      <div class="card">${group.attempts.map(a => attemptPanel(a, idx)).join("")}</div>
+    </section>`).join("");
   wireDayHandlers();
 }
 
@@ -800,7 +846,7 @@ function wireDayHandlers() {
 /* ───────── router ───────── */
 function route() {
   const h = location.hash.replace(/^#\/?/, "");
-  const [p, arg] = h.split("/");
+  const [p, arg, assignmentArg] = h.split("/");
   document.querySelectorAll("[data-nav]").forEach(a => a.classList.remove("on"));
   const nav = n => { const el = document.querySelector(`[data-nav="${n}"]`); if (el) el.classList.add("on"); };
   if (p === "matrix") { nav("matrix"); pageMatrix(arg); }
@@ -811,7 +857,7 @@ function route() {
   else if (p === "migrate") { Portal.pageMigrate(LANG); }
   else if (p === "connection") { Portal.pageConnection(LANG); }
   else if (p === "days") { nav("days"); pageDays(); }
-  else if (p === "day" && arg) { nav("days"); pageDay(arg); }
+  else if (p === "day" && arg) { nav("days"); pageDay(arg, assignmentArg ? decodeURIComponent(assignmentArg) : null); }
   else { nav("home"); pageHome(); }
   window.scrollTo(0, 0);
 }

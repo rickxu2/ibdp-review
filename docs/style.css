@@ -117,13 +117,29 @@ h2:first-child { margin-top: 4px; }
 .kp-detail .att { display: flex; gap: 10px; padding: 3px 0; color: var(--ink-2); flex-wrap: wrap; }
 
 /* ───────── daily ───────── */
-.day-list a.day-item {
-  display: flex; gap: 14px; align-items: baseline; padding: 10px 14px;
-  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-  margin-bottom: 8px; color: var(--ink); flex-wrap: wrap;
+.day-sections { display: grid; gap: 24px; }
+.day-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 7px; }
+.day-section-head h3 { margin: 0; font-size: 17px; }
+.day-section-head span { color: var(--muted); font-size: 12.5px; }
+.assignment-list { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.assignment-entry {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center;
+  padding: 11px 4px; border-top: 1px solid var(--grid); color: var(--ink);
 }
-.day-item .d-date { font-weight: 700; }
-.day-item .d-meta { color: var(--muted); font-size: 13px; }
+.assignment-entry:first-child { border-top: 0; }
+.assignment-entry:hover { background: var(--page); }
+.assignment-main { min-width: 0; display: grid; gap: 3px; }
+.assignment-title { font-size: 14px; overflow-wrap: anywhere; }
+.assignment-meta { color: var(--muted); font-size: 12.5px; overflow-wrap: anywhere; }
+.assignment-grade { min-width: 62px; display: grid; justify-items: end; font-variant-numeric: tabular-nums; }
+.assignment-grade strong { font-size: 15px; }
+.assignment-grade span { color: var(--muted); font-size: 12px; }
+.day-back { margin-bottom: 12px; }
+.assignment-detail + .assignment-detail { margin-top: 22px; }
+.assignment-detail-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 8px; }
+.assignment-detail-head > span:first-child { min-width: 0; display: grid; gap: 2px; }
+.assignment-detail-head > span:first-child strong { overflow-wrap: anywhere; }
+.assignment-detail-head > span:first-child span { color: var(--muted); font-size: 12.5px; }
 .attempt { border-top: 1px solid var(--grid); padding: 12px 2px; }
 .attempt:first-child { border-top: none; }
 .att-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -256,4 +272,6 @@ table.plain td.num { font-variant-numeric: tabular-nums; }
 @media (max-width: 640px) {
   .topbar { gap: 8px; padding: 10px 12px; }
   .topbar nav a { padding: 4px 8px; }
+  .assignment-entry { gap: 10px; padding: 10px 2px; }
+  .assignment-detail-head { align-items: center; }
 }
