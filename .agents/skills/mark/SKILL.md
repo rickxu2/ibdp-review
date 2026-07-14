@@ -1,0 +1,75 @@
+---
+name: mark
+description: 按 IB markscheme 批改并写入数据库——逐题给分、打知识点标签、错题归因到课本页码、追加 attempt 记录、推送更新网站。用户交答案、说"批改/改卷/mark/我做完了/今天做了几道题"时使用，整卷和零散题都算。这是整个复习系统的数据引擎，所有做题结果必须经它入库。
+argument-hint: [可选：练习文件夹或题目说明]
+---
+
+## 输入
+1. 定位来源：practice/ 里最新的 🔄 会话，或用户指定，或零散题目（无会话直接改）。
+2. 收集答案（三处都查）：对话文字、会话文件夹 `answers.md`、文件夹里的照片（Read 读图）。手写辨认要仔细，**看不清的关键字符先问用户，不要因笔迹误判扣分**。
+3. 打开对应 question paper、全部 source/text booklet 和 markscheme：路径在 session.md、papers/index.md 或提交元数据指向的私有资源库。普通 PDF 用 Read 带 pages 按需读页；>100MB 用 python/pypdf 抽页。阅读理解、材料分析等题必须同时读题目、对应原文/材料和 MS，不能只按 question + MS 判断。
+
+## 批改前完整性检查与独立复核
+- 逐页核对 QP、source/text booklet、MS 的页数、题号范围和正文。若某篇材料缺页或显示 `Removed for copyright reasons`，依赖它的题是 `not attemptable`：不记 `wrong`、不生成失分 attempt、不进入可作答分母；汇总同时报告“可作答得分/可作答满分”和缺失题号，不能把它当成完整试卷总分。
+- 整卷手写、作文/开放题、OCR/视觉识别低置信度时，若可用多个 agent，执行独立双读：A 只看原答卷转录答案，B 独立看原答卷并依据 QP/source/MS 判分；主 agent 再逐项对照。不得让 B 先看 A 的转录，避免锚定。
+- 两次转录在关键字符、选项、正负号、单位、题号对应上不一致，或 essay 分档相差超过 1 个 band 时，主 agent 必须回看原图裁切并裁决；仍无法可靠辨认就问用户/Release，并标记 `uncertain:true`，不得靠多数票猜答案。
+- 客观题用“题号—独立转录—MS key—得分”表做机械核对并复算总分；写库后从 attempts 重新聚合一次，与报告总分一致后才能同步。
+
+## 批改原则（严格但讲理的 examiner）
+- 每一分都要指向 MS 里的 marking point，不凭感觉。
+- 理科/数学：M(method)/A(accuracy)/R(reasoning)；A 分依赖对应 M 分；**ECF/FT** 按 MS 标注执行（经常能挽回分，别漏）；Misread 扣 1 后 FT；有效数字、单位、"Show that" 完整性按 MS 惯例页。
+- Essay 类：按 markband 定档，引用档位描述语说明"为什么是这档而不是上一档"。
+- 拿不准的分：给宽严两判并说明 examiner 更可能的判法，记录里标 `"uncertain": true`。
+
+## 反馈输出：客观题与主观题分流
+- 客观题：私有层 `ms` 写 markscheme key/marking point；`analysis` 用一句话说明为何对错。阅读理解等依赖材料的客观题还要注明对应原文依据，不能只抄答案。
+- 主观题：私有层 `ans` 必须是忠实完整转录，不得擅自修正学生拼写、语法或截断内容；看不清处显式标记并按独立双读规则处理。
+- 主观题的私有层 `ms` 按以下顺序写完整反馈：`Examiner rationale`（逐 criterion/marking point）、`Evidence from your answer`、`Priority revisions`（按提分价值排序并映射到 criterion）、`Line edits`（student -> improved -> reason）、`Minimally edited version`（保留学生观点与结构）、`Model response`（原创高分示范）。不适用的段落明确省略，不能用笼统套话占位。
+- 语言作文没有唯一正确答案，完整答案必须标为 `Model response`；理科主观题的完整答案应逐点覆盖 MS，展示必要步骤、单位和 ECF/FT 位置。
+- `analysis` 属于公开层，只保留简洁、非版权、学生专属的 1-3 条核心诊断；完整转录、逐句修改和示范答案只进私有层并同步私密门户。
+- 学术诚信边界：真题、练习和已完成作业可给完整反馈与示范答案；IA/EE/TOK 等正式提交作品只给评价、问题定位和修改方向，不提供可直接提交的代写文本。
+
+## 每道题生成一条 attempt 记录（系统的原子单位）
+```json
+{
+  "id": "A-20260713-001",
+  "date": "2026-07-13",
+  "subject": "chem_sl",
+  "source": { "type": "paper", "paper": "2025_May_TZ1_P2", "q": "3b" },
+  "kps": ["R1.2.b"],
+  "command_term": "Calculate",
+  "max": 3, "earned": 1,
+  "verdict": "partial",
+  "error_type": "concept",
+  "analysis": "Reversed the sign convention in the bond-enthalpy calculation (bond breaking is endothermic, +ve)...",
+  "textbook_ref": { "section": "R1.2", "pdf_page": 421, "para": 2, "quote": "bond enthalpy is the energy required to break one mole" },
+  "review": { "stage": 0, "next": "2026-07-14", "done": false, "history": [] },
+  "uncertain": false
+}
+```
+字段规则：
+- `id` = A-日期-当日序号（查同日已有记录取下一号）；日期用 Get-Date。
+- `kps`：从 `docs/data/syllabus/<subj>.json` 选**已存在的 id**（1–3 个，主考点在前）。没有合适的 → 用最接近的并在对话里提出，需要时先给 syllabus 加 KP 再引用。做到的 KP 若原 `covered:false` 说明已学过 → 顺手改 true。
+- `verdict`：correct（满分）/ partial / wrong（0 分）。
+- `source.type`：paper / quiz / textbook / other。
+- 满分题：`error_type`、`textbook_ref`、`review` 置 null，`analysis` 可一句带过或省略。
+- 失分题必填 `analysis`（为什么错，写给两个月后的自己；**用英文写**，与考试语言一致）、`error_type`（枚举英文值：`concept` 概念 / `calculation` 计算 / `misread` 审题 / `expression` 表达 / `time` 时间）、`textbook_ref`、`review`（固定初值 `{"stage":0,"next":"明天","done":false,"history":[]}`）。
+
+## 课本归因（textbook_ref）
+1. 查 `docs/data/textbook_map/<subj>.json`：KP 所属 subtopic 的 `pdf_start`–`pdf_end` 区间；`kp_overrides` 里有精确页就直接用。
+2. 没有精确页时：用 pypdf 在该区间内检索关键词定位到页，读该页文本确认段落号；**把结果回写 `kp_overrides`**（懒建缓存，同一考点第二次零成本）。区间内实在定位不到就填 `pdf_start` 页并注明 "节首"。
+3. `quote` ≤15 个英文词（课本受版权保护，只存定位用短引）。
+4. `textbook_ref` 的 `file` 字段可省略——网站会自动用该科 textbook_map 的书；只有引用了别的书（如 Haese 数学第二册之外的）才需要显式填 `file`。
+
+## 写库（顺序固定）
+1. 记录追加到 `docs/data/attempts/YYYY-MM.json`（新月份：建 `[]` 文件 + 加进 meta.json 的 `attempt_files`）。
+2. **私有内容层**：每条 attempt 同时往 `docs/data/private/YYYY-MM.content.json` 的 `items[<id>]` 写一条 `{q, ans, ms, qp_page, ms_page}`——题目原文、学生答案忠实转录、客观题 markscheme，或主观题的 examiner rationale + 个性化修改建议 + minimally edited version + model response，以及试卷/答案的 PDF 页码。文件顶层 `papers[<paper>]` 存 `qp_file`/`ms_file` 路径。**这层是 IB 版权内容 + 手写转录/详细反馈，被 .gitignore 挡住，绝不 push**；网站本地版和私密门户靠它显示“题目/你的答案/markscheme 与反馈”，公网版自动降级。零散题/quiz 无 paper 页码就填 qp_page/ms_page 为 null。
+3. `python -m json.tool` 验证改过的每个 JSON。
+4. 整卷练习：写人类可读的 `report.md` 到会话文件夹（逐题表+3条改进建议+用时分析）；更新 papers/index.md（✅+得分）。
+5. `git add -A` → **`git ls-files "*.pdf"` 和 `git ls-files "docs/data/private/*"` 输出都必须为空**（版权红线复查）→ commit（`data: chem_sl 2025May P2 Q1-8 (+8 records)`）→ push。
+
+## 处理网站发来的订正（feature 3）
+用户在网站"编辑批改"后会粘来一行 `CORRECTION {"id":"A-...","earned":N,"verdict":"...","error_type":"...","analysis":"..."}`。照做：按 id 找到 attempt 记录，用这些字段覆盖（earned 变了要顺带核对 verdict 一致性；改成 correct 则把 review/textbook_ref 置 null）；json.tool 验证；commit（`data: correction <id> per user`）+ push。改的是人工判断，尊重用户结论，但如发现明显笔误可回一句确认。
+
+## 回给用户的摘要
+总分/百分比、估计等级（标注"单卷估算"）、失分点一览、最值钱的 1–3 条建议、网站当日页链接。图表细节不用复述——网站会算。
