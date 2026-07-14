@@ -11,6 +11,7 @@ docs/data/private/
 practice/
 notes/
 tmp/
+.codex-private/
 
 # ── 杂项 ──
 *.zip

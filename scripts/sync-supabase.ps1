@@ -6,15 +6,35 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
-$url = $env:SUPABASE_URL
-$secret = $env:SUPABASE_SERVICE_ROLE_KEY
-if (-not $url -or -not $secret) {
-  throw 'Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in this terminal before syncing. Never save the service-role key in the repository.'
+$publicConfig = Get-Content -Raw -Encoding UTF8 (Join-Path $root 'docs/supabase-config.js')
+$urlMatch = [regex]::Match($publicConfig, 'url:\s*"([^"]+)"')
+$keyMatch = [regex]::Match($publicConfig, 'anonKey:\s*"([^"]+)"')
+$url = if ($env:SUPABASE_URL) { $env:SUPABASE_URL.TrimEnd('/') } else { $urlMatch.Groups[1].Value.TrimEnd('/') }
+$apiKey = if ($env:SUPABASE_ANON_KEY) { $env:SUPABASE_ANON_KEY } else { $keyMatch.Groups[1].Value }
+$token = $env:SUPABASE_SERVICE_ROLE_KEY
+if ($token) {
+  $apiKey = $token
+} else {
+  $credentialPath = Join-Path $root '.codex-private/supabase-automation.credential.xml'
+  if (-not (Test-Path -LiteralPath $credentialPath)) {
+    throw 'Automation credential is missing. Run scripts/configure-supabase-automation.ps1 once.'
+  }
+  $credential = Import-Clixml -LiteralPath $credentialPath
+  $password = $credential.GetNetworkCredential().Password
+  $authBody = @{ email = $credential.UserName; password = $password } | ConvertTo-Json -Compress
+  try {
+    $auth = Invoke-RestMethod -Method Post -Uri "$url/auth/v1/token?grant_type=password" -Headers @{ apikey = $apiKey } -ContentType 'application/json' -Body $authBody
+  } finally {
+    $password = $null
+    $authBody = $null
+  }
+  $token = $auth.access_token
 }
+if (-not $url -or -not $apiKey -or -not $token) { throw 'Supabase URL, API key, or authentication token is unavailable.' }
 
 $headers = @{
-  apikey = $secret
-  Authorization = "Bearer $secret"
+  apikey = $apiKey
+  Authorization = "Bearer $token"
   Prefer = 'resolution=merge-duplicates,return=minimal'
   'Content-Type' = 'application/json'
 }
@@ -22,7 +42,13 @@ $headers = @{
 function Send-Upsert([string]$Table, [string]$Conflict, $Rows) {
   if (-not $Rows -or $Rows.Count -eq 0) { return }
   $body = ConvertTo-Json -InputObject @($Rows) -Depth 30 -Compress
-  Invoke-RestMethod -Method Post -Uri "$url/rest/v1/$Table`?on_conflict=$Conflict" -Headers $headers -Body $body | Out-Null
+  $bytes = [Text.Encoding]::UTF8.GetBytes($body)
+  try {
+    Invoke-RestMethod -Method Post -Uri "$url/rest/v1/$Table`?on_conflict=$Conflict" -Headers $headers `
+      -ContentType 'application/json; charset=utf-8' -Body $bytes | Out-Null
+  } catch {
+    throw "Supabase upsert failed for table '$Table': $($_.Exception.Message)"
+  }
 }
 
 $meta = Get-Content -Raw -Encoding UTF8 (Join-Path $root 'docs/data/meta.json') | ConvertFrom-Json
@@ -52,14 +78,22 @@ foreach ($relative in $meta.attempt_files) {
     if ($private -and $private.items.PSObject.Properties.Name -contains $a.id) {
       $c = $private.items.($a.id)
       $paper = if ($c.paper) { $c.paper } else { $a.source.paper }
+      $paperMeta = if ($paper) { $private.papers.$paper } else { $null }
+      $answerPath = if ($c.answer_file_path) { $c.answer_file_path } else { $paperMeta.answer_storage }
+      $submissionId = $c.submission_id
+      if (-not $submissionId -and $answerPath -match '/submissions/([0-9a-fA-F-]{36})/') {
+        $submissionId = $Matches[1]
+      }
       $contentRows += [ordered]@{
         attempt_id = $a.id; student_id = $StudentId; question_text = $c.q
         answer_text = $c.ans; markscheme_text = $c.ms; paper_key = $paper
         qp_page = $c.qp_page; ms_page = $c.ms_page
-        question_file_path = $private.papers.$paper.qp_storage
-        markscheme_file_path = $private.papers.$paper.ms_storage
-        answer_file_path = $private.papers.$paper.answer_storage
-        textbook_file_path = $private.papers.$paper.textbook_storage
+        question_file_path = $paperMeta.qp_storage
+        markscheme_file_path = $paperMeta.ms_storage
+        answer_file_path = $answerPath
+        textbook_file_path = $paperMeta.textbook_storage
+        supporting_file_paths = if ($c.supporting_file_paths) { @($c.supporting_file_paths) } else { @() }
+        submission_id = $submissionId
       }
     }
   }
