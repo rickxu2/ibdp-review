@@ -6,9 +6,9 @@
   "topics": [
     { "id": "EB1", "name": "Receptive skills", "subtopics": [
       { "id": "EB1.1", "name": "Reading", "kps": [
-        { "id": "EB1.1.a", "name": "Identify purpose, audience, register and text type", "covered": false },
-        { "id": "EB1.1.b", "name": "Infer meaning, attitude, tone and implied viewpoint", "covered": false },
-        { "id": "EB1.1.c", "name": "Select evidence and distinguish main ideas from detail", "covered": false }
+        { "id": "EB1.1.a", "name": "Identify purpose, audience, register and text type", "covered": true },
+        { "id": "EB1.1.b", "name": "Infer meaning, attitude, tone and implied viewpoint", "covered": true },
+        { "id": "EB1.1.c", "name": "Select evidence and distinguish main ideas from detail", "covered": true }
       ]},
       { "id": "EB1.2", "name": "Listening", "kps": [
         { "id": "EB1.2.a", "name": "Recognize gist, context and speaker relationship", "covered": false },
@@ -18,14 +18,14 @@
     ]},
     { "id": "EB2", "name": "Productive skills", "subtopics": [
       { "id": "EB2.1", "name": "Paper 1 writing", "kps": [
-        { "id": "EB2.1.a", "name": "Fulfil task, purpose and required content", "covered": false },
-        { "id": "EB2.1.b", "name": "Choose and sustain appropriate text type, register and conventions", "covered": false },
-        { "id": "EB2.1.c", "name": "Organize ideas coherently with effective paragraphing and cohesion", "covered": false }
+        { "id": "EB2.1.a", "name": "Fulfil task, purpose and required content", "covered": true },
+        { "id": "EB2.1.b", "name": "Choose and sustain appropriate text type, register and conventions", "covered": true },
+        { "id": "EB2.1.c", "name": "Organize ideas coherently with effective paragraphing and cohesion", "covered": true }
       ]},
       { "id": "EB2.2", "name": "Language control", "kps": [
-        { "id": "EB2.2.a", "name": "Grammar accuracy and varied sentence structures", "covered": false },
-        { "id": "EB2.2.b", "name": "Range, precision and idiomatic use of vocabulary", "covered": false },
-        { "id": "EB2.2.c", "name": "Spelling, punctuation and clarity of expression", "covered": false }
+        { "id": "EB2.2.a", "name": "Grammar accuracy and varied sentence structures", "covered": true },
+        { "id": "EB2.2.b", "name": "Range, precision and idiomatic use of vocabulary", "covered": true },
+        { "id": "EB2.2.c", "name": "Spelling, punctuation and clarity of expression", "covered": true }
       ]}
     ]},
     { "id": "EB3", "name": "Interactive and oral skills", "subtopics": [
@@ -50,7 +50,7 @@
     { "id": "EB5", "name": "Prescribed thematic contexts", "subtopics": [
       { "id": "EB5.1", "name": "Themes", "kps": [
         { "id": "EB5.1.a", "name": "Identities", "covered": false },
-        { "id": "EB5.1.b", "name": "Experiences", "covered": false },
+        { "id": "EB5.1.b", "name": "Experiences", "covered": true },
         { "id": "EB5.1.c", "name": "Human ingenuity", "covered": false },
         { "id": "EB5.1.d", "name": "Social organization", "covered": false },
         { "id": "EB5.1.e", "name": "Sharing the planet", "covered": false }

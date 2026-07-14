@@ -182,5 +182,1890 @@
     "error_type": null,
     "analysis": "Full marks: dividing 0.108 g by the amount from the previous part gives 60.0 g mol-1, matching the accepted markscheme range.",
     "textbook_ref": { "section": "S1.4", "pdf_page": 78, "para": 1, "quote": "Molar mass ... is the mass of 1 mol" }, "review": null, "uncertain": false
+  },
+  {
+    "id": "A-20260714-001",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1",
+      "q": "Task 2"
+    },
+    "kps": [
+      "EB2.1.a",
+      "EB2.1.b",
+      "EB2.2.a"
+    ],
+    "command_term": "Write",
+    "max": 30,
+    "earned": 14,
+    "verdict": "partial",
+    "error_type": "expression",
+    "analysis": "Criterion A is limited by frequent grammar control problems and awkward phrasing, although the message is usually understandable. Criterion B reaches the 4-6 band because all three task elements are present but symptoms/effects are underdeveloped and repetitive. Criterion C is mostly demonstrated through an interview-like Q&A format, but conventions and register are not fully controlled.",
+    "textbook_ref": {
+      "section": "EB2.1/EB2.2",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Paper 1 writing criteria"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-002",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "1"
+    },
+    "kps": [
+      "S1.2.a"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected C, matching the markscheme key C.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-003",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "2"
+    },
+    "kps": [
+      "S1.3.c",
+      "S3.1.a"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Selected X and W, but the key is D. Recheck outer electrons after forming ions; count valence electrons for the charged species, not the neutral atoms.",
+    "textbook_ref": {
+      "section": "S1.3",
+      "pdf_page": 64,
+      "para": 1,
+      "quote": "build up the electrons"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-004",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "3"
+    },
+    "kps": [
+      "S1.3.c"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected A, matching the markscheme key A.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-005",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "4"
+    },
+    "kps": [
+      "S1.5.a"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Selected high pressure/low temperature for NH3, but least deviation from ideal behaviour is low pressure/high temperature and weaker intermolecular attraction: PH3, not NH3.",
+    "textbook_ref": {
+      "section": "S1.5",
+      "pdf_page": 92,
+      "para": 1,
+      "quote": "ideal gas"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-006",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "5"
+    },
+    "kps": [
+      "S1.3.b"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected D, matching the markscheme key D.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-007",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "6"
+    },
+    "kps": [
+      "S1.5.b"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected D, matching the markscheme key D.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-008",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "7"
+    },
+    "kps": [
+      "S2.1.a",
+      "S1.3.c"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Selected a row with neutral electron configurations. Calcium nitride contains Ca2+ and N3-, so both ions have noble-gas configurations; key D.",
+    "textbook_ref": {
+      "section": "S2.1",
+      "pdf_page": 108,
+      "para": 2,
+      "quote": "oppositely charged ions"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-009",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "8"
+    },
+    "kps": [
+      "S2.2.e"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected A, matching the markscheme key A.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-010",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "9"
+    },
+    "kps": [
+      "S2.2.a"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected B, matching the markscheme key B.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-011",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "10"
+    },
+    "kps": [
+      "S2.1.b"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected D, matching the markscheme key D.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-012",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "11"
+    },
+    "kps": [
+      "S2.2.b"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Selected a row starting with H2O, but decreasing bond angle is C2H4 > CH4 > NH3 > H2O. Lone pairs reduce bond angle.",
+    "textbook_ref": {
+      "section": "S2.2",
+      "pdf_page": 191,
+      "para": 1,
+      "quote": "trigonal planar"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-013",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "12"
+    },
+    "kps": [
+      "S1.1.a"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Blank. Non-polar naphthalene travels further with non-polar hexane on polar silica, so spot x and the correct Rf value give C.",
+    "textbook_ref": {
+      "section": "S1.1",
+      "pdf_page": 18,
+      "para": 1,
+      "quote": "elements and compounds"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-014",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "13"
+    },
+    "kps": [
+      "S2.2.a"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Selected oxidation states, but the bonding-model adaptation for electron-deficient AlCl3/BeCl2 is exceptions to the octet rule.",
+    "textbook_ref": {
+      "section": "S2.2",
+      "pdf_page": 130,
+      "para": 1,
+      "quote": "share pairs of valence electrons"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-015",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "14"
+    },
+    "kps": [
+      "S3.1.b"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected A, matching the markscheme key A.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-016",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "15"
+    },
+    "kps": [
+      "S3.1.b"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected A, matching the markscheme key A.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-017",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "16"
+    },
+    "kps": [
+      "S3.1.c"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Selected K with Br2, but the most vigorous pair combines the more reactive Group 1 metal with the more reactive halogen: K and Cl2.",
+    "textbook_ref": {
+      "section": "S3.1",
+      "pdf_page": 260,
+      "para": 1,
+      "quote": "Group 1 and halogens"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-018",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "17"
+    },
+    "kps": [
+      "R3.2.a"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Selected -3 for NH3 and -3 for HNO2. Nitrogen in HNO2 is +3; oxidation states must balance H(+1) and O(-2).",
+    "textbook_ref": {
+      "section": "R3.2",
+      "pdf_page": 592,
+      "para": 1,
+      "quote": "oxidation states"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-019",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "18"
+    },
+    "kps": [
+      "R1.1.a"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Selected system decreases/surroundings increases. If the mixture cools then the reacting system has absorbed energy; at new thermal equilibrium energy of system increases and surroundings decreases.",
+    "textbook_ref": {
+      "section": "R1.1",
+      "pdf_page": 403,
+      "para": 2,
+      "quote": "enthalpy change"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-020",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "19"
+    },
+    "kps": [
+      "R1.1.b"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Selected the negative enthalpy option, but the temperature drop means the reaction is endothermic; q for solution is negative, so ?H for reaction is positive.",
+    "textbook_ref": {
+      "section": "R1.1",
+      "pdf_page": 407,
+      "para": 1,
+      "quote": "q = mc?T"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-021",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "20"
+    },
+    "kps": [
+      "R2.1.d"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected C, matching the markscheme key C.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-022",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "21"
+    },
+    "kps": [
+      "R2.1.b"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected A, matching the markscheme key A.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-023",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "22"
+    },
+    "kps": [
+      "R2.2.c"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected A, matching the markscheme key A.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-024",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "23"
+    },
+    "kps": [
+      "R2.2.a"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected A, matching the markscheme key A.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-025",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "24"
+    },
+    "kps": [
+      "R2.3.c"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Selected lower pressure/higher temperature. Pressure has no effect because both sides have two moles of gas; lower temperature shifts left for the endothermic forward reaction.",
+    "textbook_ref": {
+      "section": "R2.3",
+      "pdf_page": 531,
+      "para": 1,
+      "quote": "shift to counteract"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-026",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "25"
+    },
+    "kps": [
+      "R3.1.a"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected B, matching the markscheme key B.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-027",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "26"
+    },
+    "kps": [
+      "R3.1.b"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected B, matching the markscheme key B.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-028",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "27"
+    },
+    "kps": [
+      "R3.2.c"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected D, matching the markscheme key D.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-029",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "28"
+    },
+    "kps": [
+      "S3.2.d"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Blank. Highest yield of methylpropanoic acid requires oxidation of a primary alcohol under reflux.",
+    "textbook_ref": {
+      "section": "S3.2",
+      "pdf_page": 285,
+      "para": 1,
+      "quote": "primary secondary tertiary"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-030",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "29"
+    },
+    "kps": [
+      "R3.4.a"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Blank. Heterolytic fission sends both bonding electrons to one atom, producing Br+ and Br-.",
+    "textbook_ref": {
+      "section": "R3.4",
+      "pdf_page": 640,
+      "para": 1,
+      "quote": "heterolytic fission"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-031",
+    "date": "2026-07-14",
+    "subject": "chem_sl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P1A",
+      "q": "30"
+    },
+    "kps": [
+      "R3.2.b"
+    ],
+    "command_term": "Choose",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct: selected A, matching the markscheme key A.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-032",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "1"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: (the) Child Protection team (in the Philippines).",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-033",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "2"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: a unique perspective.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-034",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "3"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: Time magazine.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-035",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "4"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: a person with an invisible disability.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-036",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "5"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: had multiple sclerosis for 16 years.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-037",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "6"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: to advocate for others.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-038",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "7"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: as a (copy and) news writer.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-039",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "8"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: volunteering.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-040",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "9"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: D.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-041",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "10"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: A.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-042",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "11"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: B.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-043",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "12"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "misread",
+    "analysis": "Answer did not meet the markscheme target. Student answer: (blank); target: D.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-044",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "13"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-045",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "14"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-046",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "15"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-047",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "16"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-048",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "17"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Answer did not meet the markscheme target. Student answer: Because some professionals spend more time improvising than playing music from a book.; target: one of the scariest and most difficult tasks.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-049",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "18"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-050",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "19"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Answer did not meet the markscheme target. Student answer: They have learned everything they can possibly learn.; target: thinking they have learned everything.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-051",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "20"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Answer did not meet the markscheme target. Student answer: H; target: E.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-052",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "21"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-053",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "22"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-054",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "23"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Answer did not meet the markscheme target. Student answer: F; target: C.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-055",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "24"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Answer did not meet the markscheme target. Student answer: B; target: C.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-056",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "25"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-057",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "26"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-058",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "27"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 4,
+    "earned": 4,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-059",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "28"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Answer did not meet the markscheme target. Student answer: True - There was no new wood with which to mend it; target: False - could have found some on the black market.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-060",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "29"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-061",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "30"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Answer did not meet the markscheme target. Student answer: False - Over the last ten years the city had slowly decayed; target: False - cracks appearing in even the smartest facade.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-062",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "31"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-063",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "32"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Answer did not meet the markscheme target. Student answer: people in Scotland and west Midlands; target: the Englishmen and women / the British.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-064",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "33"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-065",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "34"
+    },
+    "kps": [
+      "EB1.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Answer did not meet the markscheme target. Student answer: The beauty; target: the city / London.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-066",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "35"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 1,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct answer matched the markscheme.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-067",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "36"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Answer did not meet the markscheme target. Student answer: A; target: B.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260714-068",
+    "date": "2026-07-14",
+    "subject": "eng_b_hl",
+    "source": {
+      "type": "paper",
+      "paper": "2025_May_TZ1_P2",
+      "q": "37"
+    },
+    "kps": [
+      "EB1.1.a",
+      "EB1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 1,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "concept",
+    "analysis": "Answer did not meet the markscheme target. Student answer: C; target: D.",
+    "textbook_ref": {
+      "section": "EB1.1",
+      "pdf_page": null,
+      "para": null,
+      "quote": "Reading comprehension target"
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-15",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
   }
 ]
