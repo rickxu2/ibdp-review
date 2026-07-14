@@ -21,13 +21,17 @@ window.Portal = (() => {
   };
   const subjectOptions = selected => Object.entries((db && db.meta && db.meta.subjects) || {})
     .map(([id, item]) => `<option value="${html(id)}" ${id === selected ? "selected" : ""}>${html(item.name || id)}</option>`).join("");
-  const paperChoices = () => {
+  const paperChoices = subject => {
     const seen = new Map();
-    for (const r of resources) if (r.resource_key && ["question_paper", "markscheme"].includes(r.kind)) {
-      if (!seen.has(r.resource_key)) seen.set(r.resource_key, r);
+    const priority = r => r.file_role === "question_booklet" || r.file_role === "question_paper" ? 0 : r.kind === "question_paper" ? 1 : 2;
+    for (const r of resources) if (r.subject === subject && r.resource_key && ["question_paper", "markscheme"].includes(r.kind)) {
+      const previous = seen.get(r.resource_key);
+      if (!previous || priority(r) < priority(previous)) seen.set(r.resource_key, r);
     }
-    return [...seen.values()];
+    return [...seen.values()].sort((a, b) => String(a.title || a.resource_key).localeCompare(String(b.title || b.resource_key)));
   };
+  const paperLabel = r => String(r.title || r.resource_key)
+    .replace(/\s+(Question booklet|Text\/source booklet(?:\s+\d+)?|Markscheme)$/i, "");
   const librarySpec = fileName => {
     const n = fileName.toLowerCase();
     const split = n.match(/^(chem_sl|econ_sl|phys_hl)_.+_p(\d+)-(\d+)\.pdf$/);
@@ -247,15 +251,23 @@ window.Portal = (() => {
   function pageSubmit(lang) {
     if (!configured || !user) return renderLogin(lang);
     if (profile.role === "supervisor") return pageInbox(lang);
-    const papers = paperChoices();
     document.getElementById("app").innerHTML = `<h2>${tx(lang, "Submit work", "提交作业")}</h2>
       <div class="card portal-form"><p>${tx(lang, "Choose what this work belongs to, then upload the completed answer. File names do not matter.", "先选择这份作业属于哪套试卷或哪个科目，再上传完成的答案；文件名不影响关联。")}</p><p class="note"><a href="#/connection">${tx(lang, "Test connection from China", "测试中国大陆连接")}</a></p>
       <form id="submitWork"><label>${tx(lang, "Subject", "科目")}<select id="workSubject" required><option value="">—</option>${subjectOptions()}</select></label>
-      <label>${tx(lang, "Related paper (optional)", "对应试卷（可选）")}<select id="workResource"><option value="">${tx(lang, "Other assignment", "其他作业")}</option>${papers.map(r => `<option value="${html(r.resource_key)}">${html(r.title)}</option>`).join("")}</select></label>
+      <label>${tx(lang, "Related paper (optional)", "对应试卷（可选）")}<select id="workResource" disabled><option value="">${tx(lang, "Choose a subject first", "请先选择科目")}</option></select></label>
       <label>${tx(lang, "Assignment title", "作业名称")}<input id="workTitle" placeholder="e.g. Topic 4 homework" required></label>
       <label>${tx(lang, "Files", "文件")}<input id="workFiles" type="file" accept="image/*,.pdf" multiple required></label>
       <label>${tx(lang, "Note (optional)", "备注（可选）")}<textarea id="workNote" rows="3" placeholder="${tx(lang, "Subject, paper and question numbers", "科目、试卷和题号")}"></textarea></label>
       <button type="submit" class="portal-primary">${tx(lang, "Upload submission", "上传提交")}</button></form><div id="submitStatus" class="note"></div></div>`;
+    const subjectField = document.getElementById("workSubject"), resourceField = document.getElementById("workResource");
+    const renderPaperChoices = () => {
+      const papers = paperChoices(subjectField.value);
+      resourceField.disabled = !subjectField.value;
+      resourceField.innerHTML = `<option value="">${tx(lang, "Other assignment", "其他作业")}</option>` + papers
+        .map(r => `<option value="${html(r.resource_key)}">${html(paperLabel(r))}</option>`).join("");
+    };
+    subjectField.onchange = renderPaperChoices;
+    renderPaperChoices();
     document.getElementById("submitWork").onsubmit = async e => {
       e.preventDefault();
       const status = document.getElementById("submitStatus");
