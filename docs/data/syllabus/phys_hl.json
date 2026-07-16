@@ -6,14 +6,14 @@
   "topics": [
     { "id": "A", "name": "Theme A: Space, time and motion", "subtopics": [
       { "id": "A.1", "name": "Kinematics", "kps": [
-        { "id": "A.1.a", "name": "Position, displacement, velocity and acceleration", "covered": false },
-        { "id": "A.1.b", "name": "Motion graphs and constant-acceleration equations", "covered": false },
+        { "id": "A.1.a", "name": "Position, displacement, velocity and acceleration", "covered": true },
+        { "id": "A.1.b", "name": "Motion graphs and constant-acceleration equations", "covered": true },
         { "id": "A.1.c", "name": "Projectile and relative motion", "covered": false }
       ]},
       { "id": "A.2", "name": "Forces and momentum", "kps": [
-        { "id": "A.2.a", "name": "Free-body diagrams and Newton's laws", "covered": false },
-        { "id": "A.2.b", "name": "Impulse, momentum conservation and collisions", "covered": false },
-        { "id": "A.2.c", "name": "Circular motion and centripetal force", "covered": false }
+        { "id": "A.2.a", "name": "Free-body diagrams and Newton's laws", "covered": true },
+        { "id": "A.2.b", "name": "Impulse, momentum conservation and collisions", "covered": true },
+        { "id": "A.2.c", "name": "Circular motion and centripetal force", "covered": true }
       ]},
       { "id": "A.3", "name": "Work, energy and power", "kps": [
         { "id": "A.3.a", "name": "Work, kinetic energy and the work-energy theorem", "covered": false },
@@ -34,49 +34,49 @@
     { "id": "B", "name": "Theme B: The particulate nature of matter", "subtopics": [
       { "id": "B.1", "name": "Thermal energy transfers", "kps": [
         { "id": "B.1.a", "name": "Temperature, internal energy and thermal equilibrium", "covered": false },
-        { "id": "B.1.b", "name": "Specific heat capacity and phase changes", "covered": false },
+        { "id": "B.1.b", "name": "Specific heat capacity and phase changes", "covered": true },
         { "id": "B.1.c", "name": "Conduction, convection and radiation", "covered": false }
       ]},
       { "id": "B.2", "name": "Greenhouse effect", "kps": [
         { "id": "B.2.a", "name": "Black-body radiation and Wien/Stefan-Boltzmann laws", "covered": false },
         { "id": "B.2.b", "name": "Energy balance, albedo and emissivity", "covered": false },
-        { "id": "B.2.c", "name": "Greenhouse gases and climate models", "covered": false }
+        { "id": "B.2.c", "name": "Greenhouse gases and climate models", "covered": true }
       ]},
       { "id": "B.3", "name": "Gas laws", "kps": [
-        { "id": "B.3.a", "name": "Ideal gas law and kinetic model", "covered": false },
-        { "id": "B.3.b", "name": "Pressure, density and molecular speed", "covered": false },
+        { "id": "B.3.a", "name": "Ideal gas law and kinetic model", "covered": true },
+        { "id": "B.3.b", "name": "Pressure, density and molecular speed", "covered": true },
         { "id": "B.3.c", "name": "Model assumptions and real-gas limitations", "covered": false }
       ]},
       { "id": "B.4", "name": "Thermodynamics (HL)", "kps": [
         { "id": "B.4.a", "name": "First law of thermodynamics and PV diagrams", "covered": false },
         { "id": "B.4.b", "name": "Isothermal, isobaric, isochoric and adiabatic processes", "covered": false },
-        { "id": "B.4.c", "name": "Heat engines, entropy and the second law", "covered": false }
+        { "id": "B.4.c", "name": "Heat engines, entropy and the second law", "covered": true }
       ]},
       { "id": "B.5", "name": "Current and circuits", "kps": [
-        { "id": "B.5.a", "name": "Charge, current, potential difference and resistance", "covered": false },
-        { "id": "B.5.b", "name": "Series/parallel circuits and Kirchhoff's laws", "covered": false },
+        { "id": "B.5.a", "name": "Charge, current, potential difference and resistance", "covered": true },
+        { "id": "B.5.b", "name": "Series/parallel circuits and Kirchhoff's laws", "covered": true },
         { "id": "B.5.c", "name": "EMF, internal resistance, power and potential dividers", "covered": false }
       ]}
     ]},
     { "id": "C", "name": "Theme C: Wave behaviour", "subtopics": [
       { "id": "C.1", "name": "Simple harmonic motion", "kps": [
-        { "id": "C.1.a", "name": "SHM conditions, displacement, velocity and acceleration", "covered": false },
+        { "id": "C.1.a", "name": "SHM conditions, displacement, velocity and acceleration", "covered": true },
         { "id": "C.1.b", "name": "Energy exchange and phase relationships in SHM", "covered": false },
-        { "id": "C.1.c", "name": "Pendulum and spring-mass systems", "covered": false }
+        { "id": "C.1.c", "name": "Pendulum and spring-mass systems", "covered": true }
       ]},
       { "id": "C.2", "name": "Wave model", "kps": [
-        { "id": "C.2.a", "name": "Wave speed, frequency, wavelength and phase", "covered": false },
+        { "id": "C.2.a", "name": "Wave speed, frequency, wavelength and phase", "covered": true },
         { "id": "C.2.b", "name": "Transverse/longitudinal waves and intensity", "covered": false },
         { "id": "C.2.c", "name": "Electromagnetic spectrum and polarization", "covered": false }
       ]},
       { "id": "C.3", "name": "Wave phenomena", "kps": [
-        { "id": "C.3.a", "name": "Reflection, refraction and Snell's law", "covered": false },
+        { "id": "C.3.a", "name": "Reflection, refraction and Snell's law", "covered": true },
         { "id": "C.3.b", "name": "Superposition, interference and path difference", "covered": false },
-        { "id": "C.3.c", "name": "Single-slit diffraction and diffraction gratings", "covered": false }
+        { "id": "C.3.c", "name": "Single-slit diffraction and diffraction gratings", "covered": true }
       ]},
       { "id": "C.4", "name": "Standing waves and resonance", "kps": [
         { "id": "C.4.a", "name": "Nodes, antinodes and standing-wave formation", "covered": false },
-        { "id": "C.4.b", "name": "Harmonics in strings and pipes", "covered": false },
+        { "id": "C.4.b", "name": "Harmonics in strings and pipes", "covered": true },
         { "id": "C.4.c", "name": "Resonance, damping and Q factor", "covered": false }
       ]},
       { "id": "C.5", "name": "Doppler effect", "kps": [
@@ -109,8 +109,8 @@
     ]},
     { "id": "E", "name": "Theme E: Nuclear and quantum physics", "subtopics": [
       { "id": "E.1", "name": "Structure of the atom", "kps": [
-        { "id": "E.1.a", "name": "Atomic models, spectra and energy levels", "covered": false },
-        { "id": "E.1.b", "name": "Rutherford scattering and nuclear size", "covered": false },
+        { "id": "E.1.a", "name": "Atomic models, spectra and energy levels", "covered": true },
+        { "id": "E.1.b", "name": "Rutherford scattering and nuclear size", "covered": true },
         { "id": "E.1.c", "name": "Mass defect and binding energy", "covered": false }
       ]},
       { "id": "E.2", "name": "Quantum physics", "kps": [

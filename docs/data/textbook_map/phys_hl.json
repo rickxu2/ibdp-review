@@ -1,0 +1,106 @@
+{
+  "subject": "phys_hl",
+  "book": "Physics textbook private Supabase split resources",
+  "file": "Textbook/Physics_HL.pdf",
+  "cloud_url": null,
+  "note": "pdf_start/pdf_end are coarse page ranges from private textbook split resource metadata; kp_overrides are lazy exact page cache entries.",
+  "subtopics": {
+    "A.1": {
+      "pdf_start": 14,
+      "pdf_end": 60
+    },
+    "A.2": {
+      "pdf_start": 61,
+      "pdf_end": 110
+    },
+    "A.3": {
+      "pdf_start": 111,
+      "pdf_end": 150
+    },
+    "A.4": {
+      "pdf_start": 151,
+      "pdf_end": 180
+    },
+    "A.5": {
+      "pdf_start": 181,
+      "pdf_end": 203
+    },
+    "B.1": {
+      "pdf_start": 204,
+      "pdf_end": 230
+    },
+    "B.2": {
+      "pdf_start": 231,
+      "pdf_end": 255
+    },
+    "B.3": {
+      "pdf_start": 256,
+      "pdf_end": 290
+    },
+    "B.4": {
+      "pdf_start": 291,
+      "pdf_end": 315
+    },
+    "B.5": {
+      "pdf_start": 316,
+      "pdf_end": 339
+    },
+    "C.1": {
+      "pdf_start": 374,
+      "pdf_end": 395
+    },
+    "C.2": {
+      "pdf_start": 396,
+      "pdf_end": 420
+    },
+    "C.3": {
+      "pdf_start": 421,
+      "pdf_end": 455
+    },
+    "C.4": {
+      "pdf_start": 456,
+      "pdf_end": 470
+    },
+    "C.5": {
+      "pdf_start": 471,
+      "pdf_end": 479
+    },
+    "D.1": {
+      "pdf_start": 480,
+      "pdf_end": 515
+    },
+    "D.2": {
+      "pdf_start": 516,
+      "pdf_end": 555
+    },
+    "D.3": {
+      "pdf_start": 556,
+      "pdf_end": 575
+    },
+    "D.4": {
+      "pdf_start": 576,
+      "pdf_end": 593
+    },
+    "E.1": {
+      "pdf_start": 594,
+      "pdf_end": 625
+    },
+    "E.2": {
+      "pdf_start": 626,
+      "pdf_end": 655
+    },
+    "E.3": {
+      "pdf_start": 656,
+      "pdf_end": 680
+    },
+    "E.4": {
+      "pdf_start": 681,
+      "pdf_end": 695
+    },
+    "E.5": {
+      "pdf_start": 696,
+      "pdf_end": 707
+    }
+  },
+  "kp_overrides": {}
+}
