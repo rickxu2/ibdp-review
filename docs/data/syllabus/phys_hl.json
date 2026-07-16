@@ -16,9 +16,9 @@
         { "id": "A.2.c", "name": "Circular motion and centripetal force", "covered": true }
       ]},
       { "id": "A.3", "name": "Work, energy and power", "kps": [
-        { "id": "A.3.a", "name": "Work, kinetic energy and the work-energy theorem", "covered": false },
+        { "id": "A.3.a", "name": "Work, kinetic energy and the work-energy theorem", "covered": true },
         { "id": "A.3.b", "name": "Potential energy and conservation of mechanical energy", "covered": false },
-        { "id": "A.3.c", "name": "Power and efficiency", "covered": false }
+        { "id": "A.3.c", "name": "Power and efficiency", "covered": true }
       ]},
       { "id": "A.4", "name": "Rigid body mechanics (HL)", "kps": [
         { "id": "A.4.a", "name": "Torque, equilibrium and centre of mass", "covered": false },
@@ -26,8 +26,8 @@
         { "id": "A.4.c", "name": "Angular momentum and rotational energy", "covered": false }
       ]},
       { "id": "A.5", "name": "Relativity (HL)", "kps": [
-        { "id": "A.5.a", "name": "Galilean transformations and frames of reference", "covered": false },
-        { "id": "A.5.b", "name": "Lorentz factor, time dilation and length contraction", "covered": false },
+        { "id": "A.5.a", "name": "Galilean transformations and frames of reference", "covered": true },
+        { "id": "A.5.b", "name": "Lorentz factor, time dilation and length contraction", "covered": true },
         { "id": "A.5.c", "name": "Relativistic energy and momentum", "covered": false }
       ]}
     ]},
@@ -61,7 +61,7 @@
     { "id": "C", "name": "Theme C: Wave behaviour", "subtopics": [
       { "id": "C.1", "name": "Simple harmonic motion", "kps": [
         { "id": "C.1.a", "name": "SHM conditions, displacement, velocity and acceleration", "covered": true },
-        { "id": "C.1.b", "name": "Energy exchange and phase relationships in SHM", "covered": false },
+        { "id": "C.1.b", "name": "Energy exchange and phase relationships in SHM", "covered": true },
         { "id": "C.1.c", "name": "Pendulum and spring-mass systems", "covered": true }
       ]},
       { "id": "C.2", "name": "Wave model", "kps": [
@@ -71,7 +71,7 @@
       ]},
       { "id": "C.3", "name": "Wave phenomena", "kps": [
         { "id": "C.3.a", "name": "Reflection, refraction and Snell's law", "covered": true },
-        { "id": "C.3.b", "name": "Superposition, interference and path difference", "covered": false },
+        { "id": "C.3.b", "name": "Superposition, interference and path difference", "covered": true },
         { "id": "C.3.c", "name": "Single-slit diffraction and diffraction gratings", "covered": true }
       ]},
       { "id": "C.4", "name": "Standing waves and resonance", "kps": [
@@ -80,7 +80,7 @@
         { "id": "C.4.c", "name": "Resonance, damping and Q factor", "covered": false }
       ]},
       { "id": "C.5", "name": "Doppler effect", "kps": [
-        { "id": "C.5.a", "name": "Doppler effect for sound", "covered": false },
+        { "id": "C.5.a", "name": "Doppler effect for sound", "covered": true },
         { "id": "C.5.b", "name": "Doppler effect for electromagnetic waves", "covered": false },
         { "id": "C.5.c", "name": "Applications to astronomy and measurement", "covered": false }
       ]}
@@ -131,7 +131,7 @@
       { "id": "E.5", "name": "Fusion and stars", "kps": [
         { "id": "E.5.a", "name": "Fusion reactions and conditions", "covered": false },
         { "id": "E.5.b", "name": "Stellar evolution and nucleosynthesis", "covered": false },
-        { "id": "E.5.c", "name": "Luminosity, stellar spectra and Hertzsprung-Russell diagrams", "covered": false }
+        { "id": "E.5.c", "name": "Luminosity, stellar spectra and Hertzsprung-Russell diagrams", "covered": true }
       ]}
     ]}
   ]
