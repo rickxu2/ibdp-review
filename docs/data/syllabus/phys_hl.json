@@ -109,8 +109,8 @@
     ]},
     { "id": "E", "name": "Theme E: Nuclear and quantum physics", "subtopics": [
       { "id": "E.1", "name": "Structure of the atom", "kps": [
-        { "id": "E.1.a", "name": "Atomic models, spectra and energy levels", "covered": true },
-        { "id": "E.1.b", "name": "Rutherford scattering and nuclear size", "covered": true },
+        { "id": "E.1.a", "name": "Atomic models, spectra and energy levels", "covered": false },
+        { "id": "E.1.b", "name": "Rutherford scattering and nuclear size", "covered": false },
         { "id": "E.1.c", "name": "Mass defect and binding energy", "covered": false }
       ]},
       { "id": "E.2", "name": "Quantum physics", "kps": [
@@ -131,7 +131,7 @@
       { "id": "E.5", "name": "Fusion and stars", "kps": [
         { "id": "E.5.a", "name": "Fusion reactions and conditions", "covered": false },
         { "id": "E.5.b", "name": "Stellar evolution and nucleosynthesis", "covered": false },
-        { "id": "E.5.c", "name": "Luminosity, stellar spectra and Hertzsprung-Russell diagrams", "covered": true }
+        { "id": "E.5.c", "name": "Luminosity, stellar spectra and Hertzsprung-Russell diagrams", "covered": false }
       ]}
     ]}
   ]
