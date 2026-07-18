@@ -112,7 +112,7 @@
           "kps": [
             { "id": "S3.2.a", "name": "Homologous series and general formulas", "covered": false },
             { "id": "S3.2.b", "name": "Functional group identification; IUPAC nomenclature", "covered": false },
-            { "id": "S3.2.c", "name": "Structural formulas (full, condensed, skeletal); structural isomers", "covered": false },
+            { "id": "S3.2.c", "name": "Structural formulas (full, condensed, skeletal); structural isomers", "covered": true },
             { "id": "S3.2.d", "name": "Primary, secondary, tertiary classification (carbon/amines)", "covered": false }
           ]
         }
@@ -211,7 +211,7 @@
           "name": "Electron sharing reactions: radicals",
           "kps": [
             { "id": "R3.3.a", "name": "Radicals and homolytic fission", "covered": false },
-            { "id": "R3.3.b", "name": "Radical substitution of alkanes with halogens (initiation/propagation/termination)", "covered": false }
+            { "id": "R3.3.b", "name": "Radical substitution of alkanes with halogens (initiation/propagation/termination)", "covered": true }
           ]
         },
         {

@@ -45,6 +45,16 @@
     "R2.1.a": { "pdf_page": 474, "para": 1 },
     "R2.1.c": { "pdf_page": 476, "para": 1 },
     "S2.1.a": { "pdf_page": 108, "para": 2 },
-    "S2.2.b": { "pdf_page": 191, "para": 1 }
+    "S2.2.b": { "pdf_page": 191, "para": 1 },
+    "S1.2.a": { "pdf_page": 38, "para": 1 },
+    "S1.3.a": { "pdf_page": 46, "para": 1 },
+    "S2.4.b": { "pdf_page": 229, "para": 1 },
+    "S3.1.b": { "pdf_page": 246, "para": 1 },
+    "S3.2.c": { "pdf_page": 291, "para": 1 },
+    "R1.1.b": { "pdf_page": 409, "para": 1 },
+    "R1.3.a": { "pdf_page": 411, "para": 1 },
+    "R3.1.a": { "pdf_page": 549, "para": 1 },
+    "R3.1.c": { "pdf_page": 560, "para": 1 },
+    "R3.3.b": { "pdf_page": 637, "para": 1 }
   }
 }
