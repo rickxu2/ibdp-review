@@ -101,6 +101,10 @@
 
       const unmatchedResources = subjectResources.filter(r => r.kind !== "textbook" && !r.resource_key);
       const unmatchedSubmissions = subjectSubmissions.filter(s => !s.resource_key);
+      const availablePapers = [...new Set(subjectResources.filter(r => r.kind !== "textbook" && r.resource_key).map(r => r.resource_key))].sort().reverse();
+      const bindControl = submission => availablePapers.length
+        ? `<div class="submission-bind"><label>${tx("Link to paper", "关联到试卷")}<select class="js-bind-submission-key" data-id="${I.html(submission.id)}">${availablePapers.map(key => `<option value="${I.html(key)}">${I.html(key)}</option>`).join("")}</select></label><button class="mini-btn js-bind-submission" data-id="${I.html(submission.id)}">${tx("Link", "关联")}</button></div>`
+        : `<div class="note resource-missing">${tx("Upload a paper for this subject first, then link this submission here.", "请先上传该科目的试卷资料，然后在此关联这份提交。")}</div>`;
       const unmatched = [...unmatchedResources.map(r => `<div class="portal-row"><div><b>${I.html(r.title)}</b><div class="note">${I.html(r.kind)} · ${I.html(r.file_name)}</div></div>${openButton(r.bucket_path, tx("Open", "打开"))}</div>`),
         ...unmatchedSubmissions.flatMap(s => (s.submission_files || []).map(f => `<div class="portal-row"><div><b>${tx("Unmatched student submission", "未匹配的学生提交")}</b><div class="note">${I.html(s.title || s.note || "")} · ${I.html(f.file_name)}</div></div>${openButton(f.bucket_path, tx("Open", "打开"))}</div>`))].join("");
       return `<section class="card resource-subject"><h3>${I.html(subjectName(subject))}</h3>${textbooks ? `<div class="resource-category"><h4>${tx("Textbooks", "课本")}</h4>${textbooks}</div>` : ""}${papers ? `<div class="resource-category"><h4>${tx("Papers and submissions", "试卷与学生提交")}</h4>${papers}</div>` : ""}${unmatched ? `<details class="resource-group unmatched-group"><summary><b>${tx("Unmatched resources", "未匹配资料")}</b><span>${unmatchedResources.length + unmatchedSubmissions.length}</span></summary><div class="resource-group-body">${unmatched}</div></details>` : ""}</section>`;
@@ -108,6 +112,23 @@
     const list = subjectIds.length ? `<div class="resource-groups">${subjectIds.map(renderSubject).join("")}</div>` : `<div class="empty">${tx("No resources uploaded yet.", "还没有上传资料。")}</div>`;
     document.getElementById("app").innerHTML = `<h2>${tx("Private resources", "私密资料库")}</h2><div class="note">${tx("Resources are grouped by subject, textbook and paper. Files are linked by metadata, never by their names.", "资料按科目、课本和试卷分组；关联依靠元数据，不依赖文件名。")}</div>${list}${upload}`;
     P.wirePrivateOpen(lang);
+    const manualLinks = submissions.filter(s => !s.resource_key).map(submission => {
+      const paperKeys = [...new Set(resources.filter(r => r.subject === submission.subject && r.kind !== "textbook" && r.resource_key).map(r => r.resource_key))].sort().reverse();
+      if (!paperKeys.length) return "";
+      return `<div class="portal-row submission-bind-row"><div><b>${tx("Manual submission link", "手动关联学生提交")}</b><div class="note">${I.html(submission.title || submission.note || tx("Untitled submission", "未命名提交"))}</div></div><label>${tx("Paper", "试卷")}<select class="js-bind-submission-key" data-id="${I.html(submission.id)}">${paperKeys.map(key => `<option value="${I.html(key)}">${I.html(key)}</option>`).join("")}</select></label><button class="mini-btn js-bind-submission" data-id="${I.html(submission.id)}">${tx("Link", "关联")}</button></div>`;
+    }).join("");
+    if (manualLinks) document.getElementById("app").insertAdjacentHTML("beforeend", `<section class="card resource-subject"><h3>${tx("Unmatched student submissions", "未匹配学生提交")}</h3><p class="note">${tx("Choose the uploaded paper, then link. This changes only metadata; no file is copied.", "选择已上传的试卷后点击关联；这只更新元数据，不会复制文件。")}</p>${manualLinks}</section>`);
+    document.querySelectorAll(".js-bind-submission").forEach(button => button.onclick = async () => {
+      const id = button.dataset.id;
+      const select = document.querySelector(`.js-bind-submission-key[data-id="${id}"]`);
+      const submission = submissions.find(s => s.id === id);
+      if (!select || !select.value || !submission) return;
+      button.disabled = true;
+      const { error } = await client.from("submissions").update({ subject: submission.subject, resource_key: select.value })
+        .eq("id", id).eq("student_id", studentId);
+      if (error) { button.disabled = false; alert(error.message); return; }
+      await P.pageFiles(lang);
+    });
 
     const storeResource = async (file, meta, objectPath, progress) => {
       const { data: existing, error: findError } = await client.from("learning_resources").select("id").eq("bucket_path", objectPath).limit(1);
