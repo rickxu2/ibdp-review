@@ -8480,5 +8480,717 @@
       "history": []
     },
     "uncertain": false
+  },
+  {
+    "id": "A-20260728-001",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "1"
+    },
+    "kps": [
+      "M2.1.a"
+    ],
+    "command_term": "Answer",
+    "max": 5,
+    "earned": 5,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Complete response: f(0)=-2, y=3/2, and -3/2<y<=2.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-002",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "2"
+    },
+    "kps": [
+      "M3.2.b"
+    ],
+    "command_term": "Answer",
+    "max": 5,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "time",
+    "analysis": "No response was written in the answer box.",
+    "textbook_ref": {
+      "section": "M3.2",
+      "pdf_page": 323,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-003",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "3"
+    },
+    "kps": [
+      "M3.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 7,
+    "earned": 7,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct sine-rule, double-angle and area work; DC=10/3.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-004",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "4"
+    },
+    "kps": [
+      "M4.2.a"
+    ],
+    "command_term": "Answer",
+    "max": 7,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "time",
+    "analysis": "No response was written in the answer box.",
+    "textbook_ref": {
+      "section": "M4.2",
+      "pdf_page": 1,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-005",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "5"
+    },
+    "kps": [
+      "M2.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 7,
+    "earned": 7,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct discriminant and root-sign conditions.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-006",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "6"
+    },
+    "kps": [
+      "M5.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 7,
+    "earned": 1,
+    "verdict": "partial",
+    "error_type": "concept",
+    "analysis": "Distance expression was correct, but no optimization was completed.",
+    "textbook_ref": {
+      "section": "M5.1",
+      "pdf_page": 517,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-007",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "7"
+    },
+    "kps": [
+      "M1.3.b"
+    ],
+    "command_term": "Answer",
+    "max": 5,
+    "earned": 5,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct repeated-factor comparison gives p=2 and q=-6.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-008",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "8"
+    },
+    "kps": [
+      "M3.3.b"
+    ],
+    "command_term": "Answer",
+    "max": 8,
+    "earned": 2,
+    "verdict": "partial",
+    "error_type": "concept",
+    "analysis": "The arccos graph was correct; the equation in part (b) was blank.",
+    "textbook_ref": {
+      "section": "M3.3",
+      "pdf_page": 20,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-009",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "9"
+    },
+    "kps": [
+      "M1.2.b"
+    ],
+    "command_term": "Answer",
+    "max": 6,
+    "earned": 6,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct contradiction using (2x-1)^2<0.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-010",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "10"
+    },
+    "kps": [
+      "M2.2.a"
+    ],
+    "command_term": "Answer",
+    "max": 17,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "time",
+    "analysis": "Work was written on a page explicitly marked not to be scored.",
+    "textbook_ref": {
+      "section": "M2.2",
+      "pdf_page": 80,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-011",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "11"
+    },
+    "kps": [
+      "M5.3.c"
+    ],
+    "command_term": "Answer",
+    "max": 17,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "time",
+    "analysis": "Work was written on a page explicitly marked not to be scored.",
+    "textbook_ref": {
+      "section": "M5.3",
+      "pdf_page": 653,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-012",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-001",
+      "paper": "2025_May_TZ2_P1",
+      "q": "12"
+    },
+    "kps": [
+      "M1.2.c"
+    ],
+    "command_term": "Answer",
+    "max": 19,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "time",
+    "analysis": "No markable response was submitted.",
+    "textbook_ref": {
+      "section": "M1.2",
+      "pdf_page": 368,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-013",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "1"
+    },
+    "kps": [
+      "M4.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 4,
+    "earned": 3,
+    "verdict": "partial",
+    "error_type": "concept",
+    "analysis": "Gradient and follow-through estimate were correct; regression intercept was not.",
+    "textbook_ref": {
+      "section": "M4.1",
+      "pdf_page": 708,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-014",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "2"
+    },
+    "kps": [
+      "M3.2.c"
+    ],
+    "command_term": "Answer",
+    "max": 6,
+    "earned": 4,
+    "verdict": "partial",
+    "error_type": "concept",
+    "analysis": "VX and AC were correct; the final angle used AC rather than XC.",
+    "textbook_ref": {
+      "section": "M3.2",
+      "pdf_page": 323,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-015",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "3"
+    },
+    "kps": [
+      "M5.1.c"
+    ],
+    "command_term": "Answer",
+    "max": 6,
+    "earned": 6,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct decreasing and concave-up intervals.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-016",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "4"
+    },
+    "kps": [
+      "M1.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 6,
+    "earned": 3,
+    "verdict": "partial",
+    "error_type": "concept",
+    "analysis": "Valid depreciation setup, but the value was not to two decimal places; real-rate work was incomplete.",
+    "textbook_ref": {
+      "section": "M1.1",
+      "pdf_page": 1,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-017",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "5"
+    },
+    "kps": [
+      "M5.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 7,
+    "earned": 7,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct maximum speed, total distance, and second-change acceleration.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-018",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "6"
+    },
+    "kps": [
+      "M3.1.a"
+    ],
+    "command_term": "Answer",
+    "max": 6,
+    "earned": 3,
+    "verdict": "partial",
+    "error_type": "concept",
+    "analysis": "Correct 3:5 area relation and sector equation, but no one-variable solve or radius.",
+    "textbook_ref": {
+      "section": "M3.1",
+      "pdf_page": 18,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-019",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "7"
+    },
+    "kps": [
+      "M1.1.a"
+    ],
+    "command_term": "Answer",
+    "max": 7,
+    "earned": 7,
+    "verdict": "correct",
+    "error_type": null,
+    "analysis": "Correct common ratio, arithmetic difference, and maximum sum 547.04.",
+    "textbook_ref": null,
+    "review": null,
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-020",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "8"
+    },
+    "kps": [
+      "M4.1.b"
+    ],
+    "command_term": "Answer",
+    "max": 7,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "time",
+    "analysis": "No response was written in the answer box.",
+    "textbook_ref": {
+      "section": "M4.1",
+      "pdf_page": 708,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-021",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "9"
+    },
+    "kps": [
+      "M3.2.b"
+    ],
+    "command_term": "Answer",
+    "max": 8,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "time",
+    "analysis": "No response was written in the answer box.",
+    "textbook_ref": {
+      "section": "M3.2",
+      "pdf_page": 323,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-022",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "10"
+    },
+    "kps": [
+      "M4.3.a"
+    ],
+    "command_term": "Answer",
+    "max": 17,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "time",
+    "analysis": "No markable response was submitted in the answer booklet.",
+    "textbook_ref": {
+      "section": "M4.3",
+      "pdf_page": 763,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-023",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "11"
+    },
+    "kps": [
+      "M1.2.a"
+    ],
+    "command_term": "Answer",
+    "max": 14,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "time",
+    "analysis": "Work was written on a page explicitly marked not to be scored.",
+    "textbook_ref": {
+      "section": "M1.2",
+      "pdf_page": 193,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
+  },
+  {
+    "id": "A-20260728-024",
+    "date": "2026-07-28",
+    "subject": "math_aa_hl",
+    "source": {
+      "type": "paper",
+      "assignment_id": "ASG-20260728-002",
+      "paper": "2025_May_TZ2_P2",
+      "q": "12"
+    },
+    "kps": [
+      "M5.2.c"
+    ],
+    "command_term": "Answer",
+    "max": 22,
+    "earned": 0,
+    "verdict": "wrong",
+    "error_type": "time",
+    "analysis": "Work was written on a page explicitly marked not to be scored.",
+    "textbook_ref": {
+      "section": "M5.2",
+      "pdf_page": 610,
+      "para": 1,
+      "quote": "Review the named syllabus concept."
+    },
+    "review": {
+      "stage": 0,
+      "next": "2026-07-29",
+      "done": false,
+      "history": []
+    },
+    "uncertain": false
   }
 ]
