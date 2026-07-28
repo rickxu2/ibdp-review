@@ -218,6 +218,18 @@ async function j(url) {
   return r.json();
 }
 
+const linkedResourceSubject = path => {
+  const match = String(path || "").match(/\/resources\/(?:papers|textbooks)\/([^/]+)\//);
+  return match && match[1];
+};
+
+function subjectSafePaperMeta(meta, expectedSubject) {
+  if (!meta) return {};
+  const subjects = [meta.qp_storage, meta.ms_storage, meta.textbook_storage]
+    .map(linkedResourceSubject).filter(Boolean);
+  return subjects.length && subjects.some(subject => subject !== expectedSubject) ? {} : meta;
+}
+
 async function loadAll() {
   DB.meta = await j("data/meta.json");
   STUDENT_TIME_ZONE = DB.meta.time_zone || STUDENT_TIME_ZONE;
@@ -238,8 +250,9 @@ async function loadAll() {
     if (!doc || !doc.items) return;
     const papers = doc.papers || {};
     for (const [id, c] of Object.entries(doc.items)) {
-      const pk = c.paper || (DB.attempts.find(a => a.id === id)?.source?.paper);
-      DB.content[id] = { ...c, ...(papers[pk] || {}) };
+      const attempt = DB.attempts.find(a => a.id === id);
+      const pk = c.paper || (attempt && attempt.source && attempt.source.paper);
+      DB.content[id] = { ...c, ...subjectSafePaperMeta(papers[pk], attempt && attempt.subject) };
     }
   }));
 }

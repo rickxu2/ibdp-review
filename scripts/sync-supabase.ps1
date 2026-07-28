@@ -61,6 +61,28 @@ function ConvertTo-SupportingFilePaths($Value) {
   return @($Value)
 }
 
+function Get-ResourcePathSubject([string]$Path) {
+  if (-not $Path) { return $null }
+  $match = [regex]::Match($Path, '/resources/(?:papers|textbooks)/([^/]+)/')
+  if ($match.Success) { return $match.Groups[1].Value }
+  return $null
+}
+
+function Get-SafeResourcePath([string]$Path, [string]$ExpectedSubject) {
+  $linkedSubject = Get-ResourcePathSubject $Path
+  if ($linkedSubject -and $linkedSubject -ne $ExpectedSubject) { return $null }
+  return $Path
+}
+
+function ConvertTo-SafeSupportingFilePaths($Value, [string]$ExpectedSubject) {
+  $safe = @()
+  foreach ($item in @(ConvertTo-SupportingFilePaths $Value)) {
+    $path = if ($item -is [string]) { $item } else { $item.path }
+    if (Get-SafeResourcePath $path $ExpectedSubject) { $safe += $item }
+  }
+  return $safe
+}
+
 $meta = Get-Content -Raw -Encoding UTF8 (Join-Path $root 'docs/data/meta.json') | ConvertFrom-Json
 $attemptRows = @()
 $contentRows = @()
@@ -87,8 +109,14 @@ foreach ($relative in $meta.attempt_files) {
     }
     if ($private -and $private.items.PSObject.Properties.Name -contains $a.id) {
       $c = $private.items.($a.id)
-      $paper = if ($c.paper) { $c.paper } else { $a.source.paper }
-      $paperMeta = if ($paper) { $private.papers.$paper } else { $null }
+      $paperKey = if ($a.source.paper) { $a.source.paper } else { $c.paper }
+      $paperMetaKey = if ($c.paper) { $c.paper } else { $a.source.paper }
+      $paperMeta = if ($paperMetaKey) { $private.papers.$paperMetaKey } else { $null }
+      if ($paperMeta) {
+        $metaSubjects = @($paperMeta.qp_storage, $paperMeta.ms_storage, $paperMeta.textbook_storage) |
+          ForEach-Object { Get-ResourcePathSubject $_ } | Where-Object { $_ }
+        if (@($metaSubjects | Where-Object { $_ -ne $a.subject }).Count -gt 0) { $paperMeta = $null }
+      }
       $answerPath = if ($c.answer_file_path) { $c.answer_file_path } else { $paperMeta.answer_storage }
       $submissionId = $c.submission_id
       if (-not $submissionId -and $answerPath -match '/submissions/([0-9a-fA-F-]{36})/') {
@@ -96,13 +124,13 @@ foreach ($relative in $meta.attempt_files) {
       }
       $contentRows += [ordered]@{
         attempt_id = $a.id; student_id = $StudentId; question_text = $c.q
-        answer_text = $c.ans; markscheme_text = $c.ms; paper_key = $paper
+        answer_text = $c.ans; markscheme_text = $c.ms; paper_key = $paperKey
         qp_page = $c.qp_page; ms_page = $c.ms_page
-        question_file_path = $paperMeta.qp_storage
-        markscheme_file_path = $paperMeta.ms_storage
-        answer_file_path = $answerPath
-        textbook_file_path = $paperMeta.textbook_storage
-        supporting_file_paths = ConvertTo-SupportingFilePaths $c.supporting_file_paths
+        question_file_path = Get-SafeResourcePath $paperMeta.qp_storage $a.subject
+        markscheme_file_path = Get-SafeResourcePath $paperMeta.ms_storage $a.subject
+        answer_file_path = Get-SafeResourcePath $answerPath $a.subject
+        textbook_file_path = Get-SafeResourcePath $paperMeta.textbook_storage $a.subject
+        supporting_file_paths = ConvertTo-SafeSupportingFilePaths $c.supporting_file_paths $a.subject
         submission_id = $submissionId
       }
     }

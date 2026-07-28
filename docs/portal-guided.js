@@ -32,7 +32,7 @@
       .map(year => `<option value="${year}" ${year === 2025 ? "selected" : ""}>${year}</option>`).join("");
     const submissionOptions = submissions.map(s => {
       const label = s.title || s.note || `${new Date(s.submitted_at).toLocaleString()} · ${(s.submission_files[0] || {}).file_name || "submission"}`;
-      return `<option value="${I.html(s.id)}">${I.html(label)}</option>`;
+      return `<option value="${I.html(s.id)}" data-subject="${I.html(s.subject || "")}">${I.html(label)}</option>`;
     }).join("");
 
     const upload = profile.role === "supervisor" ? `
@@ -131,13 +131,18 @@
     });
 
     const storeResource = async (file, meta, objectPath, progress) => {
-      const { data: existing, error: findError } = await client.from("learning_resources").select("id").eq("bucket_path", objectPath).limit(1);
+      const { data: existing, error: findError } = await client.from("learning_resources")
+        .select("id,subject,resource_key,kind,file_role").eq("bucket_path", objectPath).limit(1);
       if (findError) throw findError;
       const row = { student_id: studentId, bucket_path: objectPath, file_name: file.name, mime_type: file.type || "application/pdf", size_bytes: file.size, uploaded_by: user.id, ...meta };
       if (existing && existing.length) {
+        const previous = existing[0];
+        const identityFields = ["subject", "resource_key", "kind", "file_role"];
+        const conflict = identityFields.find(field => (previous[field] || null) !== (row[field] || null));
+        if (conflict) throw new Error(`Refusing to overwrite a resource whose ${conflict} belongs to another paper.`);
+        await I.resumableUpload(file, objectPath, progress);
         const { error } = await client.from("learning_resources").update(row).eq("id", existing[0].id);
         if (error) throw error;
-        progress(100);
       } else {
         await I.resumableUpload(file, objectPath, progress);
         const { error } = await client.from("learning_resources").insert(row);
@@ -183,6 +188,13 @@
         const identity = paperIdentity();
         document.getElementById("guidedPaperKeyPreview").textContent = identity.key;
         document.getElementById("guidedPaperTitlePreview").textContent = identity.title;
+        const submissionSelect = document.getElementById("guidedSubmission");
+        for (const option of [...submissionSelect.options].slice(1)) {
+          const matches = option.dataset.subject === identity.subject;
+          option.hidden = !matches;
+          option.disabled = !matches;
+        }
+        if (submissionSelect.selectedOptions[0] && submissionSelect.selectedOptions[0].disabled) submissionSelect.value = "";
       };
       ["guidedPaperSubject", "guidedPaperYear", "guidedPaperSession", "guidedPaperTimezone", "guidedPaperComponent"].forEach(id => {
         document.getElementById(id).onchange = updatePaperPreview;
@@ -210,6 +222,7 @@
         const submissionId = document.getElementById("guidedSubmission").value;
         if (submissionId) {
           const submission = submissions.find(s => s.id === submissionId), answer = submission && submission.submission_files[0];
+          if (!submission || submission.subject !== subject) throw new Error("The selected submission belongs to a different subject.");
           if (answer) {
             links.answer_file_path = answer.bucket_path;
             if (!links.question_file_path) links.question_file_path = answer.bucket_path;
@@ -218,10 +231,20 @@
           const { error } = await client.from("submissions").update({ subject, resource_key: key }).eq("id", submissionId).eq("student_id", studentId);
           if (error) throw error;
         }
-        const { error } = await client.from("attempt_content").update(links).eq("student_id", studentId).eq("paper_key", key);
-        if (error) throw error;
+        const { data: subjectAttempts, error: attemptError } = await client.from("attempts")
+          .select("id,source").eq("student_id", studentId).eq("subject", subject);
+        if (attemptError) throw attemptError;
+        const attemptIds = (subjectAttempts || []).filter(attempt => attempt.source && attempt.source.paper === key).map(attempt => attempt.id);
+        if (attemptIds.length) {
+          const { error } = await client.from("attempt_content").update({ ...links, paper_key: key })
+            .eq("student_id", studentId).in("attempt_id", attemptIds);
+          if (error) throw error;
+        }
         await I.syncData();
-        status.textContent = tx("Paper uploaded and linked by metadata.", "试卷资料已按元数据上传并关联。");
+        status.textContent = tx(
+          `Paper uploaded; ${attemptIds.length} marked item${attemptIds.length === 1 ? "" : "s"} linked within ${subject}.`,
+          `试卷资料已上传；仅在 ${subject} 内关联了 ${attemptIds.length} 条批改记录。`
+        );
       } catch (error) { status.textContent = error.message; }
       finally { button.disabled = false; }
       };
