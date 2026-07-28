@@ -141,6 +141,27 @@ foreach ($relative in $meta.attempt_files) {
   }
 }
 
+$contentByAttempt = @{}
+foreach ($row in $contentRows) { $contentByAttempt[$row.attempt_id] = $row }
+$contentIssues = @()
+foreach ($attempt in $attemptRows) {
+  if (-not $contentByAttempt.ContainsKey($attempt.id)) {
+    $contentIssues += "$($attempt.id): missing private content record"
+    continue
+  }
+  $content = $contentByAttempt[$attempt.id]
+  $missingFields = @()
+  if ([string]::IsNullOrWhiteSpace($content.question_text)) { $missingFields += 'question_text' }
+  if ([string]::IsNullOrWhiteSpace($content.answer_text)) { $missingFields += 'answer_text' }
+  if ([string]::IsNullOrWhiteSpace($content.markscheme_text)) { $missingFields += 'markscheme_text' }
+  if ($missingFields.Count -gt 0) {
+    $contentIssues += "$($attempt.id): missing $($missingFields -join ', ')"
+  }
+}
+if ($contentIssues.Count -gt 0) {
+  throw "Private review content is incomplete. Nothing was synced.`n$($contentIssues -join "`n")"
+}
+
 Send-Upsert 'attempts' 'id' $attemptRows
 Send-Upsert 'attempt_content' 'attempt_id' $contentRows
 if ($OverwriteReviewProgress) {
@@ -150,4 +171,28 @@ if ($OverwriteReviewProgress) {
   Send-Upsert 'review_progress' 'attempt_id' $reviewRows -IgnoreDuplicates
   $reviewMessage = "$($reviewRows.Count) review seeds checked without overwriting cloud progress"
 }
+
+$cloudContentUri = "$url/rest/v1/attempt_content?student_id=eq.$StudentId&select=attempt_id,question_text,answer_text,markscheme_text&limit=1000"
+$cloudContent = Invoke-RestMethod -Method Get -Uri $cloudContentUri -Headers $headers
+$cloudContentByAttempt = @{}
+foreach ($row in $cloudContent) { $cloudContentByAttempt[$row.attempt_id] = $row }
+$cloudIssues = @()
+foreach ($attempt in $attemptRows) {
+  if (-not $cloudContentByAttempt.ContainsKey($attempt.id)) {
+    $cloudIssues += "$($attempt.id): row absent after sync"
+    continue
+  }
+  $content = $cloudContentByAttempt[$attempt.id]
+  $missingFields = @()
+  if ([string]::IsNullOrWhiteSpace($content.question_text)) { $missingFields += 'question_text' }
+  if ([string]::IsNullOrWhiteSpace($content.answer_text)) { $missingFields += 'answer_text' }
+  if ([string]::IsNullOrWhiteSpace($content.markscheme_text)) { $missingFields += 'markscheme_text' }
+  if ($missingFields.Count -gt 0) {
+    $cloudIssues += "$($attempt.id): cloud missing $($missingFields -join ', ')"
+  }
+}
+if ($cloudIssues.Count -gt 0) {
+  throw "Supabase private review verification failed after sync.`n$($cloudIssues -join "`n")"
+}
+
 Write-Host "Synced $($attemptRows.Count) attempts, $($contentRows.Count) private content records, and $reviewMessage." -ForegroundColor Green
