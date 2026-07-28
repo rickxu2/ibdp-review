@@ -1,0 +1,145 @@
+{
+  "subject": "math_aa_hl",
+  "book": "Mathematics: Analysis and Approaches HL 2 (Haese, 2019)",
+  "file": "Textbook/Mathematics - Analysis and Approaches HL 2 - Haese 2019.pdf",
+  "note": "HL Volume 2 complements the Core Topics HL textbook; mappings are cached from its table of contents.",
+  "subtopics": {},
+  "kp_overrides": {
+    "M1.1.a": {
+      "pdf_page": 1,
+      "para": 1
+    },
+    "M1.1.b": {
+      "pdf_page": 1,
+      "para": 1
+    },
+    "M1.1.c": {
+      "pdf_page": 80,
+      "para": 1
+    },
+    "M1.2.a": {
+      "pdf_page": 193,
+      "para": 1
+    },
+    "M1.2.b": {
+      "pdf_page": 234,
+      "para": 1
+    },
+    "M1.2.c": {
+      "pdf_page": 368,
+      "para": 1
+    },
+    "M2.1.a": {
+      "pdf_page": 175,
+      "para": 1
+    },
+    "M2.1.c": {
+      "pdf_page": 151,
+      "para": 1
+    },
+    "M2.2.b": {
+      "pdf_page": 54,
+      "para": 1
+    },
+    "M2.3.a": {
+      "pdf_page": 175,
+      "para": 1
+    },
+    "M2.3.c": {
+      "pdf_page": 175,
+      "para": 1
+    },
+    "M3.1.a": {
+      "pdf_page": 18,
+      "para": 1
+    },
+    "M3.1.b": {
+      "pdf_page": 18,
+      "para": 1
+    },
+    "M3.1.c": {
+      "pdf_page": 1,
+      "para": 1
+    },
+    "M3.2.a": {
+      "pdf_page": 269,
+      "para": 1
+    },
+    "M3.2.b": {
+      "pdf_page": 323,
+      "para": 1
+    },
+    "M3.2.c": {
+      "pdf_page": 323,
+      "para": 1
+    },
+    "M3.3.a": {
+      "pdf_page": 23,
+      "para": 1
+    },
+    "M3.3.b": {
+      "pdf_page": 20,
+      "para": 1
+    },
+    "M3.3.c": {
+      "pdf_page": 386,
+      "para": 1
+    },
+    "M4.1.c": {
+      "pdf_page": 708,
+      "para": 1
+    },
+    "M4.2.a": {
+      "pdf_page": 1,
+      "para": 1
+    },
+    "M4.2.b": {
+      "pdf_page": 1,
+      "para": 1
+    },
+    "M4.2.c": {
+      "pdf_page": 738,
+      "para": 1
+    },
+    "M4.3.a": {
+      "pdf_page": 763,
+      "para": 1
+    },
+    "M4.3.b": {
+      "pdf_page": 774,
+      "para": 1
+    },
+    "M5.1.b": {
+      "pdf_page": 435,
+      "para": 1
+    },
+    "M5.1.c": {
+      "pdf_page": 517,
+      "para": 1
+    },
+    "M5.2.a": {
+      "pdf_page": 543,
+      "para": 1
+    },
+    "M5.2.b": {
+      "pdf_page": 561,
+      "para": 1
+    },
+    "M5.2.c": {
+      "pdf_page": 610,
+      "para": 1
+    },
+    "M5.3.a": {
+      "pdf_page": 673,
+      "para": 1
+    },
+    "M5.3.b": {
+      "pdf_page": 677,
+      "para": 1
+    },
+    "M5.3.c": {
+      "pdf_page": 653,
+      "para": 1
+    }
+  }
+}
