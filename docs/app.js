@@ -588,8 +588,22 @@ function pageReview() {
   const reveal = document.querySelector(".review-reveal");
   if (reveal) reveal.onclick = () => { reveal.style.display = "none"; document.querySelector(".review-answer").style.display = "block"; };
   document.querySelectorAll("[data-rating]").forEach(btn => btn.onclick = async () => {
-    await recordReview(a.id, btn.dataset.rating);
-    pageReview();
+    const buttons = [...document.querySelectorAll("[data-rating]")];
+    buttons.forEach(item => { item.disabled = true; });
+    try {
+      await recordReview(a.id, btn.dataset.rating);
+      pageReview();
+    } catch (error) {
+      buttons.forEach(item => { item.disabled = false; });
+      const actions = document.querySelector(".review-actions");
+      let status = document.querySelector(".review-save-error");
+      if (!status) {
+        status = document.createElement("div");
+        status.className = "note review-save-error";
+        actions.insertAdjacentElement("afterend", status);
+      }
+      status.textContent = `Progress was not saved: ${error.message}`;
+    }
   });
 }
 

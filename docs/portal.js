@@ -231,7 +231,10 @@ window.Portal = (() => {
           if (cResult.error) throw cResult.error;
         }
         if (reviewRows.length) {
-          const rResult = await client.from("review_progress").upsert(reviewRows, { onConflict: "attempt_id" });
+          const rResult = await client.from("review_progress").upsert(reviewRows, {
+            onConflict: "attempt_id",
+            ignoreDuplicates: true
+          });
           if (rResult.error) throw rResult.error;
         }
         await syncData();
@@ -246,9 +249,18 @@ window.Portal = (() => {
   async function saveReview(attemptId, state) {
     if (!configured || !user || profile.role !== "student") return false;
     const row = { attempt_id: attemptId, student_id: user.id, stage: state.stage, next_review: state.next, done: state.done, history: state.history, updated_at: new Date().toISOString() };
-    const { error } = await client.from("review_progress").upsert(row, { onConflict: "attempt_id" });
+    const { data, error } = await client.from("review_progress")
+      .upsert(row, { onConflict: "attempt_id" })
+      .select("attempt_id,stage,next_review,done,history")
+      .single();
     if (error) throw error;
-    db.reviewProgress[attemptId] = state;
+    if (!data || data.attempt_id !== attemptId) throw new Error("Review progress was not confirmed by the server.");
+    db.reviewProgress[attemptId] = {
+      stage: data.stage,
+      next: data.next_review,
+      done: data.done,
+      history: data.history || []
+    };
     return true;
   }
 
