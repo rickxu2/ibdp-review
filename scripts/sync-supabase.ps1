@@ -1,7 +1,9 @@
 param(
   [Parameter(Mandatory = $true)]
   [ValidatePattern('^[0-9a-fA-F-]{36}$')]
-  [string]$StudentId
+  [string]$StudentId,
+
+  [switch]$OverwriteReviewProgress
 )
 
 $ErrorActionPreference = 'Stop'
@@ -35,16 +37,18 @@ if (-not $url -or -not $apiKey -or -not $token) { throw 'Supabase URL, API key, 
 $headers = @{
   apikey = $apiKey
   Authorization = "Bearer $token"
-  Prefer = 'resolution=merge-duplicates,return=minimal'
   'Content-Type' = 'application/json'
 }
 
-function Send-Upsert([string]$Table, [string]$Conflict, $Rows) {
+function Send-Upsert([string]$Table, [string]$Conflict, $Rows, [switch]$IgnoreDuplicates) {
   if (-not $Rows -or $Rows.Count -eq 0) { return }
   $body = ConvertTo-Json -InputObject @($Rows) -Depth 30 -Compress
   $bytes = [Text.Encoding]::UTF8.GetBytes($body)
+  $requestHeaders = @{} + $headers
+  $resolution = if ($IgnoreDuplicates) { 'ignore-duplicates' } else { 'merge-duplicates' }
+  $requestHeaders.Prefer = "resolution=$resolution,return=minimal"
   try {
-    Invoke-RestMethod -Method Post -Uri "$url/rest/v1/$Table`?on_conflict=$Conflict" -Headers $headers `
+    Invoke-RestMethod -Method Post -Uri "$url/rest/v1/$Table`?on_conflict=$Conflict" -Headers $requestHeaders `
       -ContentType 'application/json; charset=utf-8' -Body $bytes | Out-Null
   } catch {
     throw "Supabase upsert failed for table '$Table': $($_.Exception.Message)"
@@ -139,5 +143,11 @@ foreach ($relative in $meta.attempt_files) {
 
 Send-Upsert 'attempts' 'id' $attemptRows
 Send-Upsert 'attempt_content' 'attempt_id' $contentRows
-Send-Upsert 'review_progress' 'attempt_id' $reviewRows
-Write-Host "Synced $($attemptRows.Count) attempts, $($contentRows.Count) private content records, and $($reviewRows.Count) review records." -ForegroundColor Green
+if ($OverwriteReviewProgress) {
+  Send-Upsert 'review_progress' 'attempt_id' $reviewRows
+  $reviewMessage = "$($reviewRows.Count) review records overwritten intentionally"
+} else {
+  Send-Upsert 'review_progress' 'attempt_id' $reviewRows -IgnoreDuplicates
+  $reviewMessage = "$($reviewRows.Count) review seeds checked without overwriting cloud progress"
+}
+Write-Host "Synced $($attemptRows.Count) attempts, $($contentRows.Count) private content records, and $reviewMessage." -ForegroundColor Green
