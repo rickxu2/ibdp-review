@@ -92,6 +92,17 @@ $attemptRows = @()
 $contentRows = @()
 $reviewRows = @()
 
+$resourceSelect = [uri]::EscapeDataString('subject,resource_key,title,kind,file_role,bucket_path')
+$resourceUri = "$url/rest/v1/learning_resources?student_id=eq.$StudentId&select=$resourceSelect&limit=1000"
+$resourceRows = Invoke-RestMethod -Method Get -Uri $resourceUri -Headers $headers
+$resourcesByPaper = @{}
+foreach ($resource in $resourceRows) {
+  if (-not $resource.subject -or -not $resource.resource_key) { continue }
+  $lookupKey = "$($resource.subject)|$($resource.resource_key)"
+  if (-not $resourcesByPaper.ContainsKey($lookupKey)) { $resourcesByPaper[$lookupKey] = @() }
+  $resourcesByPaper[$lookupKey] += $resource
+}
+
 foreach ($relative in $meta.attempt_files) {
   $attemptPath = Join-Path (Join-Path $root 'docs') $relative
   $items = Get-Content -Raw -Encoding UTF8 $attemptPath | ConvertFrom-Json
@@ -121,7 +132,37 @@ foreach ($relative in $meta.attempt_files) {
           ForEach-Object { Get-ResourcePathSubject $_ } | Where-Object { $_ }
         if (@($metaSubjects | Where-Object { $_ -ne $a.subject }).Count -gt 0) { $paperMeta = $null }
       }
+      $paperResources = @()
+      $resourceLookupKey = "$($a.subject)|$paperKey"
+      if ($paperKey -and $resourcesByPaper.ContainsKey($resourceLookupKey)) {
+        $paperResources = @($resourcesByPaper[$resourceLookupKey])
+      }
+      $questionResource = @($paperResources |
+        Where-Object { $_.kind -eq 'question_paper' -and $_.file_role -ne 'source_booklet' } |
+        Sort-Object @{ Expression = {
+          if ($_.file_role -in @('question_booklet', 'question_paper')) { 0 } else { 1 }
+        } } |
+        Select-Object -First 1)
+      $markschemeResource = @($paperResources |
+        Where-Object { $_.kind -eq 'markscheme' } |
+        Select-Object -First 1)
+      $questionPath = if ($paperMeta.qp_storage) { $paperMeta.qp_storage } elseif ($questionResource.Count) { $questionResource[0].bucket_path } else { $null }
+      $markschemePath = if ($paperMeta.ms_storage) { $paperMeta.ms_storage } elseif ($markschemeResource.Count) { $markschemeResource[0].bucket_path } else { $null }
+      $supportingPaths = @(ConvertTo-SafeSupportingFilePaths $c.supporting_file_paths $a.subject)
+      foreach ($sourceResource in @($paperResources | Where-Object { $_.file_role -eq 'source_booklet' })) {
+        if (-not @($supportingPaths | Where-Object { $_.path -eq $sourceResource.bucket_path }).Count) {
+          $supportingPaths += [ordered]@{
+            path = $sourceResource.bucket_path
+            title = $sourceResource.title
+            page = $null
+          }
+        }
+      }
       $answerPath = if ($c.answer_file_path) { $c.answer_file_path } else { $paperMeta.answer_storage }
+      # Some submissions are completed copies of the question paper. When a
+      # separate clean booklet was never uploaded, that file is still the
+      # authoritative source for both the question and submitted answer.
+      if (-not $questionPath -and $answerPath) { $questionPath = $answerPath }
       $submissionId = $c.submission_id
       if (-not $submissionId -and $answerPath -match '/submissions/([0-9a-fA-F-]{36})/') {
         $submissionId = $Matches[1]
@@ -130,11 +171,11 @@ foreach ($relative in $meta.attempt_files) {
         attempt_id = $a.id; student_id = $StudentId; question_text = $c.q
         answer_text = $c.ans; markscheme_text = $c.ms; paper_key = $paperKey
         qp_page = $c.qp_page; ms_page = $c.ms_page
-        question_file_path = Get-SafeResourcePath $paperMeta.qp_storage $a.subject
-        markscheme_file_path = Get-SafeResourcePath $paperMeta.ms_storage $a.subject
+        question_file_path = Get-SafeResourcePath $questionPath $a.subject
+        markscheme_file_path = Get-SafeResourcePath $markschemePath $a.subject
         answer_file_path = Get-SafeResourcePath $answerPath $a.subject
         textbook_file_path = Get-SafeResourcePath $paperMeta.textbook_storage $a.subject
-        supporting_file_paths = ConvertTo-SafeSupportingFilePaths $c.supporting_file_paths $a.subject
+        supporting_file_paths = $supportingPaths
         submission_id = $submissionId
       }
     }
