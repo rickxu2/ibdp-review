@@ -103,6 +103,17 @@ foreach ($resource in $resourceRows) {
   $resourcesByPaper[$lookupKey] += $resource
 }
 
+$submissionSelect = [uri]::EscapeDataString('id,subject,resource_key,status,submitted_at,submission_files(bucket_path,file_name)')
+$submissionUri = "$url/rest/v1/submissions?student_id=eq.$StudentId&select=$submissionSelect&limit=1000"
+$submissionRows = Invoke-RestMethod -Method Get -Uri $submissionUri -Headers $headers
+$submissionsByPaper = @{}
+foreach ($submission in $submissionRows) {
+  if (-not $submission.subject -or -not $submission.resource_key -or -not $submission.submission_files) { continue }
+  $lookupKey = "$($submission.subject)|$($submission.resource_key)"
+  if (-not $submissionsByPaper.ContainsKey($lookupKey)) { $submissionsByPaper[$lookupKey] = @() }
+  $submissionsByPaper[$lookupKey] += $submission
+}
+
 foreach ($relative in $meta.attempt_files) {
   $attemptPath = Join-Path (Join-Path $root 'docs') $relative
   $items = Get-Content -Raw -Encoding UTF8 $attemptPath | ConvertFrom-Json
@@ -158,12 +169,29 @@ foreach ($relative in $meta.attempt_files) {
           }
         }
       }
+      $submissionId = $c.submission_id
       $answerPath = if ($c.answer_file_path) { $c.answer_file_path } else { $paperMeta.answer_storage }
+      if (-not $answerPath -and $submissionsByPaper.ContainsKey($resourceLookupKey)) {
+        $submissionCandidates = @($submissionsByPaper[$resourceLookupKey] |
+          Where-Object { $_.status -eq 'marked' } |
+          Sort-Object submitted_at -Descending)
+        if ($submissionId) {
+          $matchingSubmission = @($submissionCandidates | Where-Object { $_.id -eq $submissionId } | Select-Object -First 1)
+        } else {
+          $matchingSubmission = @($submissionCandidates | Select-Object -First 1)
+        }
+        if ($matchingSubmission.Count) {
+          $answerFile = @($matchingSubmission[0].submission_files | Select-Object -First 1)
+          if ($answerFile.Count) {
+            $answerPath = $answerFile[0].bucket_path
+            $submissionId = $matchingSubmission[0].id
+          }
+        }
+      }
       # Some submissions are completed copies of the question paper. When a
       # separate clean booklet was never uploaded, that file is still the
       # authoritative source for both the question and submitted answer.
       if (-not $questionPath -and $answerPath) { $questionPath = $answerPath }
-      $submissionId = $c.submission_id
       if (-not $submissionId -and $answerPath -match '/submissions/([0-9a-fA-F-]{36})/') {
         $submissionId = $Matches[1]
       }
@@ -195,6 +223,12 @@ foreach ($attempt in $attemptRows) {
   if ([string]::IsNullOrWhiteSpace($content.question_text)) { $missingFields += 'question_text' }
   if ([string]::IsNullOrWhiteSpace($content.answer_text)) { $missingFields += 'answer_text' }
   if ([string]::IsNullOrWhiteSpace($content.markscheme_text)) { $missingFields += 'markscheme_text' }
+  if ($attempt.source.type -eq 'paper') {
+    if ([string]::IsNullOrWhiteSpace($content.question_file_path)) { $missingFields += 'question_file_path' }
+    if ([string]::IsNullOrWhiteSpace($content.markscheme_file_path)) { $missingFields += 'markscheme_file_path' }
+    if ([string]::IsNullOrWhiteSpace($content.answer_file_path)) { $missingFields += 'answer_file_path' }
+    if ([string]::IsNullOrWhiteSpace($content.submission_id)) { $missingFields += 'submission_id' }
+  }
   if ($missingFields.Count -gt 0) {
     $contentIssues += "$($attempt.id): missing $($missingFields -join ', ')"
   }
@@ -213,7 +247,7 @@ if ($OverwriteReviewProgress) {
   $reviewMessage = "$($reviewRows.Count) review seeds checked without overwriting cloud progress"
 }
 
-$cloudContentUri = "$url/rest/v1/attempt_content?student_id=eq.$StudentId&select=attempt_id,question_text,answer_text,markscheme_text&limit=1000"
+$cloudContentUri = "$url/rest/v1/attempt_content?student_id=eq.$StudentId&select=attempt_id,question_text,answer_text,markscheme_text,question_file_path,markscheme_file_path,answer_file_path,submission_id&limit=1000"
 $cloudContent = Invoke-RestMethod -Method Get -Uri $cloudContentUri -Headers $headers
 $cloudContentByAttempt = @{}
 foreach ($row in $cloudContent) { $cloudContentByAttempt[$row.attempt_id] = $row }
@@ -228,6 +262,12 @@ foreach ($attempt in $attemptRows) {
   if ([string]::IsNullOrWhiteSpace($content.question_text)) { $missingFields += 'question_text' }
   if ([string]::IsNullOrWhiteSpace($content.answer_text)) { $missingFields += 'answer_text' }
   if ([string]::IsNullOrWhiteSpace($content.markscheme_text)) { $missingFields += 'markscheme_text' }
+  if ($attempt.source.type -eq 'paper') {
+    if ([string]::IsNullOrWhiteSpace($content.question_file_path)) { $missingFields += 'question_file_path' }
+    if ([string]::IsNullOrWhiteSpace($content.markscheme_file_path)) { $missingFields += 'markscheme_file_path' }
+    if ([string]::IsNullOrWhiteSpace($content.answer_file_path)) { $missingFields += 'answer_file_path' }
+    if ([string]::IsNullOrWhiteSpace($content.submission_id)) { $missingFields += 'submission_id' }
+  }
   if ($missingFields.Count -gt 0) {
     $cloudIssues += "$($attempt.id): cloud missing $($missingFields -join ', ')"
   }
