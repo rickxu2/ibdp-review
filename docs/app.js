@@ -871,7 +871,19 @@ function wireDayHandlers() {
 }
 
 /* ───────── router ───────── */
-function route() {
+let routeRequest = 0;
+async function route({ refresh = false } = {}) {
+  const request = ++routeRequest;
+  if (refresh && Portal.active) {
+    try {
+      await Portal.refreshData();
+      renderFoot();
+    } catch (error) {
+      console.error("Portal refresh failed", error);
+    }
+  }
+  // A newer navigation won while the cloud request was in flight.
+  if (request !== routeRequest) return;
   const h = location.hash.replace(/^#\/?/, "");
   const [p, arg, assignmentArg] = h.split("/");
   document.querySelectorAll("[data-nav]").forEach(a => a.classList.remove("on"));
@@ -903,7 +915,10 @@ function renderFoot() {
     if (!signedIn && Portal.configured) { Portal.renderLogin(LANG); return; }
     applyChrome();
     renderFoot();
-    window.addEventListener("hashchange", route);
+    window.addEventListener("hashchange", () => route({ refresh: true }));
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") route({ refresh: true });
+    });
     route();
   } catch (err) {
     $("#app").innerHTML = `<div class="card">${t("load_fail")} ${esc(err.message)}<br><br>${t("load_help")}</div>`;

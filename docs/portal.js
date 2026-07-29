@@ -103,10 +103,12 @@ window.Portal = (() => {
   }
 
   async function syncData() {
-    db.attempts = [];
-    db.content = {};
-    db.reviewProgress = {};
-    if (!studentId) return;
+    if (!studentId) {
+      db.attempts = [];
+      db.content = {};
+      db.reviewProgress = {};
+      return;
+    }
     const [ar, cr, rr, lr] = await Promise.all([
       client.from("attempts").select("*").eq("student_id", studentId).order("date").order("id"),
       client.from("attempt_content").select("*").eq("student_id", studentId),
@@ -117,9 +119,10 @@ window.Portal = (() => {
     if (cr.error) throw cr.error;
     if (rr.error) throw rr.error;
     if (lr.error) throw lr.error;
-    resources.splice(0, resources.length, ...(lr.data || []));
-    db.attempts = (ar.data || []).map(a => ({ ...a, review: null }));
-    for (const c of cr.data || []) db.content[c.attempt_id] = {
+    const nextAttempts = (ar.data || []).map(a => ({ ...a, review: null }));
+    const nextContent = {};
+    const nextReviewProgress = {};
+    for (const c of cr.data || []) nextContent[c.attempt_id] = {
       q: c.question_text, ans: c.answer_text, ms: c.markscheme_text,
       paper: c.paper_key, qp_page: c.qp_page, ms_page: c.ms_page,
       qp_file: c.question_file_path, ms_file: c.markscheme_file_path,
@@ -127,10 +130,23 @@ window.Portal = (() => {
       answer_file: c.answer_file_path, textbook_file: c.textbook_file_path,
       submission_id: c.submission_id
     };
-    for (const r of rr.data || []) db.reviewProgress[r.attempt_id] = {
+    for (const r of rr.data || []) nextReviewProgress[r.attempt_id] = {
       stage: r.stage, next: r.next_review, done: r.done, history: r.history || []
     };
-    db.attempts.sort((a, b) => a.id.localeCompare(b.id));
+    nextAttempts.sort((a, b) => a.id.localeCompare(b.id));
+
+    // Replace the snapshot only after every query succeeds. This prevents a
+    // transient refresh failure from turning complete cards into blank ones.
+    resources.splice(0, resources.length, ...(lr.data || []));
+    db.attempts = nextAttempts;
+    db.content = nextContent;
+    db.reviewProgress = nextReviewProgress;
+  }
+
+  async function refreshData() {
+    if (!configured || !user || !studentId) return false;
+    await syncData();
+    return true;
   }
 
   function renderLogin(lang) {
@@ -433,6 +449,6 @@ window.Portal = (() => {
     get client() { return client; }, get user() { return user; }, get profile() { return profile; },
     get studentId() { return studentId; }, get resources() { return resources; }, get db() { return db; }, get config() { return C; } };
 
-  return { configured, init, renderLogin, pageAccount, pageMigrate, reviewState, saveReview, pageSubmit, pageFiles, pageConnection, wirePrivateOpen, resourceTarget, _internal: internal,
+  return { configured, init, refreshData, renderLogin, pageAccount, pageMigrate, reviewState, saveReview, pageSubmit, pageFiles, pageConnection, wirePrivateOpen, resourceTarget, _internal: internal,
     get active() { return configured && !!user; }, get role() { return profile && profile.role; }, get targetStudentId() { return studentId; } };
 })();
