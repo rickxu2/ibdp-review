@@ -47,8 +47,11 @@ const L = {
     fld_earned: "Marks earned", fld_verdict: "Verdict", fld_errtype: "Error type", cancel: "Cancel",
     review_title: "Spaced review", review_intro: "Answer from memory first. Reveal the answer only when you have committed to a response.",
     review_remaining: n => `${n} due`, review_none: "Nothing is due today.", review_next: d => `Next review: ${d}`,
-    review_show_answer: "Reveal answer & markscheme", review_rate: "How did recall feel?",
-    review_again: "Again", review_hard: "Hard", review_good: "Good", review_saved: "Progress saved on this device.",
+    review_show_answer: "Reveal answer & markscheme", review_rate: "Did you pass this review?",
+    review_again: "Not yet", review_hard: "Hard", review_good: "Passed",
+    review_round: s => `Review round ${s}/5`,
+    review_synced: (s, d) => s >= 5 ? "Progress synced — this item has graduated." : `Progress synced — round ${s}/5, next ${d}.`,
+    review_saved_local: (s, d) => s >= 5 ? "Saved on this device — this item has graduated." : `Saved on this device — round ${s}/5, next ${d}.`,
     review_private_missing: "This review item contains protected question material. It is not available on the public site; the private student portal is required.",
     review_device_note: "Signed-in students sync review progress to their private account. Without sign-in, progress stays in this browser only."
   },
@@ -95,8 +98,11 @@ const L = {
     fld_earned: "得分", fld_verdict: "判定", fld_errtype: "错误类型", cancel: "取消",
     review_title: "间隔复习", review_intro: "先凭记忆作答，确定答案后再展开评分标准。",
     review_remaining: n => `今天到期 ${n} 道`, review_none: "今天没有到期复习。", review_next: d => `下次复习：${d}`,
-    review_show_answer: "展开答案与评分标准", review_rate: "这次回忆得怎么样？",
-    review_again: "不会", review_hard: "吃力", review_good: "掌握", review_saved: "进度已保存在这台设备。",
+    review_show_answer: "展开答案与评分标准", review_rate: "这次复习通过了吗？",
+    review_again: "未通过", review_hard: "吃力", review_good: "通过",
+    review_round: s => `第 ${s}/5 轮复习`,
+    review_synced: (s, d) => s >= 5 ? "进度已同步——这道题已毕业。" : `进度已同步——第 ${s}/5 轮完成，下次 ${d}。`,
+    review_saved_local: (s, d) => s >= 5 ? "已保存在本机——这道题已毕业。" : `已保存在本机——第 ${s}/5 轮完成，下次 ${d}。`,
     review_private_missing: "这道复习题含受版权保护的题目内容，公网版不提供；需要迁移到学生私密门户后才能在线复习。",
     review_device_note: "学生登录后，复习进度会同步到私密账号；未登录时才只保存在当前浏览器。"
   }
@@ -160,10 +166,12 @@ const getReviewed = id => localStorage.getItem(reviewedKey(id));
 const setReviewed = id => localStorage.setItem(reviewedKey(id), todayStr());
 const clearReviewed = id => localStorage.removeItem(reviewedKey(id));
 
-/* Student-facing spaced repetition. This is a browser-local bridge until the
-   authenticated portal can persist progress server-side. */
+/* Student-facing spaced repetition. Signed-in students persist progress in
+   Supabase; supervisors retain a browser-local preview. */
 const SRS_KEY = "ibdp-srs-v1";
-const SRS_INTERVALS = [1, 3, 7, 14, 30];
+const SRS_MAX_STAGE = 5;
+const SRS_INTERVALS = { 1: 3, 2: 7, 3: 14, 4: 30 };
+let REVIEW_SAVE_NOTICE = null;
 const getSrsStore = () => {
   try { return JSON.parse(localStorage.getItem(SRS_KEY) || "{}"); }
   catch { return {}; }
@@ -191,24 +199,30 @@ async function recordReview(id, rating) {
   const store = getSrsStore();
   const cur = reviewState(a);
   const nextState = nextReviewState(cur, rating, todayStr());
-  if (window.Portal && await Portal.saveReview(id, nextState)) return;
+  if (window.Portal && await Portal.saveReview(id, nextState)) return { state: nextState, synced: true };
   store[id] = nextState;
   saveSrsStore(store);
   // Supervisors use a device-local preview. Keep the loaded portal cache in
   // sync too, otherwise its older cloud state wins and the same card repeats.
   DB.reviewProgress[id] = nextState;
+  return { state: nextState, synced: false };
 }
 function nextReviewState(cur, rating, date) {
   let stage = cur.stage || 0;
-  let wait = 1;
-  if (rating === "again") { stage = 0; wait = 1; }
-  else if (rating === "hard") { wait = Math.max(1, SRS_INTERVALS[Math.max(0, stage - 1)] || 1); }
-  else { stage += 1; wait = SRS_INTERVALS[Math.min(stage - 1, SRS_INTERVALS.length - 1)]; }
+  const passed = rating !== "again";
+  let wait;
+  if (!passed) {
+    stage = 0;
+    wait = 1;
+  } else {
+    stage = Math.min(stage + 1, SRS_MAX_STAGE);
+    wait = SRS_INTERVALS[stage] || 0;
+  }
   return {
     stage,
     next: addDays(date, wait),
-    done: stage >= SRS_INTERVALS.length,
-    history: [...(cur.history || []), { date, rating }]
+    done: stage >= SRS_MAX_STAGE,
+    history: [...(cur.history || []), { date, pass: passed, rating }]
   };
 }
 
@@ -551,6 +565,10 @@ function pageReview() {
     .filter(s => !s.done && s.next > todayStr())
     .sort((a, b) => a.next.localeCompare(b.next));
   let html = `<h2>${t("review_title")}</h2><div class="note review-intro">${t("review_intro")}</div>`;
+  if (REVIEW_SAVE_NOTICE) {
+    html += `<div class="note review-save-ok">${esc(REVIEW_SAVE_NOTICE)}</div>`;
+    REVIEW_SAVE_NOTICE = null;
+  }
   if (!items.length) {
     html += `<div class="card review-empty"><b>${t("review_none")}</b>${upcoming.length ? `<div class="note">${t("review_next")(upcoming[0].next)}</div>` : ""}</div>`;
     html += `<div class="note">${t("review_device_note")}</div>`;
@@ -558,10 +576,11 @@ function pageReview() {
     return;
   }
   const a = items[0];
+  const state = reviewState(a);
   const c = DB.content[a.id];
   const idx = kpIndex();
   const kpn = (a.kps || []).map(k => idx[k] ? idx[k].name : k).join(" · ");
-  html += `<div class="review-count">${t("review_remaining")(items.length)}</div>
+  html += `<div class="review-count">${t("review_remaining")(items.length)} · ${t("review_round")(Math.min(state.stage + 1, SRS_MAX_STAGE))}</div>
     <div class="card review-card" data-id="${esc(a.id)}">
       <div class="att-head"><span class="att-src">${esc(a.source && (a.source.paper || a.source.type) || "")} ${esc(a.source && a.source.q ? "Q" + a.source.q : "")}</span><span class="kp-meta">${esc(kpn)}</span></div>`;
   if (!c) {
@@ -577,7 +596,6 @@ function pageReview() {
         ${tbRef(a.textbook_ref, a.subject)}
         <div class="review-rate"><b>${t("review_rate")}</b><div class="review-actions">
           <button data-rating="again" class="rate-again">${t("review_again")}</button>
-          <button data-rating="hard" class="rate-hard">${t("review_hard")}</button>
           <button data-rating="good" class="rate-good">${t("review_good")}</button>
         </div></div>
       </div>`;
@@ -591,7 +609,10 @@ function pageReview() {
     const buttons = [...document.querySelectorAll("[data-rating]")];
     buttons.forEach(item => { item.disabled = true; });
     try {
-      await recordReview(a.id, btn.dataset.rating);
+      const result = await recordReview(a.id, btn.dataset.rating);
+      REVIEW_SAVE_NOTICE = result.synced
+        ? t("review_synced")(result.state.stage, result.state.next)
+        : t("review_saved_local")(result.state.stage, result.state.next);
       pageReview();
     } catch (error) {
       buttons.forEach(item => { item.disabled = false; });
