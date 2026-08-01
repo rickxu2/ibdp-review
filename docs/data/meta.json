@@ -15,7 +15,7 @@
     "eng_b_hl":  { "name": "English B",       "level": "HL", "target": null, "active": true },
     "chin_a_sl": { "name": "Chinese A: Language and Literature", "level": "SL", "target": null, "active": true }
   },
-  "attempt_files": ["data/attempts/2026-07.json"],
+  "attempt_files": ["data/attempts/2026-07.json", "data/attempts/2026-08.json"],
   "mastery": {
     "halflife_days": 42,
     "master_min": 0.85,
