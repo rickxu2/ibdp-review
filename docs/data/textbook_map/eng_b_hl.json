@@ -5,10 +5,14 @@
   "cloud_url": null,
   "note": "Lazy map populated from verified pages used in feedback.",
   "subtopics": {
+    "EB1.1": { "pdf_start": 18, "pdf_end": 33 },
     "EB2.1": { "pdf_start": 359, "pdf_end": 363 },
     "EB2.2": { "pdf_start": 359, "pdf_end": 363 }
   },
   "kp_overrides": {
+    "EB1.1.a": { "pdf_page": 19, "para": 1 },
+    "EB1.1.b": { "pdf_page": 21, "para": 1 },
+    "EB1.1.c": { "pdf_page": 18, "para": 1 },
     "EB2.1.a": { "pdf_page": 360, "para": 1 },
     "EB2.1.b": { "pdf_page": 360, "para": 2 },
     "EB2.2.a": { "pdf_page": 360, "para": 3 }
