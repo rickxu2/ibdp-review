@@ -30,7 +30,7 @@
       { "id": "EC2.3", "name": "Government intervention", "kps": [
         { "id": "EC2.3.a", "name": "Indirect taxes and subsidies", "covered": false },
         { "id": "EC2.3.b", "name": "Price ceilings and price floors", "covered": false },
-        { "id": "EC2.3.c", "name": "Evaluation of intervention: stakeholders, efficiency and equity", "covered": false }
+        { "id": "EC2.3.c", "name": "Evaluation of intervention: stakeholders, efficiency and equity", "covered": true }
       ]},
       { "id": "EC2.4", "name": "Market failure", "kps": [
         { "id": "EC2.4.a", "name": "Externalities and welfare loss diagrams", "covered": false },
@@ -52,11 +52,11 @@
       { "id": "EC3.3", "name": "Macroeconomic objectives", "kps": [
         { "id": "EC3.3.a", "name": "Economic growth and sustainable growth", "covered": false },
         { "id": "EC3.3.b", "name": "Unemployment and inflation/deflation", "covered": false },
-        { "id": "EC3.3.c", "name": "Equity, poverty and income distribution", "covered": false }
+        { "id": "EC3.3.c", "name": "Equity, poverty and income distribution", "covered": true }
       ]},
       { "id": "EC3.4", "name": "Macroeconomic management", "kps": [
         { "id": "EC3.4.a", "name": "Monetary policy tools, transmission and evaluation", "covered": false },
-        { "id": "EC3.4.b", "name": "Fiscal policy, multiplier and public debt", "covered": false },
+        { "id": "EC3.4.b", "name": "Fiscal policy, multiplier and public debt", "covered": true },
         { "id": "EC3.4.c", "name": "Market-based and interventionist supply-side policies", "covered": false }
       ]}
     ]},

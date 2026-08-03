@@ -1,0 +1,17 @@
+{
+  "subject": "econ_sl",
+  "book": "Economics Course Companion, third edition",
+  "file": "Textbook/Economics - Course Companion - Jocelyn Blink and Ian Dorton - Third Edition - Oxford 2020.pdf",
+  "cloud_url": null,
+  "note": "Lazy map populated from verified pages used in feedback.",
+  "subtopics": {
+    "EC2.3": { "pdf_start": 108, "pdf_end": 128 },
+    "EC3.3": { "pdf_start": 324, "pdf_end": 344 },
+    "EC3.4": { "pdf_start": 345, "pdf_end": 352 }
+  },
+  "kp_overrides": {
+    "EC2.3.c": { "pdf_page": 350, "para": 1 },
+    "EC3.3.c": { "pdf_page": 328, "para": 1 },
+    "EC3.4.b": { "pdf_page": 345, "para": 1 }
+  }
+}

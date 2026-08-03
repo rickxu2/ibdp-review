@@ -1,0 +1,16 @@
+{
+  "subject": "eng_b_hl",
+  "book": "English B Course Companion, second edition",
+  "file": "Textbook/English B - Course Companion - Kawther Saa'd Aldin - Second Edition - Oxford 2018.pdf",
+  "cloud_url": null,
+  "note": "Lazy map populated from verified pages used in feedback.",
+  "subtopics": {
+    "EB2.1": { "pdf_start": 359, "pdf_end": 363 },
+    "EB2.2": { "pdf_start": 359, "pdf_end": 363 }
+  },
+  "kp_overrides": {
+    "EB2.1.a": { "pdf_page": 360, "para": 1 },
+    "EB2.1.b": { "pdf_page": 360, "para": 2 },
+    "EB2.2.a": { "pdf_page": 360, "para": 3 }
+  }
+}
